@@ -94,20 +94,44 @@ if (function_exists('apache_get_modules')) {
 echo "<h2>8. Variáveis de Ambiente (.env)</h2>";
 if (file_exists($envPath) && is_readable($envPath)) {
     try {
+        // Tentar carregar com Composer autoload
+        if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+            require_once __DIR__ . '/../vendor/autoload.php';
+        }
+        
         $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
         $dotenv->load();
+        
+        echo "<p class='ok'>✅ Arquivo .env carregado com sucesso!</p>";
         
         $envVars = ['APP_NAME', 'APP_ENV', 'DB_CONNECTION', 'DB_HOST', 'DB_DATABASE', 'DB_USERNAME'];
         foreach ($envVars as $var) {
             $value = $_ENV[$var] ?? getenv($var) ?? 'NÃO DEFINIDO';
             if ($var == 'DB_PASSWORD') {
-                $value = $value ? '****** (definido)' : 'NÃO DEFINIDO';
+                $value = ($_ENV['DB_PASSWORD'] ?? getenv('DB_PASSWORD')) ? '****** (definido)' : 'NÃO DEFINIDO';
             }
             $color = ($value && $value != 'NÃO DEFINIDO') ? 'ok' : 'error';
             echo "<p class='$color'>$var: " . htmlspecialchars($value) . "</p>";
         }
+        
+        // Mostrar conteúdo do .env (sem senhas)
+        echo "<h3>Conteúdo do .env (primeiras linhas):</h3>";
+        $envContent = file_get_contents($envPath);
+        $envLines = explode("\n", $envContent);
+        echo "<pre style='background:#2d2d2d;padding:10px;border-radius:5px;overflow-x:auto'>";
+        foreach (array_slice($envLines, 0, 15) as $line) {
+            if (strpos($line, 'PASSWORD') !== false) {
+                echo "DB_PASSWORD=****** (oculto)\n";
+            } else {
+                echo htmlspecialchars($line) . "\n";
+            }
+        }
+        echo "</pre>";
+        
     } catch (Exception $e) {
         echo "<p class='error'>❌ Erro ao carregar .env: " . htmlspecialchars($e->getMessage()) . "</p>";
+        echo "<p class='warn'>Detalhes do erro:</p>";
+        echo "<pre style='background:#2d2d2d;padding:10px;color:#f48771'>" . htmlspecialchars($e->getTraceAsString()) . "</pre>";
     }
 } else {
     echo "<p class='error'>❌ Arquivo .env não encontrado ou não legível</p>";
