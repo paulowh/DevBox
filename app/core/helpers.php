@@ -189,3 +189,13 @@ if (!function_exists('vite')) {
         }
     }
 }
+
+/**
+ * Gera URL para uma rota nomeada
+ */
+if (!function_exists('route')) {
+    function route($name, $params = [])
+    {
+        return App\Core\Router::route($name, $params);
+    }
+}
