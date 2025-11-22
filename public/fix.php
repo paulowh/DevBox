@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Script de Instalação/Fix - DevBox
  * Acesse via navegador: https://devbox.paulowh.com/fix.php

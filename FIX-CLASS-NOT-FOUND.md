@@ -1,11 +1,13 @@
 # 🔧 SOLUÇÃO DO ERRO "Class not found"
 
 ## ❌ Erro Encontrado:
+
 ```
 Fatal error: Class "App\Core\EloquentBootstrap" not found
 ```
 
 ## ✅ Causa:
+
 O **autoload do Composer** não foi regenerado após o deploy. As classes do projeto não estão sendo carregadas.
 
 ## 🚀 SOLUÇÃO RÁPIDA (SSH)
@@ -37,6 +39,7 @@ Se não tiver acesso SSH, acesse:
 **https://devbox.paulowh.com/fix.php**
 
 Este script vai:
+
 1. Regenerar o autoload automaticamente
 2. Verificar se as classes estão carregando
 3. Mostrar o status de cada classe
@@ -53,6 +56,7 @@ bash install.sh
 ```
 
 Este script vai:
+
 - ✅ Instalar/atualizar dependências do Composer
 - ✅ Regenerar autoload otimizado
 - ✅ Configurar permissões corretas
@@ -81,6 +85,7 @@ cat vendor/composer/autoload_psr4.php | grep "App"
 ```
 
 Deve mostrar:
+
 ```php
 'App\\' => array($baseDir . '/app'),
 ```
@@ -121,15 +126,18 @@ Deve retornar: `bool(true)`
 ## 🎯 RESUMO - 3 MANEIRAS DE RESOLVER:
 
 ### Opção 1 - SSH (Mais Rápido):
+
 ```bash
 cd ~/domains/paulowh.com/public_html/devbox
 composer dump-autoload --optimize
 ```
 
 ### Opção 2 - Navegador:
+
 Acesse: https://devbox.paulowh.com/fix.php
 
 ### Opção 3 - Script Completo:
+
 ```bash
 cd ~/domains/paulowh.com/public_html/devbox
 bash install.sh
