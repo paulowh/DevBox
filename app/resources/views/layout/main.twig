@@ -9,7 +9,10 @@
 		{{ vite('js/app.js')|raw }}
 	</head>
 
-	<body class="teste"> {% block content %}{% endblock %}
 
+	<body>
+		{% include 'layout/sidebar.twig' %}
+		<main class="main-content"> {% block content %}{% endblock %}
+			</main>
 		</body>
 	</html>

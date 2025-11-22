@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Turma extends Model
 {
     protected $table = 'turmas';
-    
+
     protected $fillable = [
         'turma'
     ];
@@ -16,6 +16,6 @@ class Turma extends Model
 
     public function cards()
     {
-        return $this->hasMany(Card::class, 'board_id');
+        return $this->hasMany(Card::class, 'turma_id');
     }
 }

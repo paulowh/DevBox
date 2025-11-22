@@ -3,13 +3,36 @@
 namespace App\Controllers;
 
 use App\Core\View;
+use App\Models\Turma;
+use App\Models\Card;
 
 class HomeController
 {
     public function index()
     {
-        return View::make('home', [
-            'title' => 'Bem-vindo!'
+        // Consulta todas as turmas com seus cards e relacionamentos
+        $turmas = Turma::with([
+            'cards.uc',
+            'cards.indicadores',
+            'cards.conhecimentos',
+            'cards.habilidades',
+            'cards.atitudes'
+        ])->get();
+
+        // Ou se preferir consultar todos os cards diretamente
+        $cards = Card::with([
+            'turma',
+            'uc',
+            'indicadores',
+            'conhecimentos',
+            'habilidades',
+            'atitudes'
+        ])->get();
+
+        return View::make('board', [
+            'title' => 'Planejamento !',
+            'turmas' => $turmas,
+            'cards' => $cards
         ]);
     }
 }

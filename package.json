@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bootstrap-icons": "^1.13.1",
+    "boxicons": "^2.1.4",
     "fomantic-ui": "^2.9.4",
     "jquery": "^3.7.1"
   },

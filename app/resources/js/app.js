@@ -1,6 +1,7 @@
 import $ from "jquery";
 
 import "../css/app.css"; // seu CSS custom
+import "./navbar.js";
 import "fomantic-ui/dist/semantic.min.css"; // CSS do Formantic
 import "fomantic-ui/dist/semantic.min.js"; // JS do Formantic
 

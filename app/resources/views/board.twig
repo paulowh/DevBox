@@ -1,0 +1,134 @@
+{% extends "layout/main.twig" %}
+
+{% block content %}
+
+	<div
+		class="d-flex flex-column w-100 h-100" style="background-color: var(--bg-primary);">
+		<!-- Header do Board -->
+		<div class="p-3 d-flex justify-content-between align-items-center border-bottom" style="background-color: var(--bg-secondary);">
+			<h2 class="mb-0" style="color: var(--text-primary); font-size: 1.125rem;">
+				Aba de Planejamento
+			</h2>
+
+			<div class="d-flex align-items-center gap-3">
+				<button class="ui button small" style="background-color: var(--bg-tertiary); color: var(--text-secondary);">
+					<i class="user plus icon"></i>
+					Compartilhar
+				</button>
+
+				<button class="ui button small icon" style="color: var(--text-secondary);">
+					<i class="ellipsis horizontal icon"></i>
+				</button>
+			</div>
+		</div>
+
+		<!-- Board Container -->
+		<div class="flex-grow-1 position-relative" style="overflow: hidden;">
+			<div class="board-container" id="board-container">
+
+				{% if turmas is defined and turmas|length > 0 %}
+					{% for turma in turmas %}
+						<div
+							class="board-list" data-board-id="{{ turma.id }}">
+							<!-- Header da Turma -->
+							<div class="board-header">
+								<h3 class="board-title">{{ turma.nome }}</h3>
+								<button class="board-menu-btn">
+									<i class="ellipsis horizontal icon"></i>
+								</button>
+							</div>
+
+							<!-- Container de Cards -->
+							<div class="board-cards-container" data-list-id="{{ turma.id }}">
+								{% if turma.cards is defined and turma.cards|length > 0 %}
+									{% for card in turma.cards %}
+										{# Componente: Card Individual #}
+										<div
+											class="board-card" data-card-id="{{ card.id }}">
+											<!-- Título do Card -->
+											<h4 class="card-title">{{ card.titulo }}</h4>
+
+											<!-- Descrição (se houver) -->
+											{% if card.descricao %}
+												<p class="card-description">{{ card.descricao|slice(0, 100) }}</p>
+											{% endif %}
+
+											<!-- Tags/Labels -->
+											<div class="card-tags">
+												{% if card.indicadores is defined and card.indicadores|length > 0 %}
+													<span class="card-tag indicador">
+														<i class="bullseye icon"></i>
+														{{ card.indicadores|length }}
+														Indicador(es)
+													</span>
+												{% endif %}
+
+												{% if card.conhecimentos is defined and card.conhecimentos|length > 0 %}
+													<span class="card-tag conhecimento">
+														<i class="book icon"></i>
+														{{ card.conhecimentos|length }}
+														Conhecimento(s)
+													</span>
+												{% endif %}
+
+												{% if card.habilidades is defined and card.habilidades|length > 0 %}
+													<span class="card-tag habilidade">
+														<i class="lightning icon"></i>
+														{{ card.habilidades|length }}
+														Habilidade(s)
+													</span>
+												{% endif %}
+
+												{% if card.atitudes is defined and card.atitudes|length > 0 %}
+													<span class="card-tag atitude">
+														<i class="heart icon"></i>
+														{{ card.atitudes|length }}
+														Atitude(s)
+													</span>
+												{% endif %}
+											</div>
+
+											<!-- Footer com metadados -->
+											<div class="card-footer">
+												{% if card.uc is defined %}
+													<span class="card-uc">UC:
+														{{ card.uc.sigla|default('N/A') }}</span>
+												{% endif %}
+												{% if card.aula_inicial and card.aula_final %}
+													<span class="card-dates">
+														<i class="calendar icon"></i>
+														{{ card.aula_inicial|date('d/m') }}
+														-
+														{{ card.aula_final|date('d/m') }}
+													</span>
+												{% endif %}
+											</div>
+										</div>
+									{% endfor %}
+								{% else %}
+									<div class="empty-state">
+										<i class="inbox icon"></i>
+										<p>Nenhum card ainda</p>
+									</div>
+								{% endif %}
+							</div>
+
+							<!-- Botão Adicionar Card -->
+							<button class="add-card-btn" onclick="window.openCardModal(null, {{ turma.id }})">
+								<i class="plus icon"></i>
+								Adicionar card
+							</button>
+						</div>
+					{% endfor %}
+				{% else %}
+					<div class="empty-state">
+						<i class="inbox icon"></i>
+						<p>Nenhuma turma cadastrada</p>
+					</div>
+				{% endif %}
+
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
