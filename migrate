@@ -1,0 +1,45 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/vendor/autoload.php';
+
+// Carrega variáveis de ambiente
+loadEnv(__DIR__ . '/.env');
+
+use App\Database\Migrator;
+
+$migrator = new Migrator();
+
+$command = $argv[1] ?? 'help';
+
+switch ($command) {
+    case 'migrate':
+        echo "Executando migrations...\n";
+        $migrator->run();
+        break;
+
+    case 'rollback':
+        $steps = $argv[2] ?? 1;
+        echo "Revertendo {$steps} batch(es)...\n";
+        $migrator->rollback($steps);
+        break;
+
+    case 'reset':
+        echo "Revertendo todas as migrations...\n";
+        $migrator->reset();
+        break;
+
+    case 'fresh':
+        echo "Resetando e executando migrations...\n";
+        $migrator->fresh();
+        break;
+
+    case 'help':
+    default:
+        echo "Comandos disponíveis:\n";
+        echo "  php migrate migrate         - Executa as migrations pendentes\n";
+        echo "  php migrate rollback [n]    - Reverte as últimas n migrations (padrão: 1)\n";
+        echo "  php migrate reset           - Reverte todas as migrations\n";
+        echo "  php migrate fresh           - Reseta e executa todas as migrations\n";
+        break;
+}

@@ -2,17 +2,16 @@
 <html lang="pt-br">
 	<head>
 		<meta charset="UTF-8">
-		<title>{{ title ?? 'Meu Projeto' }}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>{{ title ?? 'DevBox' }}</title>
 
-		<link rel="stylesheet" href="/assets/css/semantic.min.css">
-		<link rel="stylesheet" href="/assets/css/app.css">
+		{# Assets do Vite (CSS e JS) #}
+		{{ vite('js/app.js')|raw }}
 	</head>
 
 	<body>
 
 		{% block content %}{% endblock %}
 
-		<script src="/assets/js/semantic.min.js"></script>
-		<script src="/assets/js/app.js"></script>
 	</body>
 </html>

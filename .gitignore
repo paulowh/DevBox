@@ -1,62 +1,74 @@
-./node_modules# ============================
-# PHP / Composer
 # ============================
-vendor/
-composer.lock
-
-# Arquivos de cache do Twig
-cache/
-*.cache
+# Dependencies
+# ============================
+/vendor/
+/node_modules/
 
 # ============================
-# Node / npm / Vite
+# Environment & Config
 # ============================
-node_modules/
+.env
+.env.backup
+.env.local
+!.env.example
+
+# ============================
+# Build & Compiled Files
+# ============================
+/public/assets/*
+!/public/assets/.gitkeep
+!/public/assets/index.php
 dist/
 *.local
+
+# ============================
+# Storage (Cache & Logs)
+# ============================
+/app/storage/cache/*
+!/app/storage/cache/.gitkeep
+/app/storage/logs/*
+!/app/storage/logs/.gitkeep
+
+# ============================
+# Uploads
+# ============================
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+# ============================
+# Logs
+# ============================
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-.pnpm-store/
-
-# Build da pasta front (caso use Vite dentro dela)
-front/node_modules/
-front/dist/
-
-# ============================
-# Sistema Operacional
-# ============================
-.DS_Store
-Thumbs.db
-desktop.ini
 
 # ============================
 # IDE / Editor
 # ============================
 .vscode/
 .idea/
+*.sublime-project
+*.sublime-workspace
 *.swp
+*.swo
+*~
 
 # ============================
-# Configurações / Ambientes
+# OS Files
 # ============================
-.env
-.env.*
-!.env.example
-
-# XAMPP / Windows
-xampp/
+.DS_Store
+Thumbs.db
+desktop.ini
 *.bak
-
-# Logs gerais
-*.log
-logs/
-storage/logs/
+*.tmp
+*.old
 
 # ============================
-# Public uploads (caso existam)
+# Package Locks (opcional)
 # ============================
-public/uploads/*
-!public/uploads/.gitkeep
+composer.lock
+package-lock.json
+yarn.lock
 

@@ -1,9 +1,6 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-// Carrega variáveis de ambiente
-loadEnv(__DIR__ . '/../.env');
-
 use App\Core\App;
 
 $app = new App();

@@ -1,11 +1,18 @@
 {% extends "layout/main.twig" %}
 
 {% block content %}
-	<div class="ui container">
-		<h1 class="ui header">Projeto PHP Funcionando!</h1>
+
+	<div class="ui container" style="margin-top: 50px;">
+		<h1 class="ui header">DevBox - Funcionando!</h1>
+
+		<div class="ui segment">
+			<p>Bem-vindo ao
+				<strong>{{ title }}</strong>
+			</p>
+			<button class="ui primary button">Primary</button>
+			<button class="ui negative button">Negative</button>
+			<button class="ui positive button">Positive</button>
+		</div>
 	</div>
-	<button class="ui primary basic button">Primary</button>
-	<button class="ui secondary basic button">Secondary</button>
-	<button class="ui positive basic button">Positive</button>
-	<button class="ui negative basic button">Negative</button>
+
 {% endblock %}

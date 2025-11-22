@@ -1,1 +1,6 @@
 @import "fomantic-ui/dist/semantic.css";
+
+/* seu design */
+body {
+  background-color: #f8fafc;
+}
