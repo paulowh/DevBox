@@ -1,8 +1,8 @@
 {
-  "app/resources/js/app.js": {
+  "app/Resources/js/app.js": {
     "file": "js/app-BG2m_dln.js",
     "name": "app",
-    "src": "app/resources/js/app.js",
+    "src": "app/Resources/js/app.js",
     "isEntry": true,
     "css": [
       "css/app-CaRrcMmM.css"

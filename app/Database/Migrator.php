@@ -13,7 +13,7 @@ class Migrator
     public function __construct($migrationsPath = null)
     {
         $this->db = Database::getInstance()->getConnection();
-        $this->migrationsPath = $migrationsPath ?? base_path('app/database/migrations');
+        $this->migrationsPath = $migrationsPath ?? base_path('app/Database/migrations');
         $this->createMigrationsTable();
     }
 

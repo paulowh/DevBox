@@ -29,7 +29,7 @@ if (!function_exists('public_path')) {
 if (!function_exists('storage_path')) {
     function storage_path($path = '')
     {
-        return base_path('app/storage/' . ltrim($path, '/'));
+        return base_path('app/Storage/' . ltrim($path, '/'));
     }
 }
 
@@ -117,7 +117,7 @@ if (!function_exists('asset')) {
         }
 
         // Procura o arquivo no manifest
-        $key = 'app/resources/' . ltrim($path, '/');
+        $key = 'app/Resources/' . ltrim($path, '/');
 
         if (isset($manifest[$key])) {
             return url('assets/' . $manifest[$key]['file']);
@@ -151,7 +151,7 @@ if (!function_exists('vite')) {
         if ($isDev) {
             // Modo desenvolvimento - Vite dev server com HMR
             echo '<script type="module" src="' . $devServerUrl . '/@vite/client"></script>' . "\n";
-            echo '<script type="module" src="' . $devServerUrl . '/app/resources/' . $entry . '"></script>' . "\n";
+            echo '<script type="module" src="' . $devServerUrl . '/app/Resources/' . $entry . '"></script>' . "\n";
         } else {
             // Modo produção - Assets compilados
             $manifestPath = public_path('assets/.vite/manifest.json');
@@ -168,7 +168,7 @@ if (!function_exists('vite')) {
                 return;
             }
 
-            $key = 'app/resources/' . $entry;
+            $key = 'app/Resources/' . $entry;
 
             if (!isset($manifest[$key])) {
                 echo "<!-- ⚠️ Entry '$entry' não encontrado no manifest. Chave disponíveis: " . implode(', ', array_keys($manifest)) . " -->" . "\n";

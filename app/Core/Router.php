@@ -113,7 +113,7 @@ class Router
     public static function dispatch()
     {
         // Carrega as rotas
-        require_once base_path('app/routes/web.php');
+        require_once base_path('app/Routes/web.php');
 
         $method = $_SERVER['REQUEST_METHOD'];
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

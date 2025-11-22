@@ -15,7 +15,7 @@ export default defineConfig({
     manifest: ".vite/manifest.json", // Caminho relativo dentro de outDir
     rollupOptions: {
       input: {
-        app: resolve(__dirname, "app/resources/js/app.js"),
+        app: resolve(__dirname, "app/Resources/js/app.js"),
       },
       output: {
         assetFileNames: "css/[name]-[hash][extname]",

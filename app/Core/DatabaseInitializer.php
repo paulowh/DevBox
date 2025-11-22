@@ -55,7 +55,7 @@ class DatabaseInitializer
     {
         error_log("→ Executando migrations...");
 
-        $migrationsPath = base_path('app/database/migrations');
+        $migrationsPath = base_path('app/Database/migrations');
         $migrationFiles = self::getMigrationFiles($migrationsPath);
 
         foreach ($migrationFiles as $file) {
@@ -77,7 +77,7 @@ class DatabaseInitializer
     {
         error_log("→ Executando seeders...");
 
-        $seederFile = base_path('app/database/DatabaseSeeder.php');
+        $seederFile = base_path('app/Database/DatabaseSeeder.php');
 
         if (file_exists($seederFile)) {
             require_once $seederFile;

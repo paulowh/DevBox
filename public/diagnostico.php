@@ -166,7 +166,7 @@ if (!is_writable(__DIR__ . '/../app/Storage/cache')) {
 
 if (empty($issues)) {
     echo "<p class='ok'>✅ Nenhum problema crítico detectado!</p>";
-    echo "<p class='warn'>⚠️ Se ainda der erro 500, verifique os logs em app/storage/logs/</p>";
+    echo "<p class='warn'>⚠️ Se ainda der erro 500, verifique os logs em app/Storage/logs/</p>";
 } else {
     echo "<p class='error'>❌ Problemas encontrados:</p><ul>";
     foreach ($issues as $issue) {

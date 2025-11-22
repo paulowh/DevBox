@@ -10,10 +10,10 @@ class View
 {
     public static function make($view, $params = [])
     {
-        $loader = new FilesystemLoader(__DIR__ . '/../resources/views');
+        $loader = new FilesystemLoader(__DIR__ . '/../Resources/views');
         $twig = new Environment($loader, [
             'cache' => config('app.env') === 'production'
-                ? base_path('app/storage/cache/views')
+                ? base_path('app/Storage/cache/views')
                 : false,
             'debug' => config('app.debug', false),
         ]);
