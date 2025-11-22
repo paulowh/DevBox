@@ -30,7 +30,7 @@ dist/
 !/app/storage/cache/.gitkeep
 /app/storage/logs/*
 !/app/storage/logs/.gitkeep
-
+/app/storage/installed.flag
 # ============================
 # Uploads
 # ============================
