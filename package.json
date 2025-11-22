@@ -1,0 +1,20 @@
+{
+  "name": "devbox_",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cpx \"node_modules/fomantic-ui/dist/semantic.min.css\" public/assets/css && cpx \"node_modules/fomantic-ui/dist/semantic.min.js\" public/assets/js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fomantic-ui": "^2.9.4",
+    "jquery": "^3.7.1"
+  },
+  "devDependencies": {
+    "cpx": "^1.5.0"
+  }
+}

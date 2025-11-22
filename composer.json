@@ -1,0 +1,17 @@
+{
+    "name": "paulo/devbox",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Paulo Santos",
+            "email": "ph744915@gmail.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "^3.0"
+    }
+}
