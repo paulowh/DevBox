@@ -21,7 +21,6 @@ class View
         // Adiciona funções personalizadas ao Twig
         $twig->addFunction(new TwigFunction('url', 'url'));
         $twig->addFunction(new TwigFunction('asset', 'asset'));
-        $twig->addFunction(new TwigFunction('vite', 'vite'));
         $twig->addFunction(new TwigFunction('config', 'config'));
         $twig->addFunction(new TwigFunction('route', function ($name, $params = []) {
             return \App\Core\Router::route($name, $params);
