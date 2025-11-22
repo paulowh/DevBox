@@ -15,6 +15,10 @@ require __DIR__ . '/../vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
+// Carrega as configurações ANTES do Eloquent
+require __DIR__ . '/../app/Config/app.php';
+require __DIR__ . '/../app/Config/database.php';
+
 // Inicializa o Eloquent ORM
 App\Core\EloquentBootstrap::boot();
 
