@@ -29,6 +29,13 @@ if [ ! -d "app/Storage/logs" ]; then
     echo "✅ app/Storage/logs/ criada"
 fi
 
+# Criar pasta cache/views para o Twig
+if [ ! -d "app/Storage/cache/views" ]; then
+    echo "➕ Criando app/Storage/cache/views/"
+    mkdir -p app/Storage/cache/views
+    echo "✅ app/Storage/cache/views/ criada"
+fi
+
 # Criar .gitkeep para manter as pastas no Git
 echo ""
 echo "📌 Criando arquivos .gitkeep..."
