@@ -1,4 +1,4 @@
 // Teste
 $(document).ready(() => {
-  console.log("Vite + PHP + Twig + Fomantic funcionando!");
+  console.log("PHP + Twig + Fomantic funcionando!");
 });

@@ -1,6 +1,6 @@
 # DevBox - Framework PHP MVC
 
-Framework PHP MVC simples e poderoso com Twig, Vite, jQuery e Fomantic UI.
+Framework PHP MVC simples e poderoso com Twig, jQuery e Fomantic UI.
 
 [devbox](https://devbox.paulowh.com)
 
@@ -13,7 +13,6 @@ Framework PHP MVC simples e poderoso com Twig, Vite, jQuery e Fomantic UI.
 - ✅ Eloquent ORM integrado
 - ✅ **Inicialização automática do banco de dados**
 - ✅ View engine Twig
-- ✅ Build de assets com Vite
 - ✅ jQuery e Fomantic UI
 - ✅ Variáveis de ambiente (.env)
 - ✅ Helper functions úteis
@@ -136,7 +135,6 @@ $cards = Card::with(['turma', 'uc', 'indicadores', 'conhecimentos'])
 Para desenvolvimento dev
 
 ```bash
-# Terminal 1: Vite
 npm run dev
 
 # Terminal 2: PHP server
@@ -176,7 +174,6 @@ devbox_/
 │       ├── cache/       # Cache do Twig e aplicação
 │       └── logs/        # Arquivos de log
 ├── public/              # Pasta pública (Document Root)
-│   ├── assets/          # Assets compilados pelo Vite
 │   ├── uploads/         # Uploads públicos
 │   └── index.php        # Entry point
 └── vendor/              # Dependências do Composer
@@ -333,7 +330,6 @@ route('users.show', ['id' => 1])  // URL de rota nomeada
 
 // Assets
 asset('img/logo.png')             // URL de asset
-vite('js/app.js')                 // Inclui assets do Vite
 
 // Configuração
 config('app.name')                // Lê configuração
