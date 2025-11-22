@@ -1,0 +1,174 @@
+/* Modal Overlay */
+.card-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto; /* Scroll no overlay */
+}
+
+.card-modal-backdrop {
+  position: absolute;
+  inset: 0;
+}
+
+/* Modal Content */
+.card-modal-content {
+  position: relative;
+  width: 90vw;
+  height: 100vh;
+  background-color: var(--bg-modal);
+  color: var(--text-primary);
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+}
+
+/* Animação */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+/* Header */
+.card-modal-header {
+  position: sticky;
+  top: 0;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-solid);
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+}
+
+.card-modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.card-modal-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+  margin: 0.25rem 0 0;
+}
+
+/* Body */
+.card-modal-body {
+  padding: 1.5rem 2rem;
+}
+
+/* View Mode */
+.card-view-title {
+  font-size: 1.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.card-view-description {
+  font-size: 1.125rem;
+  color: var(--text-primary);
+  line-height: 1.8;
+}
+
+/* Edit Mode */
+.card-edit-title-input {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border-solid);
+  border-radius: 0.5rem;
+  font-size: 1.875rem;
+  font-weight: 600;
+  padding: 0.75rem;
+  color: var(--text-primary);
+  transition: border-color 0.2s;
+}
+
+.card-edit-title-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.card-edit-description-textarea {
+  width: 100%;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-solid);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  color: var(--text-primary);
+  resize: vertical;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.card-edit-description-textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+/* Fields */
+.card-field-group {
+  margin-bottom: 1rem;
+}
+
+.card-field-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.card-field-select,
+.ui.dropdown,
+.card-field-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-solid);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.card-field-select:disabled,
+.card-field-input:disabled {
+  opacity: 1;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: default;
+}
+
+.card-field-select:not(:disabled):focus,
+.card-field-input:not(:disabled):focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-modal-content {
+    width: 100%;
+  }
+}
