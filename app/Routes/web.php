@@ -7,7 +7,9 @@ Router::get('/', 'HomeController@index', 'home');
 Router::get('/home', 'HomeController@index', 'home.index');
 
 // API para reordenar cards (Drag and Drop)
-Router::post('api/cards/reorder', 'CardController@reorder', 'api.cards.reorder');
+Router::post('/cards/reorder', 'CardController@reorder', 'cards.reorder');
+
+Router::post('/cards/show', 'CardController@show', 'card.show');
 
 // Exemplo com função anônima (closure)
 // Router::get('test', function () {

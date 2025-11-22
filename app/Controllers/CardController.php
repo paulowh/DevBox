@@ -6,6 +6,51 @@ use App\Models\Card;
 
 class CardController
 {
+    public function show($id)
+    {
+        header('Content-Type: application/json');
+        try {
+            $card = Card::with([
+                'uc',
+                'indicadores',
+                'conhecimentos',
+                'habilidades',
+                'atitudes',
+            ])->find($id);
+
+            if (!$card) {
+                http_response_code(404);
+                echo json_encode(['error' => 'Card não encontrado']);
+                return;
+            }
+
+            // Carregar opções dos dropdowns (ajuste os models conforme necessário)
+            $cursos = \App\Models\Curso::all();
+            $turmas = \App\Models\Turma::all();
+            $ucs = \App\Models\Uc::all();
+            $indicadores = \App\Models\Indicador::all();
+            $conhecimentos = \App\Models\Conhecimento::all();
+            $habilidades = \App\Models\Habilidade::all();
+            $atitudes = \App\Models\Atitude::all();
+
+            echo json_encode([
+                'card' => $card,
+                'cursos' => $cursos,
+                'turmas' => $turmas,
+                'ucs' => $ucs,
+                'indicadores' => $indicadores,
+                'conhecimentos' => $conhecimentos,
+                'habilidades' => $habilidades,
+                'atitudes' => $atitudes,
+            ]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'error' => 'Erro ao buscar dados do card',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
     public function reorder()
     {
         header('Content-Type: application/json');

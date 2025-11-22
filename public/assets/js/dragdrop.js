@@ -222,7 +222,7 @@ class BoardDragDrop {
 
   async updateCardsOnServer(cardData) {
     try {
-      const response = await fetch("/api/cards/reorder", {
+      const response = await fetch("/cards/reorder", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
