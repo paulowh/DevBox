@@ -1,0 +1,329 @@
+<div id="card-modal" class="card-modal-overlay" style="display:none">
+
+	<div class="card-modal-backdrop" onclick="closeCardModal()"></div>
+
+	<!-- Modal deslizando da direita -->
+	<div class="card-modal-content animate-slide-in-right">
+		<div
+			class="card-modal-content">
+			<!-- Header fixo -->
+			<div class="card-modal-header">
+				<div>
+					<h2 id="card-modal-header-title" class="card-modal-title">Editar Card</h2>
+					<p id="card-modal-header-id" class="card-modal-subtitle">ID: -</p>
+				</div>
+
+				<div class="d-flex align-items-center gap-3">
+					<button id="card-edit-toggle-btn" class="ui secundary button" onclick="toggleCardEditing()">
+						Editar
+					</button>
+					<button class="btn" onclick="closeCardModal()" style="background-color: var(--bg-tertiary); color: var(--text-secondary); width: 40px; height: 40px;">
+						✕
+					</button>
+				</div>
+			</div>
+
+			<!-- Loading State -->
+			<div id="card-modal-loading" class="text-center py-5" style="display: none;">
+				<div class="spinner-border text-primary mb-3" role="status">
+					<span class="visually-hidden">Carregando...</span>
+				</div>
+				<p style="color: var(--text-secondary);">Carregando dados do card...</p>
+			</div>
+
+			<!-- Error State -->
+			<div id="card-modal-error" class="alert alert-danger m-4" style="display: none;">
+				<p class="fw-bold mb-1">Erro ao carregar dados:</p>
+				<p id="card-modal-error-message" class="mb-0 small"></p>
+			</div>
+
+			<!-- Content -->
+			<div id="card-modal-body" class="card-modal-body">
+				<div
+					class="ui grid">
+					<!-- Coluna Principal (Título e Descrição) -->
+					<div
+						class="ten wide column">
+						<!-- Modo Visualização -->
+						<div id="card-view-mode">
+							<h1 id="card-view-title" class="card-view-title">Titulo vem aqui! com php</h1>
+							<h1 id="card-view-title" class="card-title">Titulo vem aqui! com php</h1>
+							<div class="border-bottom my-3" style="border-color: var(--border-solid) !important;"></div>
+							<div id="card-view-description" class="card-view-description"></div>
+						</div>
+
+						<!-- Modo Edição -->
+						<div id="card-edit-mode" style="display: none;">
+							<input type="text" id="card-edit-title" class="card-edit-title-input" placeholder="Título do card..." value="blau!!">
+							<div class="border-bottom my-3" style="border-color: var(--border-solid) !important;"></div>
+							<label class="form-label fw-medium" style="font-size: 0.875rem; color: var(--text-secondary);">Descrição</label>
+							<textarea id="card-edit-description" rows="10" class="card-edit-description-textarea">Bora bora</textarea>
+							<div class="d-flex gap-2 mt-3">
+								<button onclick="handleCardUpdate()" class="ui primary basic button ">Atualizar</button>
+								<button onclick="toggleCardEditing()" class="ui secondary basic button">Cancelar</button>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="six wide column">
+						<div class="card-field-group">
+							<label class="card-field-label">Turma</label>
+							<select id="card-field-turma" class="card-field-select ui dropdown search">
+								<option value="">Selecione...</option>
+							</select>
+						</div>
+
+						<div class="card-field-group">
+							<label class="card-field-label">Curso</label>
+							<select id="card-field-curso" class="card-field-select ui dropdown search">
+								<option value="">Selecione...</option>
+							</select>
+						</div>
+
+						<div class="card-field-group">
+							<label class="card-field-label ">UC</label>
+							<select id="card-field-uc " class="card-field-select  search ui dropdown search" onchange="handleUcChange()">
+								<option value="">Selecione a UC...</option>
+								{% for uc in ucs|default([]) %}
+									<option value="{{ uc.id }}">{{ uc.sigla }}
+										-
+										{{ uc.nome_completo }}</option>
+								{% endfor %}
+							</select>
+						</div>
+
+						<div class=" card-field-group">
+							<label class="card-field-label">Aula Inicial</label>
+							<input type="date" id="card-field-aula-inicial " class="card-field-input mini ui form">
+						</div>
+
+						<div class="card-field-group">
+							<label class="card-field-label">Aula Final</label>
+							<input type="date" id="card-field-aula-final" class="card-field-input ui mini form">
+						</div>
+
+						<div class="card-field-group">
+							<label class="card-field-label">Indicadores</label>
+							<select name="" multiple="" class="ui fluid search dropdown  card-field-select" id="card-field-indicadores-container">
+								<option value="">Selecione UC..</option>
+								{% for i in 1..9 %}
+									<option value="{{ i }}">{{ i }}</option>
+								{% endfor %}
+							</select>
+
+						</div>
+
+						<div class="card-field-group">
+							<label class="card-field-label">Conhecimentos</label>
+							<select name="skills" multiple="" class="ui fluid search dropdown card-field-select" id="card-field-conhecimentos-container">
+								<option value="">Selecione UC..</option>
+								{% for i in 1..9 %}
+									<option value="{{ i }}">{{ i }}</option>
+								{% endfor %}
+
+							</select>
+						</div>
+
+						<div class="card-field-group">
+							<label class="card-field-label">Habilidades</label>
+							<select name="skills" multiple="" class="ui fluid search dropdown card-field-select" id="card-field-habilidades-container">
+								<option value="">Selecione UC..</option>
+								{% for i in 1..9 %}
+									<option value="{{ i }}">{{ i }}</option>
+								{% endfor %}
+							</select>
+						</div>
+
+						<div class="card-field-group">
+							<label class="card-field-label">Atitudes</label>
+
+							<select name="skills" multiple="" class="ui fluid search dropdown card-field-select" id="card-field-atitudes-container ">
+								{% for i in 1..9 %}
+									<option value="{{ i }}">{{ i }}</option>
+								{% endfor %}
+							</select>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+	/* Modal Overlay */
+	.card-modal-overlay {
+		position: fixed;
+		inset: 0;
+		background-color: rgba(0, 0, 0, 0.5);
+		backdrop-filter: blur(4px);
+		z-index: 1000;
+		display: flex;
+		justify-content: flex-end;
+		width: 100vw;
+		height: 100vh;
+		overflow-y: auto; /* Scroll no overlay */
+	}
+
+	.card-modal-backdrop {
+		position: absolute;
+		inset: 0;
+	}
+
+	/* Modal Content */
+	.card-modal-content {
+		position: relative;
+		width: 90vw;
+		height: 100vh;
+		background-color: var(--bg-modal);
+		color: var(--text-primary);
+		box-shadow: -4px 0 24px rgba(0, 0, 0, 0.3);
+		overflow-y: auto;
+	}
+
+	/* Animação */
+	@keyframes slide-in-right {
+		from {
+			transform: translateX(100%);
+		}
+
+		to {
+			transform: translateX(0);
+		}
+	}
+
+	.animate-slide-in-right {
+		animation: slide-in-right 0.3s ease-out;
+	}
+
+	/* Header */
+	.card-modal-header {
+		position: sticky;
+		top: 0;
+		background-color: var(--bg-secondary);
+		border-bottom: 1px solid var(--border-solid);
+		padding: 1.5rem 2rem;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		z-index: 10;
+	}
+
+	.card-modal-title {
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: var(--text-primary);
+		margin: 0;
+	}
+
+	.card-modal-subtitle {
+		font-size: 0.875rem;
+		color: var(--text-tertiary);
+		margin: 0.25rem 0 0;
+	}
+
+	/* Body */
+	.card-modal-body {
+		padding: 1.5rem 2rem;
+	}
+
+	/* View Mode */
+	.card-view-title {
+		font-size: 1.875rem;
+		font-weight: 600;
+		color: var(--text-primary);
+	}
+
+	.card-view-description {
+		font-size: 1.125rem;
+		color: var(--text-primary);
+		line-height: 1.8;
+	}
+
+	/* Edit Mode */
+	.card-edit-title-input {
+		width: 100%;
+		background: transparent;
+		border: 1px solid var(--border-solid);
+		border-radius: 0.5rem;
+		font-size: 1.875rem;
+		font-weight: 600;
+		padding: 0.75rem;
+		color: var(--text-primary);
+		transition: border-color 0.2s;
+	}
+
+	.card-edit-title-input:focus {
+		outline: none;
+		border-color: #3b82f6;
+	}
+
+	.card-edit-description-textarea {
+		width: 100%;
+		background-color: var(--bg-card);
+		border: 1px solid var(--border-solid);
+		border-radius: 0.5rem;
+		padding: 0.75rem;
+		color: var(--text-primary);
+		resize: vertical;
+		font-family: inherit;
+		font-size: 1rem;
+	}
+
+	.card-edit-description-textarea:focus {
+		outline: none;
+		border-color: #3b82f6;
+	}
+
+	/* Fields */
+	.card-field-group {
+		margin-bottom: 1rem;
+	}
+
+	.card-field-label {
+		display: block;
+		font-size: 0.75rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--text-secondary);
+		margin-bottom: 0.25rem;
+	}
+
+	.card-field-select,
+	.ui.dropdown,
+	.card-field-input {
+		width: 100%;
+		padding: 0.5rem 0.75rem;
+		border-radius: 0.5rem;
+		background-color: var(--bg-tertiary);
+		border: 1px solid var(--border-solid);
+		color: var(--text-primary);
+		font-size: 0.875rem;
+		transition: all 0.2s;
+	}
+
+	.card-field-select:disabled,
+	.card-field-input:disabled {
+		opacity: 1;
+		background-color: transparent;
+		border: none;
+		padding: 0;
+		cursor: default;
+	}
+
+	.card-field-select:not(:disabled):focus,
+	.card-field-input:not(:disabled):focus {
+		outline: none;
+		border-color: #3b82f6;
+		box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+	}
+
+	/* Responsive */
+	@media(max-width: 768px) {
+		.card-modal-content {
+			width: 100%;
+		}
+	}
+</style>

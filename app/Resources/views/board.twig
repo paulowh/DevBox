@@ -38,73 +38,9 @@
 								</button>
 							</div>
 
-							<!-- Container de Cards -->
 							<div class="board-cards-container" data-list-id="{{ turma.id }}">
 								{% if turma.cards is defined and turma.cards|length > 0 %}
-									{% for card in turma.cards %}
-										{# Componente: Card Individual #}
-										<div
-											class="board-card" data-card-id="{{ card.id }}">
-											<!-- Título do Card -->
-											<h4 class="card-title">{{ card.titulo }}</h4>
-
-											<!-- Descrição (se houver) -->
-											{% if card.descricao %}
-												<p class="card-description">{{ card.descricao|slice(0, 100) }}</p>
-											{% endif %}
-
-											<!-- Tags/Labels -->
-											<div class="card-tags">
-												{% if card.indicadores is defined and card.indicadores|length > 0 %}
-													<span class="card-tag indicador">
-														<i class="bullseye icon"></i>
-														{{ card.indicadores|length }}
-														Indicador(es)
-													</span>
-												{% endif %}
-
-												{% if card.conhecimentos is defined and card.conhecimentos|length > 0 %}
-													<span class="card-tag conhecimento">
-														<i class="book icon"></i>
-														{{ card.conhecimentos|length }}
-														Conhecimento(s)
-													</span>
-												{% endif %}
-
-												{% if card.habilidades is defined and card.habilidades|length > 0 %}
-													<span class="card-tag habilidade">
-														<i class="lightning icon"></i>
-														{{ card.habilidades|length }}
-														Habilidade(s)
-													</span>
-												{% endif %}
-
-												{% if card.atitudes is defined and card.atitudes|length > 0 %}
-													<span class="card-tag atitude">
-														<i class="heart icon"></i>
-														{{ card.atitudes|length }}
-														Atitude(s)
-													</span>
-												{% endif %}
-											</div>
-
-											<!-- Footer com metadados -->
-											<div class="card-footer">
-												{% if card.uc is defined %}
-													<span class="card-uc">UC:
-														{{ card.uc.sigla|default('N/A') }}</span>
-												{% endif %}
-												{% if card.aula_inicial and card.aula_final %}
-													<span class="card-dates">
-														<i class="calendar icon"></i>
-														{{ card.aula_inicial|date('d/m') }}
-														-
-														{{ card.aula_final|date('d/m') }}
-													</span>
-												{% endif %}
-											</div>
-										</div>
-									{% endfor %}
+									{% include "board/card.twig" %}
 								{% else %}
 									<div class="empty-state">
 										<i class="inbox icon"></i>
@@ -130,5 +66,68 @@
 			</div>
 		</div>
 	</div>
+	{# Componente: Card Individual #}
+	<div
+		class="board-card" data-card-id="{{ card.id }}">
+		<!-- Título do Card -->
+		<h4 class="card-title">{{ card.titulo }}</h4>
 
+		<!-- Descrição (se houver) -->
+		{% if card.descricao %}
+			<p class="card-description">{{ card.descricao|length > 100 ? card.descricao|slice(0, 100) ~ '...' : card.descricao }}</p>
+		{% endif %}
+
+		<!-- Tags/Labels -->
+		<div class="card-tags">
+			{% if card.indicadores and card.indicadores|length > 0 %}
+				<span class="card-tag indicador">
+					<i class="bullseye icon"></i>
+					{{ card.indicadores|length }}
+					Indicador(es)
+				</span>
+			{% endif %}
+
+			{% if card.conhecimentos and card.conhecimentos|length > 0 %}
+				<span class="card-tag conhecimento">
+					<i class="book icon"></i>
+					{{ card.conhecimentos|length }}
+					Conhecimento(s)
+				</span>
+			{% endif %}
+
+			{% if card.habilidades and card.habilidades|length > 0 %}
+				<span class="card-tag habilidade">
+					<i class="lightning icon"></i>
+					{{ card.habilidades|length }}
+					Habilidade(s)
+				</span>
+			{% endif %}
+
+			{% if card.atitudes and card.atitudes|length > 0 %}
+				<span class="card-tag atitude">
+					<i class="heart icon"></i>
+					{{ card.atitudes|length }}
+					Atitude(s)
+				</span>
+			{% endif %}
+		</div>
+
+		<!-- Footer com metadados -->
+		<div class="card-footer">
+			{% if card.uc %}
+				<span class="card-uc">
+					{{ card.uc.sigla ?? 'N/A' }}</span>
+			{% endif %}
+			{% if card.aula_inicial and card.aula_final %}
+				<span class="card-dates">
+					<i class="calendar icon"></i>
+					{{ card.aula_inicial|date('d/m') }}
+					-
+					{{ card.aula_final|date('d/m') }}
+				</span>
+			{% endif %}
+		</div>
+	</div>
+
+	{% include "board/modal-card.twig" %}
 {% endblock %}
