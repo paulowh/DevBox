@@ -1,0 +1,6 @@
+GET http://localhost:8000/cards/show
+Accept: application/json
+
+###
+GET http://localhost:8000/uc/1/related
+Accept: application/json
