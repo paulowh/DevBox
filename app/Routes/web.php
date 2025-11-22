@@ -4,12 +4,14 @@ use App\Core\Router;
 
 // Rota principal
 Router::get('/', 'HomeController@index', 'home');
-Router::get('/home', 'HomeController@index', 'home.index');
+
 
 // API para reordenar cards (Drag and Drop)
 Router::post('/cards/reorder', 'CardController@reorder', 'cards.reorder');
 
-Router::post('/cards/show', 'CardController@show', 'card.show');
+Router::get('/cards/show', 'CardController@show', 'card.show');
+// API: Buscar indicadores, conhecimentos, habilidades e atitudes por UC
+Router::get('api/uc/{id}/related', 'CardController@ucRelated', 'api.uc.related');
 
 // Exemplo com função anônima (closure)
 // Router::get('test', function () {

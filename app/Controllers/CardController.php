@@ -3,41 +3,77 @@
 namespace App\Controllers;
 
 use App\Models\Card;
+use App\Models\Curso;
+use App\Models\Turma;
+use App\Models\Uc;
+use App\Models\Indicador;
+use App\Models\Conhecimento;
+use App\Models\Habilidade;
+use App\Models\Atitude;
 
 class CardController
 {
-    public function show($id)
+    public function show()
     {
         header('Content-Type: application/json');
         try {
-            $card = Card::with([
-                'uc',
-                'indicadores',
-                'conhecimentos',
-                'habilidades',
-                'atitudes',
-            ])->find($id);
-
-            if (!$card) {
-                http_response_code(404);
-                echo json_encode(['error' => 'Card não encontrado']);
-                return;
-            }
 
             // Carregar opções dos dropdowns (ajuste os models conforme necessário)
-            $cursos = \App\Models\Curso::all();
-            $turmas = \App\Models\Turma::all();
-            $ucs = \App\Models\Uc::all();
-            $indicadores = \App\Models\Indicador::all();
-            $conhecimentos = \App\Models\Conhecimento::all();
-            $habilidades = \App\Models\Habilidade::all();
-            $atitudes = \App\Models\Atitude::all();
+            $cursos = Curso::all();
+            $turmas = Turma::all();
+            $ucs = Uc::all();
 
             echo json_encode([
-                'card' => $card,
-                'cursos' => $cursos,
-                'turmas' => $turmas,
-                'ucs' => $ucs,
+                'drop-cursos' => $cursos,
+                'drop-turmas' => $turmas,
+                'drop-ucs' => $ucs,
+                // 'indicadores' => $indicadores,
+                // 'conhecimentos' => $conhecimentos,
+                // 'habilidades' => $habilidades,
+                // 'atitudes' => $atitudes,
+            ]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'error' => 'Erro ao buscar dados do card',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function ucRelated($id)
+    {
+        header('Content-Type: application/json');
+        try {
+            $indicadores = Indicador::where('uc_id', $id)->get()->map(function ($item) {
+                return [
+                    'value' => $item->id,
+                    'name' => ($item->numero_ind ?? '') . ' - ' . ($item->descricao ?? '')
+                ];
+            })->toArray();
+
+            $conhecimentos = Conhecimento::where('uc_id', $id)->get()->map(function ($item) {
+                return [
+                    'value' => $item->id,
+                    'name' => ($item->numero_con ?? '') . ' - ' . ($item->descricao ?? '')
+                ];
+            })->toArray();
+
+            $habilidades = Habilidade::where('uc_id', $id)->get()->map(function ($item) {
+                return [
+                    'value' => $item->id,
+                    'name' => ($item->numero_hab ?? '') . ' - ' . ($item->descricao ?? '')
+                ];
+            })->toArray();
+
+            $atitudes = Atitude::where('uc_id', $id)->get()->map(function ($item) {
+                return [
+                    'value' => $item->id,
+                    'name' => ($item->numero_ati ?? '') . ' - ' . ($item->descricao ?? '')
+                ];
+            })->toArray();
+
+            echo json_encode([
                 'indicadores' => $indicadores,
                 'conhecimentos' => $conhecimentos,
                 'habilidades' => $habilidades,
@@ -46,7 +82,7 @@ class CardController
         } catch (\Exception $e) {
             http_response_code(500);
             echo json_encode([
-                'error' => 'Erro ao buscar dados do card',
+                'error' => 'Erro ao buscar dados da UC',
                 'message' => $e->getMessage()
             ]);
         }

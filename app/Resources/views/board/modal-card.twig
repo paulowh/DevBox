@@ -1,156 +1,350 @@
-<div id="card-modal" class="card-modal-overlay" style="display:none">
+<div id="card-modal" class="card-modal-overlay" style="display: none">
+  <div class="card-modal-backdrop" onclick="closeCardModal()"></div>
 
-	<div class="card-modal-backdrop" onclick="closeCardModal()"></div>
+  <!-- Modal deslizando da direita -->
+  <div class="card-modal-content animate-slide-in-right">
+    <div class="card-modal-content">
+      <!-- Header fixo -->
+      <div class="card-modal-header">
+        <div>
+          <h2 id="card-modal-header-title" class="card-modal-title">
+            Editar Card
+          </h2>
+          <p id="card-modal-header-id" class="card-modal-subtitle">ID: -</p>
+        </div>
 
-	<!-- Modal deslizando da direita -->
-	<div class="card-modal-content animate-slide-in-right">
-		<div
-			class="card-modal-content">
-			<!-- Header fixo -->
-			<div class="card-modal-header">
-				<div>
-					<h2 id="card-modal-header-title" class="card-modal-title">Editar Card</h2>
-					<p id="card-modal-header-id" class="card-modal-subtitle">ID: -</p>
-				</div>
+        <div class="d-flex align-items-center gap-3">
+          <button
+            id="card-edit-toggle-btn"
+            class="ui secundary button"
+            onclick="toggleCardEditing()"
+          >
+            Editar
+          </button>
+          <button
+            class="btn"
+            onclick="closeCardModal()"
+            style="
+              background-color: var(--bg-tertiary);
+              color: var(--text-secondary);
+              width: 40px;
+              height: 40px;
+            "
+          >
+            ✕
+          </button>
+        </div>
+      </div>
 
-				<div class="d-flex align-items-center gap-3">
-					<button id="card-edit-toggle-btn" class="ui secundary button" onclick="toggleCardEditing()">
-						Editar
-					</button>
-					<button class="btn" onclick="closeCardModal()" style="background-color: var(--bg-tertiary); color: var(--text-secondary); width: 40px; height: 40px;">
-						✕
-					</button>
-				</div>
-			</div>
+      <!-- Loading State -->
+      <div
+        id="card-modal-loading"
+        class="text-center py-5"
+        style="display: none"
+      >
+        <div class="spinner-border text-primary mb-3" role="status">
+          <span class="visually-hidden">Carregando...</span>
+        </div>
+        <p style="color: var(--text-secondary)">Carregando dados do card...</p>
+      </div>
 
-			<!-- Loading State -->
-			<div id="card-modal-loading" class="text-center py-5" style="display: none;">
-				<div class="spinner-border text-primary mb-3" role="status">
-					<span class="visually-hidden">Carregando...</span>
-				</div>
-				<p style="color: var(--text-secondary);">Carregando dados do card...</p>
-			</div>
+      <!-- Error State -->
+      <div
+        id="card-modal-error"
+        class="alert alert-danger m-4"
+        style="display: none"
+      >
+        <p class="fw-bold mb-1">Erro ao carregar dados:</p>
+        <p id="card-modal-error-message" class="mb-0 small"></p>
+      </div>
 
-			<!-- Error State -->
-			<div id="card-modal-error" class="alert alert-danger m-4" style="display: none;">
-				<p class="fw-bold mb-1">Erro ao carregar dados:</p>
-				<p id="card-modal-error-message" class="mb-0 small"></p>
-			</div>
+      <!-- Content -->
+      <div id="card-modal-body" class="card-modal-body">
+        <div class="ui grid">
+          <!-- Coluna Principal (Título e Descrição) -->
+          <div class="ten wide column">
+            <!-- Modo Visualização -->
+            <div id="card-view-mode">
+              <h1 id="card-view-title" class="card-view-title">
+                Titulo vem aqui! com php
+              </h1>
+              <h1 id="card-view-title" class="card-title">
+                Titulo vem aqui! com php
+              </h1>
+              <div
+                class="border-bottom my-3"
+                style="border-color: var(--border-solid) !important"
+              ></div>
+              <div
+                id="card-view-description"
+                class="card-view-description"
+              ></div>
+            </div>
 
-			<!-- Content -->
-			<div id="card-modal-body" class="card-modal-body">
-				<div
-					class="ui grid">
-					<!-- Coluna Principal (Título e Descrição) -->
-					<div
-						class="ten wide column">
-						<!-- Modo Visualização -->
-						<div id="card-view-mode">
-							<h1 id="card-view-title" class="card-view-title">Titulo vem aqui! com php</h1>
-							<h1 id="card-view-title" class="card-title">Titulo vem aqui! com php</h1>
-							<div class="border-bottom my-3" style="border-color: var(--border-solid) !important;"></div>
-							<div id="card-view-description" class="card-view-description"></div>
-						</div>
+            <!-- Modo Edição -->
+            <div id="card-edit-mode" style="display: none">
+              <input
+                type="text"
+                id="card-edit-title"
+                class="card-edit-title-input"
+                placeholder="Título do card..."
+                value="blau!!"
+              />
+              <div
+                class="border-bottom my-3"
+                style="border-color: var(--border-solid) !important"
+              ></div>
+              <label
+                class="form-label fw-medium"
+                style="font-size: 0.875rem; color: var(--text-secondary)"
+                >Descrição</label
+              >
+              <textarea
+                id="card-edit-description"
+                rows="10"
+                class="card-edit-description-textarea"
+              >
+Bora bora</textarea
+              >
+              <div class="d-flex gap-2 mt-3">
+                <button
+                  onclick="handleCardUpdate()"
+                  class="ui primary basic button"
+                >
+                  Atualizar
+                </button>
+                <button
+                  onclick="toggleCardEditing()"
+                  class="ui secondary basic button"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
 
-						<!-- Modo Edição -->
-						<div id="card-edit-mode" style="display: none;">
-							<input type="text" id="card-edit-title" class="card-edit-title-input" placeholder="Título do card..." value="blau!!">
-							<div class="border-bottom my-3" style="border-color: var(--border-solid) !important;"></div>
-							<label class="form-label fw-medium" style="font-size: 0.875rem; color: var(--text-secondary);">Descrição</label>
-							<textarea id="card-edit-description" rows="10" class="card-edit-description-textarea">Bora bora</textarea>
-							<div class="d-flex gap-2 mt-3">
-								<button onclick="handleCardUpdate()" class="ui primary basic button ">Atualizar</button>
-								<button onclick="toggleCardEditing()" class="ui secondary basic button">Cancelar</button>
-							</div>
-						</div>
-					</div>
+          <div class="six wide column">
+            <div class="card-field-group">
+              <label class="card-field-label">Turma</label>
+              <select
+                id="card-field-turma"
+                class="card-field-select ui dropdown search drop-turmas"
+              >
+                <option value="">Selecione...</option>
+              </select>
+            </div>
 
+            <div class="card-field-group">
+              <label class="card-field-label">Curso</label>
+              <select
+                id="card-field-curso"
+                class="card-field-select ui dropdown search drop-cursos"
+              >
+                <option value="">Selecione...</option>
+              </select>
+            </div>
 
-					<div class="six wide column">
-						<div class="card-field-group">
-							<label class="card-field-label">Turma</label>
-							<select id="card-field-turma" class="card-field-select ui dropdown search">
-								<option value="">Selecione...</option>
-							</select>
-						</div>
+            <div class="card-field-group">
+              <label class="card-field-label">UC</label>
+              <select
+                id="card-field-uc"
+                class="card-field-select search ui dropdown search drop-ucs"
+                onchange="handleUcChange()"
+              >
+                <option value="">Selecione a UC...</option>
+              </select>
+            </div>
 
-						<div class="card-field-group">
-							<label class="card-field-label">Curso</label>
-							<select id="card-field-curso" class="card-field-select ui dropdown search">
-								<option value="">Selecione...</option>
-							</select>
-						</div>
+            <div class="card-field-group">
+              <label class="card-field-label">Aula Inicial</label>
+              <input
+                type="date"
+                id="card-field-aula-inicial "
+                class="card-field-input mini ui form"
+              />
+            </div>
 
-						<div class="card-field-group">
-							<label class="card-field-label ">UC</label>
-							<select id="card-field-uc " class="card-field-select  search ui dropdown search" onchange="handleUcChange()">
-								<option value="">Selecione a UC...</option>
-								{% for uc in ucs|default([]) %}
-									<option value="{{ uc.id }}">{{ uc.sigla }}
-										-
-										{{ uc.nome_completo }}</option>
-								{% endfor %}
-							</select>
-						</div>
+            <div class="card-field-group">
+              <label class="card-field-label">Aula Final</label>
+              <input
+                type="date"
+                id="card-field-aula-final"
+                class="card-field-input ui mini form"
+              />
+            </div>
 
-						<div class=" card-field-group">
-							<label class="card-field-label">Aula Inicial</label>
-							<input type="date" id="card-field-aula-inicial " class="card-field-input mini ui form">
-						</div>
+            <div class="card-field-group">
+              <label class="card-field-label">Indicadores</label>
+              <select
+                name=""
+                multiple=""
+                class="ui fluid search dropdown card-field-select"
+                id="card-field-indicadores-container"
+              >
+                <option value="">Selecione UC..</option>
+              </select>
+            </div>
 
-						<div class="card-field-group">
-							<label class="card-field-label">Aula Final</label>
-							<input type="date" id="card-field-aula-final" class="card-field-input ui mini form">
-						</div>
+            <div class="card-field-group">
+              <label class="card-field-label">Conhecimentos</label>
+              <select
+                name="skills"
+                multiple=""
+                class="ui fluid search dropdown card-field-select"
+                id="card-field-conhecimentos-container"
+              >
+                <option value="">Selecione UC..</option>
+              </select>
+            </div>
 
-						<div class="card-field-group">
-							<label class="card-field-label">Indicadores</label>
-							<select name="" multiple="" class="ui fluid search dropdown  card-field-select" id="card-field-indicadores-container">
-								<option value="">Selecione UC..</option>
-								{% for i in 1..9 %}
-									<option value="{{ i }}">{{ i }}</option>
-								{% endfor %}
-							</select>
+            <div class="card-field-group">
+              <label class="card-field-label">Habilidades</label>
+              <select
+                name="skills"
+                multiple=""
+                class="ui fluid search dropdown card-field-select"
+                id="card-field-habilidades-container"
+              >
+                <option value="">Selecione UC..</option>
+              </select>
+            </div>
 
-						</div>
+            <div class="card-field-group">
+              <label class="card-field-label">Atitudes</label>
 
-						<div class="card-field-group">
-							<label class="card-field-label">Conhecimentos</label>
-							<select name="skills" multiple="" class="ui fluid search dropdown card-field-select" id="card-field-conhecimentos-container">
-								<option value="">Selecione UC..</option>
-								{% for i in 1..9 %}
-									<option value="{{ i }}">{{ i }}</option>
-								{% endfor %}
-
-							</select>
-						</div>
-
-						<div class="card-field-group">
-							<label class="card-field-label">Habilidades</label>
-							<select name="skills" multiple="" class="ui fluid search dropdown card-field-select" id="card-field-habilidades-container">
-								<option value="">Selecione UC..</option>
-								{% for i in 1..9 %}
-									<option value="{{ i }}">{{ i }}</option>
-								{% endfor %}
-							</select>
-						</div>
-
-						<div class="card-field-group">
-							<label class="card-field-label">Atitudes</label>
-
-							<select name="skills" multiple="" class="ui fluid search dropdown card-field-select" id="card-field-atitudes-container ">
-								{% for i in 1..9 %}
-									<option value="{{ i }}">{{ i }}</option>
-								{% endfor %}
-							</select>
-						</div>
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+              <select
+                name="skills"
+                multiple=""
+                class="ui fluid search dropdown card-field-select"
+                id="card-field-atitudes-container"
+              ></select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<style>
-	
-</style>
+<script>
+  // Limpa opções de um select múltiplo
+  function clearMultiSelect(selectEl) {
+    if (!selectEl) return;
+
+    selectEl.innerHTML = "";
+    try {
+      selectEl.selectedIndex = -1;
+    } catch (e) {}
+  }
+
+  function setLoadingMultiSelect(selectEl) {
+    clearMultiSelect(selectEl);
+    if (!selectEl) return;
+
+    const opt = document.createElement("option");
+    opt.value = "";
+    opt.text = "Carregando...";
+    opt.disabled = true;
+    opt.selected = true;
+    selectEl.appendChild(opt);
+  }
+
+  function populateMultiSelect(selectEl, items, placeholder) {
+    clearMultiSelect(selectEl);
+    if (!selectEl) return;
+
+    if (!items || items.length === 0) {
+      const opt = document.createElement("option");
+      opt.value = "";
+      opt.text = placeholder || "Nenhum item encontrado";
+      opt.disabled = true;
+      selectEl.appendChild(opt);
+      return;
+    }
+
+    items.forEach(function (it) {
+      const opt = document.createElement("option");
+      opt.value = it.value || it.id || "";
+      opt.text = it.name || it.descricao || opt.value;
+      selectEl.appendChild(opt);
+    });
+  }
+
+  async function handleUcChange() {
+    const ucSelect = document.getElementById("card-field-uc");
+    if (!ucSelect) return;
+
+    const ucId = ucSelect.value;
+
+    const indicadoresEl = document.getElementById(
+      "card-field-indicadores-container"
+    );
+    const conhecimentosEl = document.getElementById(
+      "card-field-conhecimentos-container"
+    );
+    const habilidadesEl = document.getElementById(
+      "card-field-habilidades-container"
+    );
+    const atitudesEl = document.getElementById("card-field-atitudes-container");
+
+    // Limpa imediatamente campos dependentes para evitar valores obsoletos
+    setLoadingMultiSelect(indicadoresEl);
+    setLoadingMultiSelect(conhecimentosEl);
+    setLoadingMultiSelect(habilidadesEl);
+    setLoadingMultiSelect(atitudesEl);
+
+    // Limpa também datas de aula (opcional)
+    const aulaInicial = document.getElementById("card-field-aula-inicial");
+    const aulaFinal = document.getElementById("card-field-aula-final");
+    if (aulaInicial) aulaInicial.value = "";
+
+    if (aulaFinal) aulaFinal.value = "";
+
+    // Se nenhum UC selecionada, mantém placeholders vazios
+    if (!ucId) {
+      populateMultiSelect(indicadoresEl, [], "Selecione UC...");
+      populateMultiSelect(conhecimentosEl, [], "Selecione UC...");
+      populateMultiSelect(habilidadesEl, [], "Selecione UC...");
+      populateMultiSelect(atitudesEl, [], "Selecione UC...");
+      return;
+    }
+
+    try {
+      const resp = await fetch(
+        "/api/uc/" + encodeURIComponent(ucId) + "/related"
+      );
+      if (!resp.ok) throw new Error("Resposta inválida: " + resp.status);
+
+      const data = await resp.json();
+
+      populateMultiSelect(
+        indicadoresEl,
+        data.indicadores || [],
+        "Nenhum indicador"
+      );
+      populateMultiSelect(
+        conhecimentosEl,
+        data.conhecimentos || [],
+        "Nenhum conhecimento"
+      );
+      populateMultiSelect(
+        habilidadesEl,
+        data.habilidades || [],
+        "Nenhuma habilidade"
+      );
+      populateMultiSelect(atitudesEl, data.atitudes || [], "Nenhuma atitude");
+    } catch (err) {
+      console.error("Erro ao buscar dados da UC:", err);
+      populateMultiSelect(indicadoresEl, [], "Erro ao carregar");
+      populateMultiSelect(conhecimentosEl, [], "Erro ao carregar");
+      populateMultiSelect(habilidadesEl, [], "Erro ao carregar");
+      populateMultiSelect(atitudesEl, [], "Erro ao carregar");
+    }
+  }
+
+  // Inicializa se já houver UC selecionada
+  document.addEventListener("DOMContentLoaded", function () {
+    const uc = document.getElementById("card-field-uc");
+    if (uc && uc.value) handleUcChange();
+  });
+</script>
+<style></style>
