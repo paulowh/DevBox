@@ -8,6 +8,9 @@ $dotenv->load();
 // Inicializa o Eloquent ORM
 App\Core\EloquentBootstrap::boot();
 
+// Inicializa o banco de dados automaticamente na primeira execução
+App\Core\DatabaseInitializer::init();
+
 use App\Core\App;
 
 $app = new App();

@@ -24,6 +24,16 @@ if (!function_exists('public_path')) {
 }
 
 /**
+ * Obtém o caminho de storage
+ */
+if (!function_exists('storage_path')) {
+    function storage_path($path = '')
+    {
+        return base_path('app/storage/' . ltrim($path, '/'));
+    }
+}
+
+/**
  * Redireciona para uma URL
  */
 if (!function_exists('redirect')) {

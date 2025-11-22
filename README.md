@@ -8,6 +8,8 @@ Framework PHP MVC simples e poderoso com Twig, Vite, jQuery e Fomantic UI.
 - ✅ Sistema de rotas nomeadas
 - ✅ Migration de banco de dados
 - ✅ Model base com CRUD
+- ✅ Eloquent ORM integrado
+- ✅ **Inicialização automática do banco de dados**
 - ✅ View engine Twig
 - ✅ Build de assets com Vite
 - ✅ jQuery e Fomantic UI
@@ -17,7 +19,7 @@ Framework PHP MVC simples e poderoso com Twig, Vite, jQuery e Fomantic UI.
 ## 📋 Requisitos
 
 - PHP 7.4+
-- MySQL/MariaDB
+- PostgreSQL ou MySQL/MariaDB
 - Composer
 - Node.js e NPM
 - Apache (com mod_rewrite)
@@ -47,10 +49,84 @@ Edite o `.env` com suas configurações de banco de dados.
 CREATE DATABASE devbox;
 ```
 
-5. Execute as migrations:
+5. **Acesse o projeto no navegador**
+
+   O sistema irá automaticamente:
+
+   - ✅ Criar todas as tabelas (migrations)
+   - ✅ Inserir dados iniciais (seeders)
+   - ✅ Marcar como instalado
+
+   Isso acontece **apenas na primeira vez** que você acessar o projeto!
+
+## 🎯 Inicialização Automática
+
+### Como Funciona?
+
+Quando você acessa o projeto pela primeira vez:
+
+1. O sistema verifica se existe o arquivo `app/storage/installed.flag`
+2. Se não existir, executa automaticamente:
+   - Todas as migrations (cria as tabelas)
+   - Todos os seeders (insere dados iniciais)
+   - Cria a flag de instalação
+3. Nas próximas vezes, apenas carrega normalmente (não roda migrations novamente)
+
+### Comandos Úteis
 
 ```bash
-php migrate migrate
+# Ver status da instalação
+php install.php status
+
+# Forçar instalação manual
+php install.php install
+
+# Resetar tudo (remove tabelas e flag)
+php install.php reset
+```
+
+**Importante**: Após usar `php install.php reset`, acesse o site no navegador para reinicializar automaticamente!
+
+## 🗄️ Banco de Dados (Eloquent ORM)
+
+### Models Disponíveis
+
+O projeto já vem com models prontos:
+
+- `Curso` - Cursos técnicos
+- `Uc` - Unidades Curriculares
+- `Indicador` - Indicadores de competência
+- `Conhecimento` - Conhecimentos técnicos
+- `Habilidade` - Habilidades práticas
+- `Atitude` - Atitudes profissionais
+- `Turma` - Turmas/Quadros
+- `Card` - Cards de atividades
+
+### Exemplo de Uso
+
+```php
+use App\Models\Curso;
+use App\Models\Uc;
+use App\Models\Card;
+
+// Buscar todos os cursos
+$cursos = Curso::all();
+
+// Buscar curso com suas UCs
+$curso = Curso::with('ucs')->find(1);
+
+// Criar novo card
+$card = Card::create([
+    'titulo' => 'Nova atividade',
+    'descricao' => 'Descrição da atividade',
+    'turma_id' => 1,
+    'uc_id' => 2
+]);
+
+// Buscar cards de uma turma com relacionamentos
+$cards = Card::with(['turma', 'uc', 'indicadores', 'conhecimentos'])
+    ->where('turma_id', 1)
+    ->get();
 ```
 
 ## 🎨 Desenvolvimento
@@ -276,4 +352,7 @@ Este projeto é open-source.
 ## 👤 Autor
 
 Paulo Santos - [@paulo.wh](https:instagram.com/paulo.wh)
-````
+
+```
+
+```
