@@ -54,8 +54,8 @@ if (file_exists($autoloadPath)) {
 // 5. Permissões de Pastas
 echo "<h2>5. Permissões de Pastas</h2>";
 $folders = [
-    'app/storage/cache' => __DIR__ . '/../app/storage/cache',
-    'app/storage/logs' => __DIR__ . '/../app/storage/logs',
+    'app/Storage/cache' => __DIR__ . '/../app/Storage/cache',
+    'app/Storage/logs' => __DIR__ . '/../app/Storage/logs',
     'public/uploads' => __DIR__ . '/uploads',
 ];
 
@@ -139,15 +139,15 @@ if (file_exists($envPath) && is_readable($envPath)) {
 
 // 9. Teste de Escrita
 echo "<h2>9. Teste de Escrita (Storage)</h2>";
-$testFile = __DIR__ . '/../app/storage/cache/diagnostico_test.txt';
+$testFile = __DIR__ . '/../app/Storage/cache/diagnostico_test.txt';
 try {
     file_put_contents($testFile, 'teste');
     if (file_exists($testFile)) {
-        echo "<p class='ok'>✅ Consegue escrever em app/storage/cache/</p>";
+        echo "<p class='ok'>✅ Consegue escrever em app/Storage/cache/</p>";
         unlink($testFile);
     }
 } catch (Exception $e) {
-    echo "<p class='error'>❌ NÃO consegue escrever em app/storage/cache/: " . htmlspecialchars($e->getMessage()) . "</p>";
+    echo "<p class='error'>❌ NÃO consegue escrever em app/Storage/cache/: " . htmlspecialchars($e->getMessage()) . "</p>";
 }
 
 // 10. Resumo
@@ -160,8 +160,8 @@ if (!file_exists($envPath)) {
 if (!file_exists($autoloadPath)) {
     $issues[] = "Executar: composer install --no-dev";
 }
-if (!is_writable(__DIR__ . '/../app/storage/cache')) {
-    $issues[] = "Ajustar permissões: chmod -R 775 app/storage/";
+if (!is_writable(__DIR__ . '/../app/Storage/cache')) {
+    $issues[] = "Ajustar permissões: chmod -R 775 app/Storage/";
 }
 
 if (empty($issues)) {
