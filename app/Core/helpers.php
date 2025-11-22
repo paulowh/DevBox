@@ -72,7 +72,7 @@ if (!function_exists('config')) {
         static $config = [];
 
         if (empty($config)) {
-            $configFiles = glob(__DIR__ . '/../config/*.php');
+            $configFiles = glob(__DIR__ . '/../Config/*.php');
             foreach ($configFiles as $file) {
                 $name = basename($file, '.php');
                 $config[$name] = require $file;

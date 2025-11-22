@@ -15,18 +15,24 @@ require __DIR__ . '/../vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
-// Carrega as configurações ANTES do Eloquent
-require __DIR__ . '/../app/Config/app.php';
-require __DIR__ . '/../app/Config/database.php';
-
-// Inicializa o Eloquent ORM
-App\Core\EloquentBootstrap::boot();
+// Debug: Verificar variáveis de ambiente
+$dbConnection = env('DB_CONNECTION', 'não definido');
+$dbHost = env('DB_HOST', 'não definido');
+$dbDatabase = env('DB_DATABASE', 'não definido');
 
 echo "<!DOCTYPE html>";
 echo "<html><head><meta charset='UTF-8'><title>Teste Controller</title>";
 echo "<style>body{font-family:monospace;padding:20px;background:#1e1e1e;color:#d4d4d4}";
 echo ".ok{color:#4ec9b0}.error{color:#f48771}h2{color:#569cd6}pre{background:#2d2d2d;padding:15px;border-radius:5px;overflow-x:auto;}</style></head><body>";
 echo "<h1>🧪 Teste Direto do HomeController</h1>";
+
+echo "<h2>0. Variáveis de Ambiente</h2>";
+echo "<p>DB_CONNECTION: <span class='" . ($dbConnection !== 'não definido' ? 'ok' : 'error') . "'>{$dbConnection}</span></p>";
+echo "<p>DB_HOST: <span class='" . ($dbHost !== 'não definido' ? 'ok' : 'error') . "'>{$dbHost}</span></p>";
+echo "<p>DB_DATABASE: <span class='" . ($dbDatabase !== 'não definido' ? 'ok' : 'error') . "'>{$dbDatabase}</span></p>";
+
+// Inicializa o Eloquent ORM
+App\Core\EloquentBootstrap::boot();
 
 try {
     echo "<h2>1. Instanciando Controller</h2>";
