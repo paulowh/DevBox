@@ -1,21 +1,21 @@
 function openCardModal(cardElement = null) {
-    // const cardId = cardElement.getAttribute("data-card-id");
+    const cardId = cardElement.getAttribute("data-card-id");
     // const title = cardElement.querySelector(".card-title").textContent;
-
-    // Preencher modal
-    //   document.getElementById("modal-card-title").value = title;
-    //   document.getElementById("modal-card-description").value = "";
-
-    // Reinicializar dropdown do Semantic UI
-    $("#modal-card-uc").dropdown("clear");
+    if (!parseInt(cardId)) {
+        fetch(`/cards/${cardId}`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Erro na requisição: " + response.status);
+                }
+                return response.json();
+            })
+    }
 
     // Abrir modal
     //   $("#card-modal").modal("show");
     document.getElementById("card-modal").style.display = "flex";
     carregarDropdownModal();
 }
-
-openCardModal();
 
 function carregarDropdownModal() {
     fetch("/cards/show")

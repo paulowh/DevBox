@@ -11,6 +11,8 @@ Router::post('/cards/reorder', 'CardController@reorder', 'cards.reorder');
 
 Router::get('/cards/show', 'CardController@show', 'card.show');
 
+Router::get('/cards/details/{id}', 'CardController@details', 'card.details');
+
 Router::get('/uc/{id}/related', 'CardController@ucRelated', 'api.uc.related');
 
 // Exemplo com função anônima (closure)

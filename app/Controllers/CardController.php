@@ -18,7 +18,6 @@ class CardController
         header('Content-Type: application/json');
         try {
 
-            // Carregar opções dos dropdowns (ajuste os models conforme necessário)
             $cursos = Curso::all();
             $turmas = Turma::all();
             $ucs = Uc::all();
@@ -27,10 +26,7 @@ class CardController
                 'drop-cursos' => $cursos,
                 'drop-turmas' => $turmas,
                 'drop-ucs' => $ucs,
-                // 'indicadores' => $indicadores,
-                // 'conhecimentos' => $conhecimentos,
-                // 'habilidades' => $habilidades,
-                // 'atitudes' => $atitudes,
+
             ]);
         } catch (\Exception $e) {
             http_response_code(500);
@@ -87,6 +83,7 @@ class CardController
             ]);
         }
     }
+
     public function reorder()
     {
         header('Content-Type: application/json');
@@ -130,6 +127,30 @@ class CardController
             http_response_code(500);
             echo json_encode([
                 'error' => 'Erro ao atualizar cards',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function details($id)
+    {
+        header('Content-Type: application/json');
+        try {
+            $card = Card::with(['indicadores', 'conhecimentos', 'habilidades', 'atitudes'])->find($id);
+
+            if (!$card) {
+                http_response_code(404);
+                echo json_encode(['error' => 'Card não encontrado']);
+                return;
+            }
+
+            echo json_encode([
+                'card' => $card
+            ]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'error' => 'Erro ao buscar detalhes do card',
                 'message' => $e->getMessage()
             ]);
         }
