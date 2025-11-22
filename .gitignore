@@ -15,10 +15,11 @@
 # ============================
 # Build & Compiled Files
 # ============================
-/public/assets/*
-!/public/assets/.gitkeep
-!/public/assets/index.php
-!/public/assets/.htaccess
+# COMENTADO: Assets precisam estar no Git para deploy no Hostinger
+# /public/assets/*
+# !/public/assets/.gitkeep
+# !/public/assets/index.php
+# !/public/assets/.htaccess
 dist/
 *.local
 

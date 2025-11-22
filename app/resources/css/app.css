@@ -719,8 +719,25 @@ body {
 .board-card.dragging {
   opacity: 0.5;
   cursor: grabbing;
-  transform: rotate(5deg);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s ease-out;
+}
+
+/* Animações direcionais */
+.board-card.dragging.drag-right {
+  transform: rotate(5deg) translateX(3px);
+}
+
+.board-card.dragging.drag-left {
+  transform: rotate(-5deg) translateX(-3px);
+}
+
+.board-card.dragging.drag-up {
+  transform: rotate(-2deg) translateY(-3px);
+}
+
+.board-card.dragging.drag-down {
+  transform: rotate(2deg) translateY(3px);
 }
 
 .board-card.drag-over {

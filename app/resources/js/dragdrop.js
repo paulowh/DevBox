@@ -7,6 +7,10 @@ class BoardDragDrop {
     this.draggedCard = null;
     this.draggedOverCard = null;
     this.sourceContainer = null;
+    this.lastX = 0;
+    this.lastY = 0;
+    this.currentX = 0;
+    this.currentY = 0;
     this.init();
   }
 
@@ -49,13 +53,28 @@ class BoardDragDrop {
     this.draggedCard = e.target;
     this.sourceContainer = e.target.closest(".board-cards-container");
 
+    // Capturar posição inicial
+    this.lastX = e.clientX;
+    this.lastY = e.clientY;
+    this.currentX = e.clientX;
+    this.currentY = e.clientY;
+
     e.target.classList.add("dragging");
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("text/html", e.target.innerHTML);
+
+    // Adicionar listener para rastrear movimento
+    document.addEventListener("drag", this.trackDragMovement);
   }
 
   handleDragEnd(e) {
     e.target.classList.remove("dragging");
+    e.target.classList.remove(
+      "drag-left",
+      "drag-right",
+      "drag-up",
+      "drag-down"
+    );
 
     // Remover indicadores visuais
     document.querySelectorAll(".board-card").forEach((card) => {
@@ -65,6 +84,9 @@ class BoardDragDrop {
     document.querySelectorAll(".board-cards-container").forEach((container) => {
       container.classList.remove("drag-over-container");
     });
+
+    // Remover listener de movimento
+    document.removeEventListener("drag", this.trackDragMovement);
 
     this.draggedCard = null;
     this.sourceContainer = null;
@@ -76,6 +98,11 @@ class BoardDragDrop {
     }
 
     e.dataTransfer.dropEffect = "move";
+
+    // Atualizar posição atual e calcular direção
+    if (e.clientX !== 0 && e.clientY !== 0) {
+      this.updateDragDirection(e.clientX, e.clientY);
+    }
 
     const card = e.target.closest(".board-card");
     if (card && card !== this.draggedCard) {
@@ -208,6 +235,50 @@ class BoardDragDrop {
       }
     } catch (error) {
       console.error("Erro ao salvar ordem dos cards:", error);
+    }
+  }
+
+  // Rastrear movimento do drag
+  trackDragMovement = (e) => {
+    if (e.clientX !== 0 && e.clientY !== 0) {
+      this.updateDragDirection(e.clientX, e.clientY);
+    }
+  };
+
+  // Atualizar direção baseado no movimento
+  updateDragDirection(x, y) {
+    if (!this.draggedCard) return;
+
+    const deltaX = x - this.currentX;
+    const deltaY = y - this.currentY;
+
+    // Atualizar posição
+    this.currentX = x;
+    this.currentY = y;
+
+    // Remover todas as classes de direção
+    this.draggedCard.classList.remove(
+      "drag-left",
+      "drag-right",
+      "drag-up",
+      "drag-down"
+    );
+
+    // Determinar direção dominante
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Movimento horizontal é dominante
+      if (deltaX > 0) {
+        this.draggedCard.classList.add("drag-right");
+      } else if (deltaX < 0) {
+        this.draggedCard.classList.add("drag-left");
+      }
+    } else {
+      // Movimento vertical é dominante
+      if (deltaY > 0) {
+        this.draggedCard.classList.add("drag-down");
+      } else if (deltaY < 0) {
+        this.draggedCard.classList.add("drag-up");
+      }
     }
   }
 
