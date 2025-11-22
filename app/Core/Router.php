@@ -192,6 +192,7 @@ class Router
         if (!class_exists($controllerName)) {
             http_response_code(500);
             echo "Controller não encontrado: {$controllerName}";
+            error_log("Controller não encontrado: {$controllerName}");
             return;
         }
 
@@ -200,7 +201,8 @@ class Router
         // Verifica se método existe
         if (!method_exists($controller, $method)) {
             http_response_code(500);
-            echo "Método não encontrado: {$method}";
+            echo "Método não encontrado: {$controllerName}::{$method}";
+            error_log("Método não encontrado: {$controllerName}::{$method}");
             return;
         }
 
