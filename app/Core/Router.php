@@ -132,14 +132,22 @@ class Router
 
         // Busca rota exata primeiro
         if (isset(self::$routes[$method][$uri])) {
-            return self::executeRoute(self::$routes[$method][$uri], []);
+            $result = self::executeRoute(self::$routes[$method][$uri], []);
+            if ($result !== null) {
+                echo $result;
+            }
+            return;
         }
 
         // Busca rota com parâmetros
         foreach (self::$routes[$method] as $routeUri => $route) {
             $params = self::matchRoute($routeUri, $uri);
             if ($params !== false) {
-                return self::executeRoute($route, $params);
+                $result = self::executeRoute($route, $params);
+                if ($result !== null) {
+                    echo $result;
+                }
+                return;
             }
         }
 
