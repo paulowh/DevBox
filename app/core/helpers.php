@@ -1,204 +1,181 @@
 <?php
 
-/**
- * Carrega as variáveis de ambiente do arquivo .env
- */
-function loadEnv($path)
-{
-    if (!file_exists($path)) {
-        return;
-    }
-
-    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-        // Ignora comentários
-        if (strpos(trim($line), '#') === 0) {
-            continue;
-        }
-
-        // Parse da linha KEY=VALUE
-        list($name, $value) = explode('=', $line, 2);
-        $name = trim($name);
-        $value = trim($value);
-
-        // Remove aspas do valor se existirem
-        if (preg_match('/^"(.*)"$/', $value, $matches)) {
-            $value = $matches[1];
-        } elseif (preg_match("/^'(.*)'$/", $value, $matches)) {
-            $value = $matches[1];
-        }
-
-        // Define a variável de ambiente
-        if (!array_key_exists($name, $_ENV)) {
-            $_ENV[$name] = $value;
-            putenv("$name=$value");
-        }
-    }
-}
-
-/**
- * Obtém uma variável de ambiente
- */
-function env($key, $default = null)
-{
-    $value = $_ENV[$key] ?? getenv($key);
-
-    if ($value === false) {
-        return $default;
-    }
-
-    // Converte strings booleanas
-    switch (strtolower($value)) {
-        case 'true':
-        case '(true)':
-            return true;
-        case 'false':
-        case '(false)':
-            return false;
-        case 'null':
-        case '(null)':
-            return null;
-        case 'empty':
-        case '(empty)':
-            return '';
-    }
-
-    return $value;
-}
-
-/**
- * Obtém uma configuração
- */
-function config($key, $default = null)
-{
-    static $config = [];
-
-    if (empty($config)) {
-        $configFiles = glob(__DIR__ . '/../config/*.php');
-        foreach ($configFiles as $file) {
-            $name = basename($file, '.php');
-            $config[$name] = require $file;
-        }
-    }
-
-    $keys = explode('.', $key);
-    $value = $config;
-
-    foreach ($keys as $k) {
-        if (!isset($value[$k])) {
-            return $default;
-        }
-        $value = $value[$k];
-    }
-
-    return $value;
-}
+// NOTA: As funções env() e config() já existem no Illuminate\Support
+// Elas são carregadas automaticamente pelo Composer
 
 /**
  * Obtém o caminho base da aplicação
  */
-function base_path($path = '')
-{
-    return __DIR__ . '/../../' . ltrim($path, '/');
+if (!function_exists('base_path')) {
+    function base_path($path = '')
+    {
+        return __DIR__ . '/../../' . ltrim($path, '/');
+    }
 }
 
 /**
  * Obtém o caminho público
  */
-function public_path($path = '')
-{
-    return base_path('public/' . ltrim($path, '/'));
+if (!function_exists('public_path')) {
+    function public_path($path = '')
+    {
+        return base_path('public/' . ltrim($path, '/'));
+    }
 }
 
 /**
  * Redireciona para uma URL
  */
-function redirect($url, $statusCode = 302)
-{
-    header('Location: ' . $url, true, $statusCode);
-    exit();
+if (!function_exists('redirect')) {
+    function redirect($url, $statusCode = 302)
+    {
+        header('Location: ' . $url, true, $statusCode);
+        exit();
+    }
 }
 
 /**
  * Retorna a URL base da aplicação
  */
-function url($path = '')
-{
-    $basePath = config('app.base_path', '/');
-    return rtrim($basePath, '/') . '/' . ltrim($path, '/');
+if (!function_exists('url')) {
+    function url($path = '')
+    {
+        $basePath = rtrim(config('app.base_path', '/'), '/');
+        $path = ltrim($path, '/');
+
+        // Se o path estiver vazio, retorna apenas o basePath
+        if (empty($path)) {
+            return $basePath ?: '/';
+        }
+
+        // Retorna o caminho completo
+        return $basePath . '/' . $path;
+    }
+}
+
+/**
+ * Obtém configuração (usa a função nativa do Laravel se disponível)
+ */
+if (!function_exists('config')) {
+    function config($key, $default = null)
+    {
+        static $config = [];
+
+        if (empty($config)) {
+            $configFiles = glob(__DIR__ . '/../config/*.php');
+            foreach ($configFiles as $file) {
+                $name = basename($file, '.php');
+                $config[$name] = require $file;
+            }
+        }
+
+        $keys = explode('.', $key);
+        $value = $config;
+
+        foreach ($keys as $k) {
+            if (!isset($value[$k])) {
+                return $default;
+            }
+            $value = $value[$k];
+        }
+
+        return $value;
+    }
 }
 
 /**
  * Obtém o caminho de um asset compilado pelo Vite
  */
-function asset($path)
-{
-    static $manifest = null;
+if (!function_exists('asset')) {
+    function asset($path)
+    {
+        static $manifest = null;
 
-    if ($manifest === null) {
-        $manifestPath = public_path('assets/.vite/manifest.json');
+        if ($manifest === null) {
+            $manifestPath = public_path('assets/.vite/manifest.json');
 
-        if (file_exists($manifestPath)) {
-            $manifest = json_decode(file_get_contents($manifestPath), true);
-        } else {
-            $manifest = [];
+            if (file_exists($manifestPath)) {
+                $manifest = json_decode(file_get_contents($manifestPath), true);
+            } else {
+                $manifest = [];
+            }
         }
-    }
 
-    // Se estiver em modo dev, retorna o caminho direto
-    if (empty($manifest)) {
+        // Se estiver em modo dev, retorna o caminho direto
+        if (empty($manifest)) {
+            return url('assets/' . ltrim($path, '/'));
+        }
+
+        // Procura o arquivo no manifest
+        $key = 'app/resources/' . ltrim($path, '/');
+
+        if (isset($manifest[$key])) {
+            return url('assets/' . $manifest[$key]['file']);
+        }
+
+        // Se não encontrar no manifest, retorna o caminho direto
         return url('assets/' . ltrim($path, '/'));
     }
-
-    // Procura o arquivo no manifest
-    $key = 'app/resources/' . ltrim($path, '/');
-
-    if (isset($manifest[$key])) {
-        return url('assets/' . $manifest[$key]['file']);
-    }
-
-    // Se não encontrar no manifest, retorna o caminho direto
-    return url('assets/' . ltrim($path, '/'));
 }
 
 /**
  * Inclui os assets do Vite (desenvolvimento ou produção)
  */
-function vite($entry = 'js/app.js')
-{
-    $isDev = config('app.env') === 'development';
-
-    if ($isDev) {
-        // Modo desenvolvimento - Vite dev server
+if (!function_exists('vite')) {
+    function vite($entry = 'js/app.js')
+    {
+        // Detecta se o Vite dev server está rodando
         $devServerUrl = 'http://localhost:5173';
+        $isDev = false;
 
-        echo '<script type="module" src="' . $devServerUrl . '/@vite/client"></script>';
-        echo '<script type="module" src="' . $devServerUrl . '/app/resources/' . $entry . '"></script>';
-    } else {
-        // Modo produção - Assets compilados
-        $manifestPath = public_path('assets/.vite/manifest.json');
+        // Tenta conectar no dev server (timeout curto)
+        $context = stream_context_create([
+            'http' => [
+                'timeout' => 0.5,
+                'ignore_errors' => true
+            ]
+        ]);
 
-        if (!file_exists($manifestPath)) {
-            return;
-        }
+        $isDev = @file_get_contents($devServerUrl . '/@vite/client', false, $context) !== false;
 
-        $manifest = json_decode(file_get_contents($manifestPath), true);
-        $key = 'app/resources/' . $entry;
+        if ($isDev) {
+            // Modo desenvolvimento - Vite dev server com HMR
+            echo '<script type="module" src="' . $devServerUrl . '/@vite/client"></script>' . "\n";
+            echo '<script type="module" src="' . $devServerUrl . '/app/resources/' . $entry . '"></script>' . "\n";
+        } else {
+            // Modo produção - Assets compilados
+            $manifestPath = public_path('assets/.vite/manifest.json');
 
-        if (!isset($manifest[$key])) {
-            return;
-        }
-
-        $file = $manifest[$key];
-
-        // CSS
-        if (isset($file['css'])) {
-            foreach ($file['css'] as $css) {
-                echo '<link rel="stylesheet" href="' . url('assets/' . $css) . '">';
+            if (!file_exists($manifestPath)) {
+                echo "<!-- ⚠️ Vite manifest não encontrado. Execute: npm run build -->" . "\n";
+                return;
             }
-        }
 
-        // JS
-        echo '<script type="module" src="' . url('assets/' . $file['file']) . '"></script>';
+            $manifest = json_decode(file_get_contents($manifestPath), true);
+
+            if (!$manifest) {
+                echo "<!-- ⚠️ Erro ao ler manifest.json -->" . "\n";
+                return;
+            }
+
+            $key = 'app/resources/' . $entry;
+
+            if (!isset($manifest[$key])) {
+                echo "<!-- ⚠️ Entry '$entry' não encontrado no manifest. Chave disponíveis: " . implode(', ', array_keys($manifest)) . " -->" . "\n";
+                return;
+            }
+
+            $file = $manifest[$key];
+
+            // CSS
+            if (isset($file['css'])) {
+                foreach ($file['css'] as $css) {
+                    echo '<link rel="stylesheet" href="' . url('public/assets/' . $css) . '">' . "\n";
+                }
+            }
+
+            // JS
+            echo '<script type="module" src="' . url('public/assets/' . $file['file']) . '"></script>' . "\n";
+        }
     }
 }

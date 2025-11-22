@@ -9,9 +9,7 @@
 		{{ vite('js/app.js')|raw }}
 	</head>
 
-	<body>
+	<body class="teste"> {% block content %}{% endblock %}
 
-		{% block content %}{% endblock %}
-
-	</body>
-</html>
+		</body>
+	</html>

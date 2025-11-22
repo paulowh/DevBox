@@ -18,6 +18,7 @@
 /public/assets/*
 !/public/assets/.gitkeep
 !/public/assets/index.php
+!/public/assets/.htaccess
 dist/
 *.local
 

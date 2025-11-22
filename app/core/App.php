@@ -2,13 +2,16 @@
 
 namespace App\Core;
 
-use App\Core\Router;
-use App\Core\View;
-
 class App
 {
     public function run()
     {
-        Router::dispatch();
+        // Escolha qual router usar:
+
+        // Opção 1: Router customizado (simples)
+        // Router::dispatch();
+
+        // Opção 2: Symfony Router (robusto, com grupos)
+        SymfonyRouter::dispatch();
     }
 }

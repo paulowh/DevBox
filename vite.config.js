@@ -2,19 +2,20 @@ import { defineConfig } from "vite";
 import { resolve } from "path";
 
 export default defineConfig({
-  root: ".", // 👈 raiz do projeto
-  publicDir: "public", // 👈 mantém sua pasta public original
+  root: ".",
+  publicDir: false, // Desabilita cópia automática do public
   server: {
     port: 5173,
     strictPort: true,
+    origin: "http://localhost:5173", // Importante para HMR
   },
   build: {
-    outDir: "public/assets", // 👈 saída organizada
-    emptyOutDir: false, // não apagar a pasta public inteira
-    manifest: true, // 👈 gera manifest.json para produção
+    outDir: "public/assets",
+    emptyOutDir: true, // Limpa a pasta assets antes do build
+    manifest: ".vite/manifest.json", // Caminho relativo dentro de outDir
     rollupOptions: {
       input: {
-        app: resolve(__dirname, "app/resources/js/app.js"), // caminho absoluto correto
+        app: resolve(__dirname, "app/resources/js/app.js"),
       },
       output: {
         assetFileNames: "css/[name]-[hash][extname]",

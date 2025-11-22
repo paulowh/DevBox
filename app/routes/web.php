@@ -3,7 +3,7 @@
 use App\Core\Router;
 
 // Rota inicial
-Router::get('', 'HomeController@index', 'home');
+Router::get('/', 'HomeController@index', 'home');
 Router::get('home', 'HomeController@index', 'home.index');
 
 // Exemplo de rota com parâmetros

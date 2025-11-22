@@ -55,6 +55,20 @@ php migrate migrate
 
 ## 🎨 Desenvolvimento
 
+Para desenvolvimento dev
+
+```bash
+# Terminal 1: Vite
+npm run dev
+
+# Terminal 2: PHP server
+php -S localhost:8000 -t public
+
+# Navegador: acesse
+http://localhost:8000
+
+```
+
 Para desenvolvimento com hot reload:
 
 ```bash
@@ -88,38 +102,6 @@ devbox_/
 │   ├── uploads/         # Uploads públicos
 │   └── index.php        # Entry point
 └── vendor/              # Dependências do Composer
-```
-
-## 🌐 Deploy no Hostinger (ou hospedagem compartilhada)
-
-1. **Estrutura no servidor:**
-
-```
-/home/seuusuario/
-├── app/              ← Toda pasta app (incluindo storage)
-├── vendor/           ← Dependências
-├── .env              ← Configuração (ajustar para produção)
-├── composer.json
-├── migrate
-└── public_html/      ← Renomeie 'public' para 'public_html'
-    ├── assets/
-    ├── uploads/
-    ├── index.php
-    └── .htaccess
-```
-
-2. **Ajuste o `.env` para produção:**
-
-```env
-APP_ENV=production
-APP_DEBUG=false
-BASE_PATH=/
-```
-
-3. **Execute as migrations via SSH ou Terminal do cPanel:**
-
-```bash
-php migrate migrate
 ```
 
 ## 🛣️ Rotas
@@ -294,3 +276,4 @@ Este projeto é open-source.
 ## 👤 Autor
 
 Paulo Santos - [@paulo.wh](https:instagram.com/paulo.wh)
+````
