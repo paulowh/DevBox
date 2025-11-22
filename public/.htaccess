@@ -1,3 +1,7 @@
+# ================================================
+# DevBox - Apache/LiteSpeed Configuration
+# ================================================
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
@@ -5,7 +9,11 @@
 
     RewriteEngine On
 
-    # Permitir acesso a arquivos e diretórios existentes (assets, uploads, etc)
+    # Força HTTPS (opcional - descomente se necessário)
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Permitir acesso direto a arquivos existentes
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
 
@@ -14,9 +22,23 @@
 </IfModule>
 
 # Impedir listagem de diretórios
-Options -Indexes
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
 
-# Permitir acesso de qualquer origem
+# Permitir acesso de qualquer origem (CORS)
 <IfModule mod_headers.c>
     Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
 </IfModule>
+
+# Proteção adicional
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Configurações de erro (para debug)
+# php_flag display_errors on
+# php_value error_reporting 32767

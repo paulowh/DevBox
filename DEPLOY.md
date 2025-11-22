@@ -20,11 +20,13 @@ public_html/
 No painel do Hostinger, configure o **Document Root** do seu domínio/subdomínio:
 
 **OPÇÃO A - Se estiver usando SUBDOMÍNIO (ex: app.seudominio.com):**
+
 ```
 public_html/devbox/public
 ```
 
 **OPÇÃO B - Se estiver usando DOMÍNIO PRINCIPAL:**
+
 ```
 domains/seudominio.com/public_html/devbox/public
 ```
@@ -143,6 +145,7 @@ ls -la .htaccess         # Também deve existir na raiz!
 ```
 
 **Verifique o Document Root:**
+
 - Deve estar configurado para: `public_html/devbox/public`
 - NÃO pode ser: `public_html/devbox` (sem o /public)
 
@@ -209,11 +212,13 @@ _(Não esqueça de voltar para `false` depois!)_
 ## 🎯 Resumo Rápido
 
 **No Painel do Hostinger:**
+
 1. Configure Document Root: `public_html/devbox/public`
 2. Configure PHP 8.0+
 3. Crie o banco de dados MySQL
 
 **Via SSH ou File Manager:**
+
 ```bash
 cd public_html/devbox
 cp .env.hostinger .env              # Copiar template
@@ -224,6 +229,7 @@ chmod -R 775 public/uploads/         # Permissões uploads
 ```
 
 **Teste:**
+
 - Acesse: `https://seudominio.com`
 - Se ver erro 403: Document Root está errado
 - Se ver erro 500: Verifique permissões e `.env`
