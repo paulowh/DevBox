@@ -147,7 +147,9 @@
 
                             <select name="skills" multiple=""
                                     class="ui fluid search dropdown atitudes card-field-select"
-                                    id="card-field-atitudes-container"></select>
+                                    id="card-field-atitudes-container">
+                                <option value="">Selecione UC..</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -156,43 +158,7 @@
     </div>
 </div>
 <script>
-    // Limpa opções de um select múltiplo
-    function clearMultiSelect(selectEl) {
-        if (!selectEl) return;
-        selectEl.innerHTML = "";
-        try {
-            selectEl.selectedIndex = -1;
-        } catch (e) {
-        }
-    }
-
-    function setLoadingMultiSelect(selectEl) {
-        clearMultiSelect(selectEl);
-        if (!selectEl) return;
-        const opt = document.createElement("option");
-        opt.value = "";
-        opt.text = "Carregando...";
-        opt.disabled = true;
-        opt.selected = true;
-        selectEl.appendChild(opt);
-    }
-
-    // Popula usando array de objetos { value, name } para Semantic UI dropdown
-    function populateMultiSelect(selectEl = null, items, placeholder) {
-        // clearMultiSelect(selectEl);
-        // if (!selectEl) return;
-
-        // if (!items || items.length === 0) {
-        //     const opt = document.createElement("option");
-        //     opt.value = "";
-        //     opt.text = placeholder || "Nenhum item encontrado";
-        //     opt.disabled = true;
-        //     selectEl.appendChild(opt);
-        //     // inicializa dropdown vazio
-        //     $(selectEl).dropdown('refresh');
-        //     return;
-        // }
-
+    function populateMultiSelect(items) {
         Object.keys(items).forEach((key) => {
             const values = items[key].map((item) => ({
                 name: item.name,
@@ -203,7 +169,6 @@
                 values: values,
             });
         });
-        console.log('fim')
     }
 
     // Ao mudar a UC: busca indicadores do backend e popula o dropdown
@@ -212,32 +177,23 @@
         if (!ucSelect) return;
 
         const ucId = ucSelect.value;
-        if (!ucId) {
-            // // limpa o dropdown se nenhum UC selecionada
-            // populateMultiSelect(document.getElementById("card-field-indicadores-container"), [], "Selecione UC...");
-            return;
-        }
-
-        // const indicadoresEl = document.getElementById("card-field-indicadores-container");
-        // setLoadingMultiSelect(indicadoresEl);
+        if (!ucId) return;
 
         try {
-            // Ajuste a URL abaixo para o endpoint correto da sua API
             const resp = await fetch(`/uc/${encodeURIComponent(ucId)}/related`, {
-
                 headers: {"Accept": "application/json"}
             });
+
             if (!resp.ok) throw new Error("Erro ao carregar indicadores");
             const data = await resp.json();
-            // espera-se que `data` seja um array de { id, name } ou { value, name }
+
             populateMultiSelect(data);
         } catch (err) {
             console.error(err);
-            populateMultiSelect([], "Erro ao carregar indicadores");
+            populateMultiSelect([]);
         }
     }
 
-    // Inicializa se já houver UC selecionada e liga o listener de change
     document.addEventListener("DOMContentLoaded", function () {
         const uc = document.getElementById("card-field-uc");
         if (uc) {
