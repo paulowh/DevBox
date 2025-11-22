@@ -16,6 +16,6 @@ class Turma extends Model
 
     public function cards()
     {
-        return $this->hasMany(Card::class, 'turma_id');
+        return $this->hasMany(Card::class, 'turma_id')->orderBy('ordem');
     }
 }

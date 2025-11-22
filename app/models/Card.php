@@ -14,7 +14,8 @@ class Card extends Model
         'turma_id',
         'uc_id',
         'aula_inicial',
-        'aula_final'
+        'aula_final',
+        'ordem'
     ];
 
     protected $casts = [

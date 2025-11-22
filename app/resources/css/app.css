@@ -710,3 +710,31 @@ body {
   transform: rotate(2deg);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
+
+/* Drag and Drop States */
+.board-card {
+  cursor: grab;
+}
+
+.board-card.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+  transform: rotate(5deg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.board-card.drag-over {
+  border: 2px dashed var(--primary-color, #2196f3);
+  background-color: rgba(33, 150, 243, 0.05);
+  transform: scale(1.02);
+}
+
+.board-cards-container.drag-over-container {
+  background-color: rgba(33, 150, 243, 0.08);
+  border: 2px dashed var(--primary-color, #2196f3);
+  border-radius: 8px;
+}
+
+.board-card:active {
+  cursor: grabbing;
+}

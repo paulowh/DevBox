@@ -6,6 +6,9 @@ use App\Core\Router;
 Router::get('/', 'HomeController@index', 'home');
 Router::get('/home', 'HomeController@index', 'home.index');
 
+// API para reordenar cards (Drag and Drop)
+Router::post('api/cards/reorder', 'CardController@reorder', 'api.cards.reorder');
+
 // Exemplo com função anônima (closure)
 // Router::get('test', function () {
 //     echo '<h1>Olá do Router!</h1>';
