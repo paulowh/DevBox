@@ -3,6 +3,7 @@
 ## ⚡ AÇÃO IMEDIATA
 
 ### PASSO 1: Executar Diagnóstico
+
 Acesse: **https://devbox.paulowh.com/diagnostico.php**
 
 Este arquivo vai mostrar exatamente qual é o problema!
@@ -12,7 +13,9 @@ Este arquivo vai mostrar exatamente qual é o problema!
 ## 🔧 CAUSAS MAIS COMUNS DO ERRO 500
 
 ### 1. ❌ Arquivo `.env` não existe
+
 **SOLUÇÃO:**
+
 ```bash
 # Via SSH ou File Manager
 cd public_html/devbox
@@ -21,6 +24,7 @@ nano .env  # Edite com dados do banco
 ```
 
 **Pelo File Manager:**
+
 1. Entre em `public_html/devbox/`
 2. Clique com direito em `.env.hostinger` → **Copy**
 3. Cole na mesma pasta
@@ -30,7 +34,9 @@ nano .env  # Edite com dados do banco
 ---
 
 ### 2. ❌ Pasta `vendor/` não existe (Composer não foi executado)
+
 **SOLUÇÃO:**
+
 ```bash
 # Via SSH
 cd public_html/devbox
@@ -38,13 +44,16 @@ composer install --no-dev --optimize-autoloader
 ```
 
 **Se não tiver SSH:**
+
 - Entre em contato com suporte Hostinger
 - Ou suba a pasta `vendor/` via FTP (não recomendado - muito pesado)
 
 ---
 
 ### 3. ❌ Permissões erradas nas pastas
+
 **SOLUÇÃO:**
+
 ```bash
 # Via SSH
 cd public_html/devbox
@@ -55,6 +64,7 @@ chmod -R 775 public/uploads/
 ```
 
 **Pelo File Manager:**
+
 1. Navegue até `public_html/devbox/app/storage/cache/`
 2. Botão direito → **Change Permissions** ou **Permissions**
 3. Digite `775` ou marque: `Read, Write, Execute` para Owner e Group
@@ -64,7 +74,9 @@ chmod -R 775 public/uploads/
 ---
 
 ### 4. ❌ Erro no arquivo `.htaccess`
+
 **SOLUÇÃO TEMPORÁRIA (teste):**
+
 ```bash
 # Renomeie o .htaccess para desativar temporariamente
 cd public_html/devbox/public
@@ -78,7 +90,9 @@ Se funcionar, o problema está no `.htaccess`. Use o novo arquivo commitado no G
 ---
 
 ### 5. ❌ Versão do PHP incompatível
+
 **SOLUÇÃO:**
+
 1. Painel Hostinger → **PHP Configuration**
 2. Selecione: **PHP 8.0**, **8.1** ou **8.2**
 3. Salve e aguarde 1-2 minutos
@@ -86,9 +100,11 @@ Se funcionar, o problema está no `.htaccess`. Use o novo arquivo commitado no G
 ---
 
 ### 6. ❌ Erro de sintaxe no código PHP
+
 **SOLUÇÃO - Ativar Debug:**
 
 Edite o arquivo `.env`:
+
 ```env
 APP_DEBUG=true
 APP_ENV=development
@@ -97,6 +113,7 @@ APP_ENV=development
 Recarregue a página - vai mostrar o erro específico.
 
 **⚠️ IMPORTANTE:** Depois de resolver, volte para:
+
 ```env
 APP_DEBUG=false
 APP_ENV=production
@@ -130,6 +147,7 @@ php -m | grep -E 'pdo|mysql|mbstring'
 ## 🔍 VER LOGS DE ERRO
 
 ### Logs do PHP (Hostinger):
+
 ```bash
 # Via SSH
 tail -f ~/domains/devbox.paulowh.com/logs/error_log
@@ -138,6 +156,7 @@ tail -f ~/public_html/devbox/app/storage/logs/*.log
 ```
 
 ### Pelo File Manager:
+
 1. Vá em `domains/devbox.paulowh.com/logs/`
 2. Baixe o arquivo `error_log`
 3. Abra e veja os erros mais recentes
@@ -186,13 +205,16 @@ echo "✅ Acesse: https://devbox.paulowh.com/diagnostico.php"
 Se NADA funcionar:
 
 1. **Baixe os logs:**
+
    - `domains/devbox.paulowh.com/logs/error_log`
    - `public_html/devbox/app/storage/logs/`
 
 2. **Tire screenshots do diagnóstico:**
+
    - https://devbox.paulowh.com/diagnostico.php
 
 3. **Verifique Document Root:**
+
    - Painel → Domínios → devbox.paulowh.com
    - Document Root DEVE ser: `public_html/devbox/public`
 

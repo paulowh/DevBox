@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Arquivo de Diagnóstico - DevBox
  * Acesse: https://devbox.paulowh.com/diagnostico.php
@@ -98,12 +99,12 @@ if (file_exists($envPath) && is_readable($envPath)) {
         if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
             require_once __DIR__ . '/../vendor/autoload.php';
         }
-        
+
         $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
         $dotenv->load();
-        
+
         echo "<p class='ok'>✅ Arquivo .env carregado com sucesso!</p>";
-        
+
         $envVars = ['APP_NAME', 'APP_ENV', 'DB_CONNECTION', 'DB_HOST', 'DB_DATABASE', 'DB_USERNAME'];
         foreach ($envVars as $var) {
             $value = $_ENV[$var] ?? getenv($var) ?? 'NÃO DEFINIDO';
@@ -113,7 +114,7 @@ if (file_exists($envPath) && is_readable($envPath)) {
             $color = ($value && $value != 'NÃO DEFINIDO') ? 'ok' : 'error';
             echo "<p class='$color'>$var: " . htmlspecialchars($value) . "</p>";
         }
-        
+
         // Mostrar conteúdo do .env (sem senhas)
         echo "<h3>Conteúdo do .env (primeiras linhas):</h3>";
         $envContent = file_get_contents($envPath);
@@ -127,7 +128,6 @@ if (file_exists($envPath) && is_readable($envPath)) {
             }
         }
         echo "</pre>";
-        
     } catch (Exception $e) {
         echo "<p class='error'>❌ Erro ao carregar .env: " . htmlspecialchars($e->getMessage()) . "</p>";
         echo "<p class='warn'>Detalhes do erro:</p>";

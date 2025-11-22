@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Teste de Carregamento - DevBox
  * Este arquivo tenta carregar o sistema e captura erros
@@ -33,7 +34,7 @@ try {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
     $dotenv->load();
     echo "<p class='ok'>✅ .env carregado com sucesso!</p>";
-    
+
     // Verificar variáveis
     $required = ['APP_NAME', 'DB_CONNECTION', 'DB_HOST', 'DB_DATABASE', 'DB_USERNAME', 'DB_PASSWORD'];
     $missing = [];
@@ -43,13 +44,12 @@ try {
             $missing[] = $var;
         }
     }
-    
+
     if (empty($missing)) {
         echo "<p class='ok'>✅ Todas as variáveis necessárias estão definidas!</p>";
     } else {
         echo "<p class='error'>❌ Variáveis faltando no .env: " . implode(', ', $missing) . "</p>";
     }
-    
 } catch (Exception $e) {
     echo "<p class='error'>❌ Erro ao carregar .env: " . htmlspecialchars($e->getMessage()) . "</p>";
     echo "<pre class='error'>" . htmlspecialchars($e->getTraceAsString()) . "</pre>";

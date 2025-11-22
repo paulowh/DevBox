@@ -38,6 +38,7 @@ APP_DEBUG=false
 ```
 
 **Por quê?**
+
 - `APP_DEBUG=true` mostra erros detalhados (inseguro em produção)
 - `APP_ENV=development` pode ativar recursos de debug que causam erros
 
@@ -52,6 +53,7 @@ BASE_PATH=
 ```
 
 **Por quê?**
+
 - O Document Root já aponta para `/public`
 - Adicionar `BASE_PATH=/` pode causar redirecionamentos incorretos
 
@@ -69,6 +71,7 @@ APP_URL=http://devbox.paulowh.com    (sem HTTPS)
 ### 4. **DB_HOST**
 
 Você já está usando o IP correto:
+
 ```env
 DB_HOST=193.203.175.83  ✅
 ```
