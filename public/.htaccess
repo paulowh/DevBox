@@ -1,8 +1,22 @@
-RewriteEngine On
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
 
-# Permitir acesso a arquivos e diretórios existentes (assets, uploads, etc)
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteEngine On
 
-# Redirecionar tudo para index.php
-RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+    # Permitir acesso a arquivos e diretórios existentes (assets, uploads, etc)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Redirecionar tudo para index.php
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+</IfModule>
+
+# Impedir listagem de diretórios
+Options -Indexes
+
+# Permitir acesso de qualquer origem
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+</IfModule>
