@@ -150,13 +150,36 @@
   transition: all 0.2s;
 }
 
+/* Styles for disabled fields to appear as plain text */
 .card-field-select:disabled,
 .card-field-input:disabled {
-  opacity: 1;
+  opacity: 0.75; /* Adjust opacity to make it less faded */
   background-color: transparent;
-  border: none;
-  padding: 0;
+  border-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
   cursor: default;
+  pointer-events: none; /* Prevent mouse events */
+  -webkit-text-fill-color: var(--text-primary); /* Override default disabled color in WebKit */
+}
+
+/* Additional styles for disabled Semantic UI dropdowns */
+.ui.dropdown.disabled {
+  opacity: 0.75; /* Match opacity */
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.ui.dropdown.disabled .text,
+.ui.dropdown.disabled .default.text {
+  color: var(--text-primary) !important;
+}
+
+.ui.dropdown.disabled > .dropdown.icon {
+  display: none; /* Hide the dropdown arrow */
 }
 
 .card-field-select:not(:disabled):focus,

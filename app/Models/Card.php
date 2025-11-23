@@ -20,8 +20,8 @@ class Card extends Model
   ];
 
   protected $casts = [
-    'aula_inicial' => 'datetime',
-    'aula_final' => 'datetime'
+    'aula_inicial' => 'date',
+    'aula_final' => 'date'
   ];
 
   public $timestamps = false;

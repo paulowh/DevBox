@@ -604,51 +604,123 @@ body {
 }
 
 .card-tag.indicador,
-.indicadores .ui.label {
+.indicadores .ui.label,
+.indicadores .ui.label.active,
+.indicadores .ui.label.active:hover,
+[data-theme="dark"] .indicadores .ui.label:hover {
   background-color: #e3f2fd;
   color: #1976d2;
 }
 
 .card-tag.conhecimento,
-.conhecimentos .ui.label {
+.conhecimentos .ui.label,
+.conhecimentos .ui.label.active,
+.conhecimentos .ui.label.active:hover,
+[data-theme="dark"] .conhecimentos .ui.label:hover {
   background-color: #f3e5f5;
   color: #7b1fa2;
 }
 
 .card-tag.habilidade,
-.habilidades .ui.label {
+.habilidades .ui.label,
+.habilidades .ui.label.active,
+.habilidades .ui.label.active:hover,
+[data-theme="dark"] .habilidades .ui.label:hover {
   background-color: #fff3e0;
   color: #f57c00;
 }
 
 .card-tag.atitude,
-.atitudes .ui.label {
+.atitudes .ui.label,
+.atitudes .ui.label.active,
+.atitudes .ui.label.active:hover,
+[data-theme="dark"] .atitudes .ui.label:hover {
   background-color: #fce4ec;
   color: #c2185b;
 }
 
 [data-theme="dark"] .card-tag.indicador,
-[data-theme="dark"] .indicadores .ui.label {
+[data-theme="dark"] .indicadores .ui.label,
+[data-theme="dark"] .indicadores .ui.label.active,
+[data-theme="dark"] .indicadores .ui.label.active:hover,
+.indicadores .ui.label:hover {
   background-color: #1565c0;
   color: #bbdefb;
 }
 
 [data-theme="dark"] .card-tag.conhecimento,
-[data-theme="dark"] .conhecimentos .ui.label {
+[data-theme="dark"] .conhecimentos .ui.label,
+[data-theme="dark"] .conhecimentos .ui.label.active,
+[data-theme="dark"] .conhecimentos .ui.label.active:hover,
+.conhecimentos .ui.label:hover {
   background-color: #6a1b9a;
   color: #e1bee7;
 }
 
 [data-theme="dark"] .card-tag.habilidade,
-[data-theme="dark"] .habilidades .ui.label {
+[data-theme="dark"] .habilidades .ui.label,
+[data-theme="dark"] .habilidades .ui.label.active,
+[data-theme="dark"] .habilidades .ui.label.active:hover,
+.habilidades .ui.label:hover {
   background-color: #e65100;
   color: #ffe0b2;
 }
 
 [data-theme="dark"] .card-tag.atitude,
-[data-theme="dark"] .atitudes .ui.label {
+[data-theme="dark"] .atitudes .ui.label,
+[data-theme="dark"] .atitudes .ui.label.active,
+[data-theme="dark"] .atitudes .ui.label.active:hover,
+.atitudes .ui.label:hover {
   background-color: #ad1457;
   color: #f8bbd0;
+}
+
+.ui.multiple.dropdown .ui.label {
+  position: relative !important;
+  border-radius: 1em !important;
+  padding-right: 1.8em !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ui.multiple.dropdown .ui.label .delete.icon {
+  position: absolute !important;
+  top: 50% !important;
+  right: 0.6em !important;
+  transform: translateY(-50%) !important;
+  margin: 0 !important;
+}
+
+.ui.multiple.dropdown .ui.label {
+  border-radius: 1em !important;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.ui.multiple.dropdown .ui.label:hover {
+  filter: brightness(95%);
+  cursor: pointer;
+}
+
+.ui.multiple.dropdown .ui.label:nth-child(4n + 1) {
+  max-width: 160px;
+}
+
+.ui.multiple.dropdown .ui.label:nth-child(4n + 2) {
+  max-width: 190px;
+}
+
+.ui.multiple.dropdown .ui.label:nth-child(4n + 3) {
+  max-width: 140px;
+}
+
+.ui.multiple.dropdown .ui.label:nth-child(4n + 4) {
+  max-width: 210px;
 }
 
 .card-footer {

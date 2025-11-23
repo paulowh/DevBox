@@ -1,3 +1,8 @@
+let boardState = {
+  isEditing: false,
+  currentCard: null,
+};
+
 function openCardModal(cardElement = null) {
   const cardId = cardElement ? cardElement.getAttribute("data-card-id") : null;
 
@@ -36,6 +41,7 @@ function carregarDropdownModal(id_valor) {
       return response.json();
     })
     .then(function (data) {
+      boardState.currentCard = data.card || null;
       Object.keys(data.drop).forEach(function (key) {
         const values = data.drop[key].map(function (item) {
           const isSelected = data.card ? (key === 'drop-ucs' && data.card.uc_id === item.id) || (key === 'drop-cursos' && data.card.curso_id === item.id) || (key === 'drop-turmas' && data.card.turma_id === item.id) : false;
@@ -63,6 +69,8 @@ function closeCardModal() {
     modal.style.display = "none";
     $('#card-modal').off('change', '#card-field-uc');
   }
+  boardState.isEditing = false;
+  boardState.currentCard = null;
 }
 
 function populateMultiSelect(items, cardData) {
@@ -127,3 +135,36 @@ function handleUcChange(ucIdOrEvent, cardData) {
       populateMultiSelect({}, null); // Limpa os campos em caso de erro
     });
 }
+
+toggleCardEditing = function (forceEdit = null) {
+  boardState.isEditing = forceEdit !== null ? forceEdit : !boardState.isEditing;
+
+  const viewMode = document.getElementById('card-view-mode');
+  const editMode = document.getElementById('card-edit-mode');
+  const toggleBtn = document.getElementById('card-edit-toggle-btn');
+  const fieldSelects = document.querySelectorAll('.card-field-select, .card-field-input');
+  const dropdowns = $('#card-modal .ui.dropdown');
+
+  if (boardState.isEditing) {
+    // Modo edição
+    if (viewMode) viewMode.style.display = 'none';
+    if (editMode) editMode.style.display = 'block';
+    if (toggleBtn) toggleBtn.textContent = 'Cancelar';
+
+    fieldSelects.forEach(field => field.disabled = false);
+    dropdowns.removeClass('disabled');
+  } else {
+    // Modo visualização
+    if (viewMode) viewMode.style.display = 'block';
+    if (editMode) editMode.style.display = 'none';
+    if (toggleBtn) toggleBtn.textContent = 'Editar';
+
+    fieldSelects.forEach(field => field.disabled = true);
+    dropdowns.addClass('disabled');
+
+    // Se estava criando novo card e cancelou, fechar modal
+    if (!boardState.currentCard?.id) {
+      closeCardModal();
+    }
+  }
+};
