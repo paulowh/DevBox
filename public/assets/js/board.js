@@ -40,7 +40,8 @@ function carregarDropdownModal(id_valor = null) {
     .then((data) => {
       Object.keys(data.drop).forEach((key) => {
         const values = data.drop[key].map((item) => {
-          const isSelected = data.card ? (key === 'drop-ucs' && data.card.uc_id === item.id) || (key === 'drop-cursos' && data.card.curso_id === item.id) || (key === 'drop-turmas' && data.card.turma_id === item.id) : false;
+          const isSelected = data.card ? (key === 'drop-ucs' && data.card.uc_id === item.id) ||
+            (key === 'drop-cursos' && data.card.curso_id === item.id) || (key === 'drop-turmas' && data.card.turma_id === item.id) : false;
 
           return {
             name: item.nome_curso || item.nome || `${item.sigla} - ${item.nome_completo}`,
@@ -54,9 +55,16 @@ function carregarDropdownModal(id_valor = null) {
         });
       });
 
+      const dataSelect = {
+        indicadores: data.card.indicadores,
+        conhecimentos: data.card.conhecimentos,
+        habilidades: data.card.habilidades,
+        atitudes: data.card.atitudes,
+      };
+
       if (data.card && data.card.uc_id) {
         // deixar timeout para garantir q rode depois!
-        setTimeout(handleUcChange, 100);
+        setTimeout(handleUcChange(dataSelect), 100);
       }
     })
     .catch((error) => {
@@ -73,10 +81,15 @@ function closeCardModal() {
   }
 }
 
-function populateMultiSelect(items) {
+function populateMultiSelect(items, select = null) {
+  console.log(items)
+  console.log(select)
   Object.keys(items).forEach((key) => {
+
     const values = items[key].map((item) => ({
-      name: item.name, value: item.value,
+      name: item.name,
+      value: item.value,
+      selected: select ? select[key].includes(item.value) : false,
     }));
 
     $(".ui.dropdown." + key).dropdown({
@@ -85,8 +98,9 @@ function populateMultiSelect(items) {
   });
 }
 
-async function handleUcChange() {
+async function handleUcChange(select = null) {
   const ucSelect = document.getElementById("card-field-uc");
+
   if (!ucSelect) return;
 
   const ucId = ucSelect.value;
@@ -100,7 +114,7 @@ async function handleUcChange() {
     if (!resp.ok) throw new Error("Erro ao carregar os campos relacionados à UC");
     const data = await resp.json();
 
-    populateMultiSelect(data);
+    populateMultiSelect(data, select);
   } catch (err) {
     console.error(err);
     // limpa os dropdowns para evitar dados errados!

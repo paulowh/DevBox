@@ -19,8 +19,20 @@ class CardController
   {
     header('Content-Type: application/json');
     try {
+      $card = Card::with([])->find($id);
 
-      $card = Card::find($id);
+      $card->indicadores = $card->indicadores()->pluck('id');
+      $card->conhecimentos = $card->conhecimentos()->pluck('id');
+      $card->habilidades = $card->habilidades()->pluck('id');
+      $card->atitudes = $card->atitudes()->pluck('id');
+
+
+      if (!$card) {
+        http_response_code(404);
+        echo json_encode(['error' => 'Card não encontrado']);
+        return;
+      }
+
       $cursos = Curso::all();
       $turmas = Turma::all();
       $ucs = Uc::all();
@@ -31,7 +43,7 @@ class CardController
           'drop-turmas' => $turmas,
           'drop-ucs' => $ucs,
         ],
-        'card' => $card
+        'card' => $card,
       ]);
     } catch (Exception $e) {
       http_response_code(500);
@@ -141,7 +153,7 @@ class CardController
   {
     header('Content-Type: application/json');
     try {
-      $card = Card::with(['indicadores', 'conhecimentos', 'habilidades', 'atitudes'])->find($id);
+      $card = Card::find($id);
 
       if (!$card) {
         http_response_code(404);
@@ -150,17 +162,10 @@ class CardController
       }
 
       echo View::make('board/modal-card', [
-        'card' => $card,
         'titulo' => $card->titulo,
         'descricao' => $card->descricao,
-        'turma' => $card->turma,
-        'uc' => $card->uc,
         'aula_inicial' => $card->aula_inicial,
         'aula_final' => $card->aula_final,
-        'indicadores' => $card->indicadores,
-        'conhecimentos' => $card->conhecimentos,
-        'habilidades' => $card->habilidades,
-        'atitudes' => $card->atitudes
       ]);
       //            echo json_encode([
       //                'card' => $card
