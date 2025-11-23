@@ -45,7 +45,7 @@ function carregarDropdownModal(id_valor) {
             selected: isSelected,
           };
         });
-        $(".ui.dropdown." + key).dropdown({ values: values });
+        $(".ui.dropdown." + key).dropdown({values: values});
       });
 
       if (data.card && data.card.uc_id) {
@@ -67,17 +67,17 @@ function closeCardModal() {
 
 function populateMultiSelect(items, cardData) {
   const relatedKeys = ['indicadores', 'conhecimentos', 'habilidades', 'atitudes'];
-  
+
   relatedKeys.forEach(function (key) {
     const dropdown = $(".ui.dropdown." + key);
     if (dropdown.length === 0) return;
 
     const currentItems = (items && items[key]) ? items[key] : [];
     const values = currentItems.map(function (item) {
-      return { name: item.name, value: item.value };
+      return {name: item.name, value: item.value};
     });
 
-    dropdown.dropdown({ values: values });
+    dropdown.dropdown({values: values});
     dropdown.dropdown('clear');
 
     if (cardData && cardData[key] && Array.isArray(cardData[key])) {
@@ -108,22 +108,22 @@ function handleUcChange(ucIdOrEvent, cardData) {
   }
 
   fetch('/uc/' + encodeURIComponent(ucId) + '/related', {
-    headers: { "Accept": "application/json" }
+    headers: {"Accept": "application/json"}
   })
-  .then(function (resp) {
-    if (resp.status === 404) { // Se a UC não tiver itens relacionados
-      return {}; // Retorna um objeto vazio para limpar os campos
-    }
-    if (!resp.ok) {
-      throw new Error('Erro na requisição: ' + resp.status);
-    }
-    return resp.json();
-  })
-  .then(function (relatedData) {
-    populateMultiSelect(relatedData, cardData);
-  })
-  .catch(function (err) {
-    console.error('Falha ao buscar ou processar dados da UC:', err);
-    populateMultiSelect({}, null); // Limpa os campos em caso de erro
-  });
+    .then(function (resp) {
+      if (resp.status === 404) { // Se a UC não tiver itens relacionados
+        return {}; // Retorna um objeto vazio para limpar os campos
+      }
+      if (!resp.ok) {
+        throw new Error('Erro na requisição: ' + resp.status);
+      }
+      return resp.json();
+    })
+    .then(function (relatedData) {
+      populateMultiSelect(relatedData, cardData);
+    })
+    .catch(function (err) {
+      console.error('Falha ao buscar ou processar dados da UC:', err);
+      populateMultiSelect({}, null); // Limpa os campos em caso de erro
+    });
 }

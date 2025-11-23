@@ -603,42 +603,50 @@ body {
   font-size: 0.7rem;
 }
 
-.card-tag.indicador {
+.card-tag.indicador,
+.indicadores .ui.label {
   background-color: #e3f2fd;
   color: #1976d2;
 }
 
-.card-tag.conhecimento {
+.card-tag.conhecimento,
+.conhecimentos .ui.label {
   background-color: #f3e5f5;
   color: #7b1fa2;
 }
 
-.card-tag.habilidade {
+.card-tag.habilidade,
+.habilidades .ui.label {
   background-color: #fff3e0;
   color: #f57c00;
 }
 
-.card-tag.atitude {
+.card-tag.atitude,
+.atitudes .ui.label {
   background-color: #fce4ec;
   color: #c2185b;
 }
 
-[data-theme="dark"] .card-tag.indicador {
+[data-theme="dark"] .card-tag.indicador,
+[data-theme="dark"] .indicadores .ui.label {
   background-color: #1565c0;
   color: #bbdefb;
 }
 
-[data-theme="dark"] .card-tag.conhecimento {
+[data-theme="dark"] .card-tag.conhecimento,
+[data-theme="dark"] .conhecimentos .ui.label {
   background-color: #6a1b9a;
   color: #e1bee7;
 }
 
-[data-theme="dark"] .card-tag.habilidade {
+[data-theme="dark"] .card-tag.habilidade,
+[data-theme="dark"] .habilidades .ui.label {
   background-color: #e65100;
   color: #ffe0b2;
 }
 
-[data-theme="dark"] .card-tag.atitude {
+[data-theme="dark"] .card-tag.atitude,
+[data-theme="dark"] .atitudes .ui.label {
   background-color: #ad1457;
   color: #f8bbd0;
 }
@@ -739,14 +747,14 @@ body {
 }
 
 .board-card.drag-over {
-  border: 2px dashed var(--primary-color, #2196f3);
+  border: 2px dashed var(--bg-primary, #2196f3);
   background-color: rgba(33, 150, 243, 0.05);
   transform: scale(1.02);
 }
 
 .board-cards-container.drag-over-container {
   background-color: rgba(33, 150, 243, 0.08);
-  border: 2px dashed var(--primary-color, #2196f3);
+  border: 2px dashed var(--bg-primary, #2196f3);
   border-radius: 8px;
 }
 
