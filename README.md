@@ -1,9 +1,7 @@
 # DevBox
-
 O DevBox é uma aplicação web projetada para o gerenciamento de conteúdo educacional. Ele fornece uma interface visual baseada em cards (semelhante a um quadro Kanban) para organizar e gerenciar unidades de aprendizado, incluindo seus conhecimentos, habilidades e atitudes associados.
 
 ## Funcionalidades
-
 - **Quadro de Cards Visual:** Interface de arrastar e soltar (drag-and-drop) para organizar os cards educacionais.
 - **Estrutura Educacional:** Gerencie Cursos, Unidades Curriculares (UCs) e Turmas.
 - **Conteúdo Detalhado dos Cards:** Os cards podem ser detalhados com indicadores, conhecimentos, habilidades e atitudes específicas.
@@ -54,7 +52,10 @@ Instale os pacotes PHP necessários usando o Composer.
 composer install
 ```
 
-### 4. Configuração do Ambiente
+### 4. Migração do Banco de Dados
+Crie um banco mysql, e configure no `.env` ao exceutar a primeira vez o projeto vai fazer o migrate e a incensão de dados basicos de exemplos
+
+### 5. Configuração do Ambiente
 
 Crie seu arquivo de ambiente local `.env` copiando o arquivo de exemplo.
 
@@ -64,39 +65,6 @@ copy .env.example .env
 
 Agora, abra o arquivo `.env` e configure os detalhes da sua conexão com o banco de dados (`DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`) e a URL da aplicação (`APP_URL`).
 
-### 5. Migração do Banco de Dados
-
-O projeto utiliza um sistema de migrações para configurar o esquema do banco de dados. Execute as migrações para criar todas as tabelas necessárias.
-
-*(Nota: O comando para executar as migrações depende da implementação do framework personalizado. Pode ser necessário inspecionar `app/Database/Migrator.php` ou outros arquivos de inicialização para encontrar o comando ou script exato a ser executado.)*
-
-Uma abordagem comum seria ter um script que você possa executar, por exemplo:
-
-```bash
-php vendor/bin/migrate
-```
-*(Você pode precisar criar ou identificar o script correto para isso)*
-
-### 6. Configuração do Servidor Web
-
-Configure seu servidor web (ex: Apache) para usar o diretório `public/` como a raiz dos documentos (DocumentRoot). O arquivo `.htaccess` incluído no diretório `public` deve cuidar da reescrita de URL para você se estiver usando o Apache.
-
-Exemplo de configuração de Virtual Host no Apache:
-
-```apache
-<VirtualHost *:80>
-    ServerName devbox.local
-    DocumentRoot "c:/xampp/htdocs/devbox_/public"
-    <Directory "c:/xampp/htdocs/devbox_/public">
-        AllowOverride All
-        Require all granted
-    </Directory>
-</VirtualHost>
-```
-
-### 7. Acessar a Aplicação
-
-Com o servidor configurado, você pode acessar a aplicação em seu navegador na URL que especificou no arquivo `.env` (ex: `http://devbox.local`).
 
 ## Estrutura do Projeto
 
