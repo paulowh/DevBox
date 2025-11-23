@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\View;
 use App\Models\Card;
 use App\Models\Curso;
 use App\Models\Turma;
@@ -13,20 +14,23 @@ use App\Models\Atitude;
 
 class CardController
 {
-    public function show()
+    public function show($id)
     {
         header('Content-Type: application/json');
         try {
 
+            $card = Card::find($id);
             $cursos = Curso::all();
             $turmas = Turma::all();
             $ucs = Uc::all();
 
             echo json_encode([
-                'drop-cursos' => $cursos,
-                'drop-turmas' => $turmas,
-                'drop-ucs' => $ucs,
-
+                'drop' => [
+                    'drop-cursos' => $cursos,
+                    'drop-turmas' => $turmas,
+                    'drop-ucs' => $ucs,
+                ],
+                'card' => $card
             ]);
         } catch (\Exception $e) {
             http_response_code(500);
@@ -144,9 +148,22 @@ class CardController
                 return;
             }
 
-            echo json_encode([
-                'card' => $card
+            echo View::make('board/modal-card', [
+                'card' => $card,
+                'titulo' => $card->titulo,
+                'descricao' => $card->descricao,
+                'turma' => $card->turma,
+                'uc' => $card->uc,
+                'aula_inicial' => $card->aula_inicial,
+                'aula_final' => $card->aula_final,
+                'indicadores' => $card->indicadores,
+                'conhecimentos' => $card->conhecimentos,
+                'habilidades' => $card->habilidades,
+                'atitudes' => $card->atitudes
             ]);
+//            echo json_encode([
+//                'card' => $card
+//            ]);
         } catch (\Exception $e) {
             http_response_code(500);
             echo json_encode([

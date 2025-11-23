@@ -13,6 +13,7 @@ class Card extends Model
         'descricao',
         'turma_id',
         'uc_id',
+        'curso_id',
         'aula_inicial',
         'aula_final',
         'ordem'
@@ -33,6 +34,10 @@ class Card extends Model
     public function uc()
     {
         return $this->belongsTo(Uc::class, 'uc_id');
+    }
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class, 'curso_id');
     }
 
     public function indicadores()

@@ -1,204 +1,154 @@
-<div id="card-modal" class="card-modal-overlay" style="display: none">
-    <div class="card-modal-backdrop" onclick="closeCardModal()"></div>
+<div class="card-modal-backdrop" onclick="closeCardModal()"></div>
 
-    <!-- Modal deslizando da direita -->
-    <div class="card-modal-content animate-slide-in-right">
-        <div
-                class="card-modal-content">
-            <!-- Header fixo -->
-            <div class="card-modal-header">
-                <div>
-                    <h2 id="card-modal-header-title" class="card-modal-title">
-                        Editar Card
-                    </h2>
-                    <p id="card-modal-header-id" class="card-modal-subtitle">ID: -</p>
-                </div>
-
-                <div class="d-flex align-items-center gap-3">
-                    <button id="card-edit-toggle-btn" class="ui secundary button" onclick="toggleCardEditing()">
-                        Editar
-                    </button>
-                    <button class="btn" onclick="closeCardModal()" style="
-																																																																													              background-color: var(--bg-tertiary);
-																																																																													              color: var(--text-secondary);
-																																																																													              width: 40px;
-																																																																													              height: 40px;
-																																																																													            ">
-                        ✕
-                    </button>
-                </div>
+<!-- Modal deslizando da direita -->
+<div class="card-modal-content animate-slide-in-right">
+    <div class="card-modal-content">
+        <!-- Header fixo -->
+        <div class="card-modal-header">
+            <div>
+                <h2 id="card-modal-header-title" class="card-modal-title">
+                    Editar Card
+                </h2>
+                <p id="card-modal-header-id" class="card-modal-subtitle">ID: -</p>
             </div>
 
-            <!-- Loading State -->
-            <div id="card-modal-loading" class="text-center py-5" style="display: none">
-                <div class="spinner-border text-primary mb-3" role="status">
-                    <span class="visually-hidden">Carregando...</span>
-                </div>
-                <p style="color: var(--text-secondary)">Carregando dados do card...</p>
+            <div class="d-flex align-items-center gap-3">
+                <button id="card-edit-toggle-btn" class="ui secundary button" onclick="toggleCardEditing()">
+                    Editar
+                </button>
+                <button class="btn" onclick="closeCardModal()" style=" background-color: var(--bg-tertiary);
+                        color: var(--text-secondary);
+                        width: 40px;
+                        height: 40px;
+                    ">
+                    ✕
+                </button>
             </div>
+        </div>
 
-            <!-- Error State -->
-            <div id="card-modal-error" class="alert alert-danger m-4" style="display: none">
-                <p class="fw-bold mb-1">Erro ao carregar dados:</p>
-                <p id="card-modal-error-message" class="mb-0 small"></p>
+        <!-- Loading State -->
+        <div id="card-modal-loading" class="text-center py-5" style="display: none">
+            <div class="spinner-border text-primary mb-3" role="status">
+                <span class="visually-hidden">Carregando...</span>
             </div>
+            <p style="color: var(--text-secondary)">Carregando dados do card...</p>
+        </div>
 
-            <!-- Content -->
-            <div id="card-modal-body" class="card-modal-body">
+        <!-- Error State -->
+        <div id="card-modal-error" class="alert alert-danger m-4" style="display: none">
+            <p class="fw-bold mb-1">Erro ao carregar dados:</p>
+            <p id="card-modal-error-message" class="mb-0 small"></p>
+        </div>
+        <!-- Content -->
+        <div id="card-modal-body" class="card-modal-body">
+            <div
+                    class="ui grid">
+                <!-- Coluna Principal (Título e Descrição) -->
                 <div
-                        class="ui grid">
-                    <!-- Coluna Principal (Título e Descrição) -->
-                    <div
-                            class="ten wide column">
-                        <!-- Modo Visualização -->
-                        <div id="card-view-mode">
-                            <h1 id="card-view-title" class="card-view-title">
-                                Titulo vem aqui! com php
-                            </h1>
-                            <h1 id="card-view-title" class="card-title">
-                                Titulo vem aqui! com php
-                            </h1>
-                            <div class="border-bottom my-3" style="border-color: var(--border-solid) !important"></div>
-                            <div id="card-view-description" class="card-view-description"></div>
-                        </div>
-
-                        <!-- Modo Edição -->
-                        <div id="card-edit-mode" style="display: none">
-                            <input type="text" id="card-edit-title" class="card-edit-title-input"
-                                   placeholder="Título do card..." value="blau!!"/>
-                            <div class="border-bottom my-3" style="border-color: var(--border-solid) !important"></div>
-                            <label class="form-label fw-medium"
-                                   style="font-size: 0.875rem; color: var(--text-secondary)">Descrição</label>
-                            <textarea id="card-edit-description" rows="10" class="card-edit-description-textarea">
-								Bora bora
-							</textarea>
-                            <div class="d-flex gap-2 mt-3">
-                                <button onclick="handleCardUpdate()" class="ui primary basic button">
-                                    Atualizar
-                                </button>
-                                <button onclick="toggleCardEditing()" class="ui secondary basic button">
-                                    Cancelar
-                                </button>
-                            </div>
-                        </div>
+                        class="ten wide column">
+                    <!-- Modo Visualização -->
+                    <div id="card-view-mode">
+                        <h1 id="card-view-title" class="card-view-title">
+                            {{ titulo }}
+                        </h1>
+                        <h1 id="card-view-title" class="card-title">
+                            {{ descricao }}
+                        </h1>
+                        <div class="border-bottom my-3" style="border-color: var(--border-solid) !important"></div>
+                        <div id="card-view-description" class="card-view-description"></div>
                     </div>
 
-                    <div class="six wide column">
-                        <div class="card-field-group">
-                            <label class="card-field-label">Turma</label>
-                            <select id="card-field-turma" class="card-field-select ui dropdown search drop-turmas">
-                                <option value="">Selecione...</option>
-                            </select>
+                    <!-- Modo Edição -->
+                    <div id="card-edit-mode" style="display: none">
+                        <input type="text" id="card-edit-title" class="card-edit-title-input"
+                               placeholder="Título do card..." value="blau!!"/>
+                        <div class="border-bottom my-3" style="border-color: var(--border-solid) !important"></div>
+                        <label class="form-label fw-medium"
+                               style="font-size: 0.875rem; color: var(--text-secondary)">Descrição</label>
+                        <textarea id="card-edit-description" rows="10" class="card-edit-description-textarea">
+								{{ descricao }}
+							</textarea>
+                        <div class="d-flex gap-2 mt-3">
+                            <button onclick="handleCardUpdate()" class="ui primary basic button">
+                                Atualizar
+                            </button>
+                            <button onclick="toggleCardEditing()" class="ui secondary basic button">
+                                Cancelar
+                            </button>
                         </div>
+                    </div>
+                </div>
 
-                        <div class="card-field-group">
-                            <label class="card-field-label">Curso</label>
-                            <select id="card-field-curso" class="card-field-select ui dropdown search drop-cursos">
-                                <option value="">Selecione...</option>
-                            </select>
-                        </div>
+                <div class="six wide column">
+                    <div class="card-field-group">
+                        <label class="card-field-label">Turma</label>
+                        <select id="card-field-turma" class="card-field-select ui dropdown search drop-turmas">
+                            <option value="">Selecione...</option>
+                        </select>
+                    </div>
 
-                        <div class="card-field-group">
-                            <label class="card-field-label">UC</label>
-                            <select id="card-field-uc" class="card-field-select search ui dropdown search drop-ucs"
-                                    onchange="handleUcChange()">
-                                <option value="">Selecione a UC...</option>
-                            </select>
-                        </div>
+                    <div class="card-field-group">
+                        <label class="card-field-label">Curso</label>
+                        <select id="card-field-curso" class="card-field-select ui dropdown search drop-cursos">
+                            <option value="">Selecione...</option>
+                        </select>
+                    </div>
 
-                        <div class="card-field-group">
-                            <label class="card-field-label">Aula Inicial</label>
-                            <input type="date" id="card-field-aula-inicial " class="card-field-input mini ui form"/>
-                        </div>
+                    <div class="card-field-group">
+                        <label class="card-field-label">UC</label>
+                        <select id="card-field-uc" class="card-field-select search ui dropdown search drop-ucs"
+                                onchange="handleUcChange()">
+                            <option value="">Selecione a UC...</option>
+                        </select>
+                    </div>
 
-                        <div class="card-field-group">
-                            <label class="card-field-label">Aula Final</label>
-                            <input type="date" id="card-field-aula-final" class="card-field-input ui mini form"/>
-                        </div>
+                    <div class="card-field-group">
+                        <label class="card-field-label">Aula Inicial</label>
+                        <input type="date" id="card-field-aula-inicial " class="card-field-input mini ui form"/>
+                    </div>
 
-                        <div class="card-field-group">
-                            <label class="card-field-label">Indicadores</label>
-                            <select name="" multiple="" class="ui fluid search dropdown indicadores card-field-select"
-                                    id="card-field-indicadores-container">
-                                <option value="">Selecione UC..</option>
-                            </select>
-                        </div>
+                    <div class="card-field-group">
+                        <label class="card-field-label">Aula Final</label>
+                        <input type="date" id="card-field-aula-final" class="card-field-input ui mini form"/>
+                    </div>
 
-                        <div class="card-field-group">
-                            <label class="card-field-label">Conhecimentos</label>
-                            <select name="skills" multiple=""
-                                    class="ui fluid search dropdown conhecimentos card-field-select"
-                                    id="card-field-conhecimentos-container">
-                                <option value="">Selecione UC..</option>
-                            </select>
-                        </div>
+                    <div class="card-field-group">
+                        <label class="card-field-label">Indicadores</label>
+                        <select name="" multiple="" class="ui fluid search dropdown indicadores card-field-select"
+                                id="card-field-indicadores-container">
+                            <option value="">Selecione UC..</option>
+                        </select>
+                    </div>
 
-                        <div class="card-field-group">
-                            <label class="card-field-label">Habilidades</label>
-                            <select name="skills" multiple=""
-                                    class="ui fluid search dropdown habilidades card-field-select"
-                                    id="card-field-habilidades-container">
-                                <option value="">Selecione UC..</option>
-                            </select>
-                        </div>
+                    <div class="card-field-group">
+                        <label class="card-field-label">Conhecimentos</label>
+                        <select name="skills" multiple=""
+                                class="ui fluid search dropdown conhecimentos card-field-select"
+                                id="card-field-conhecimentos-container">
+                            <option value="">Selecione UC..</option>
+                        </select>
+                    </div>
 
-                        <div class="card-field-group">
-                            <label class="card-field-label">Atitudes</label>
+                    <div class="card-field-group">
+                        <label class="card-field-label">Habilidades</label>
+                        <select name="skills" multiple=""
+                                class="ui fluid search dropdown habilidades card-field-select"
+                                id="card-field-habilidades-container">
+                            <option value="">Selecione UC..</option>
+                        </select>
+                    </div>
 
-                            <select name="skills" multiple=""
-                                    class="ui fluid search dropdown atitudes card-field-select"
-                                    id="card-field-atitudes-container">
-                                <option value="">Selecione UC..</option>
-                            </select>
-                        </div>
+                    <div class="card-field-group">
+                        <label class="card-field-label">Atitudes</label>
+
+                        <select name="skills" multiple=""
+                                class="ui fluid search dropdown atitudes card-field-select"
+                                id="card-field-atitudes-container">
+                            <option value="">Selecione UC..</option>
+                        </select>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script>
-    function populateMultiSelect(items) {
-        Object.keys(items).forEach((key) => {
-            const values = items[key].map((item) => ({
-                name: item.name,
-                value: item.value,
-            }));
-
-            $(".ui.dropdown." + key).dropdown({
-                values: values,
-            });
-        });
-    }
-
-    // Ao mudar a UC: busca indicadores do backend e popula o dropdown
-    async function handleUcChange() {
-        const ucSelect = document.getElementById("card-field-uc");
-        if (!ucSelect) return;
-
-        const ucId = ucSelect.value;
-        if (!ucId) return;
-
-        try {
-            const resp = await fetch(`/uc/${encodeURIComponent(ucId)}/related`, {
-                headers: {"Accept": "application/json"}
-            });
-
-            if (!resp.ok) throw new Error("Erro ao carregar indicadores");
-            const data = await resp.json();
-
-            populateMultiSelect(data);
-        } catch (err) {
-            console.error(err);
-            populateMultiSelect([]);
-        }
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        const uc = document.getElementById("card-field-uc");
-        if (uc) {
-            uc.addEventListener("change", handleUcChange);
-            if (uc.value) handleUcChange();
-        }
-    });
-</script>

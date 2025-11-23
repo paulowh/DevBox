@@ -9,7 +9,7 @@ Router::get('/', 'HomeController@index', 'home');
 // API para reordenar cards (Drag and Drop)
 Router::post('/cards/reorder', 'CardController@reorder', 'cards.reorder');
 
-Router::get('/cards/show', 'CardController@show', 'card.show');
+Router::get('/cards/show/{id}', 'CardController@show', 'card.show');
 
 Router::get('/cards/details/{id}', 'CardController@details', 'card.details');
 

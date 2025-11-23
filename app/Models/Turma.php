@@ -9,7 +9,7 @@ class Turma extends Model
     protected $table = 'turmas';
 
     protected $fillable = [
-        'turma'
+        'nome'
     ];
 
     public $timestamps = false;

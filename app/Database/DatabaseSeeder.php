@@ -246,12 +246,12 @@ class DatabaseSeeder
     private function seedCards()
     {
         $cards = [
-            ['id' => 1, 'titulo' => 'Planejamento inicial', 'descricao' => 'Definir escopo e metas do projeto', 'turma_id' => 1, 'uc_id' => 1, 'aula_inicial' => null, 'aula_final' => null],
-            ['id' => 2, 'titulo' => 'Design da interface', 'descricao' => 'Criar protótipos de telas principais', 'turma_id' => 2, 'uc_id' => 2, 'aula_inicial' => null, 'aula_final' => null],
-            ['id' => 3, 'titulo' => 'Configuração do banco', 'descricao' => 'Modelar entidades e relacionamentos', 'turma_id' => 2, 'uc_id' => 2, 'aula_inicial' => null, 'aula_final' => null],
-            ['id' => 4, 'titulo' => 'Integração com API', 'descricao' => 'Conectar frontend com backend via REST', 'turma_id' => 2, 'uc_id' => 2, 'aula_inicial' => null, 'aula_final' => null],
-            ['id' => 5, 'titulo' => 'Testes unitários', 'descricao' => 'Escrever testes para funções principais', 'turma_id' => 3, 'uc_id' => 3, 'aula_inicial' => null, 'aula_final' => null],
-            ['id' => 6, 'titulo' => 'Documentação final', 'descricao' => 'Gerar manual de uso e arquitetura', 'turma_id' => 3, 'uc_id' => 3, 'aula_inicial' => null, 'aula_final' => null],
+            ['id' => 1, 'titulo' => 'Planejamento inicial', 'descricao' => 'Definir escopo e metas do projeto', 'turma_id' => 1, 'uc_id' => 1, 'curso_id' => 1, 'aula_inicial' => null, 'aula_final' => null],
+            ['id' => 2, 'titulo' => 'Design da interface', 'descricao' => 'Criar protótipos de telas principais', 'turma_id' => 2, 'uc_id' => 2, 'curso_id' => 1, 'aula_inicial' => null, 'aula_final' => null],
+            ['id' => 3, 'titulo' => 'Configuração do banco', 'descricao' => 'Modelar entidades e relacionamentos', 'turma_id' => 2, 'uc_id' => 2, 'curso_id' => 1, 'aula_inicial' => null, 'aula_final' => null],
+            ['id' => 4, 'titulo' => 'Integração com API', 'descricao' => 'Conectar frontend com backend via REST', 'turma_id' => 2, 'uc_id' => 2, 'curso_id' => 1, 'aula_inicial' => null, 'aula_final' => null],
+            ['id' => 5, 'titulo' => 'Testes unitários', 'descricao' => 'Escrever testes para funções principais', 'turma_id' => 3, 'uc_id' => 3, 'curso_id' => 1, 'aula_inicial' => null, 'aula_final' => null],
+            ['id' => 6, 'titulo' => 'Documentação final', 'descricao' => 'Gerar manual de uso e arquitetura', 'turma_id' => 3, 'uc_id' => 3, 'curso_id' => 1, 'aula_inicial' => null, 'aula_final' => null],
         ];
 
         foreach ($cards as $card) {

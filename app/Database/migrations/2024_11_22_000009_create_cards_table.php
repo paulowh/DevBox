@@ -12,11 +12,13 @@ class CreateCardsTable
             $table->text('descricao')->nullable();
             $table->unsignedInteger('turma_id');
             $table->unsignedInteger('uc_id');
+            $table->unsignedInteger('curso_id');
             $table->timestamp('aula_inicial')->nullable();
             $table->timestamp('aula_final')->nullable();
 
             $table->foreign('turma_id')->references('id')->on('turmas');
             $table->foreign('uc_id')->references('id')->on('ucs');
+            $table->foreign('curso_id')->references('id')->on('cursos');
             $table->index('turma_id');
             $table->index('uc_id');
         });

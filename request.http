@@ -1,5 +1,5 @@
 ### card/show
-GET http://localhost:8000/cards/show
+GET http://localhost:8000/cards/show/6
 Accept: application/json
 
 ### uc/relacionadas
