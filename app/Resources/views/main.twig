@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>{{ title ?? 'DevBox' }}</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title ?? 'DevBox' }}</title>
 
-		{# CDN - Fomantic UI CSS #}
-		<link
-		rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css">
+  {# CDN - Fomantic UI CSS #}
+  <link
+      rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css">
 
-		{# CDN - Boxicons #}
-		<link
-		rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+  {# CDN - Boxicons #}
+  <link
+      rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
 
-		{# CSS Customizado #}
-		<link rel="stylesheet" href="{{ url('assets/css/app.css') }}">
-		<link rel="stylesheet" href="{{ url('assets/css/navbar.css') }}">
-		<link rel="stylesheet" href="{{ url('assets/css/modal.css') }}">
-	</head>
+  {# CSS Customizado #}
+  <link rel="stylesheet" href="{{ url('assets/css/app.css') }}">
+  <link rel="stylesheet" href="{{ url('assets/css/navbar.css') }}">
+  <link rel="stylesheet" href="{{ url('assets/css/modal.css') }}">
+</head>
 
-	<body>
-		{% include 'layout/sidebar.twig' %}
-		<main class="main-content"> {% block content %}{% endblock %}
-			</main>
+<body>
+{% include 'layout/sidebar.twig' %}
+<main class="main-content"> {% block content %}{% endblock %}
+</main>
 
-			{# CDN - jQuery #}
-			<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+{# CDN - jQuery #}
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
-			{# CDN - Fomantic UI JS #}
-			<script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
-			'
-			{# CDN - SortableJS (Drag and Drop) #}
-			<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+{# CDN - Fomantic UI JS #}
+<script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
+'
+{# CDN - SortableJS (Drag and Drop) #}
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
-			{# JS Customizado #}
-			<script src="{{ url('assets/js/app.js') }}"></script>
-			<script src="{{ url('assets/js/navbar.js') }}"></script>
-			<script src="{{ url('assets/js/dragdrop.js') }}"></script>
-			<script src="{{ url('assets/js/board.js') }}"></script>
-		</body>
-	</html>
+{# JS Customizado #}
+<script src="{{ url('assets/js/app.js') }}"></script>
+<script src="{{ url('assets/js/navbar.js') }}"></script>
+<script src="{{ url('assets/js/dragdrop.js') }}"></script>
+<script src="{{ url('assets/js/board.js') }}"></script>
+</body>
+</html>

@@ -2,233 +2,231 @@
 
 namespace App\Core;
 
-use App\Core\Database;
-
 abstract class Model
 {
-    protected $table;
-    protected $primaryKey = 'id';
-    protected $fillable = [];
-    protected $hidden = [];
-    protected $db;
+  protected $table;
+  protected $primaryKey = 'id';
+  protected $fillable = [];
+  protected $hidden = [];
+  protected $db;
 
-    public function __construct()
-    {
-        $this->db = Database::getInstance();
+  public function __construct()
+  {
+    $this->db = Database::getInstance();
+  }
+
+  /**
+   * Busca todos os registros
+   */
+  public function all()
+  {
+    $sql = "SELECT * FROM {$this->table}";
+    return $this->db->fetchAll($sql);
+  }
+
+  /**
+   * Busca um registro por ID
+   */
+  public function find($id)
+  {
+    $sql = "SELECT * FROM {$this->table} WHERE {$this->primaryKey} = ? LIMIT 1";
+    return $this->db->fetch($sql, [$id]);
+  }
+
+  /**
+   * Busca registros com condições
+   */
+  public function where($conditions = [], $operator = 'AND')
+  {
+    $where = [];
+    $params = [];
+
+    foreach ($conditions as $key => $value) {
+      $where[] = "{$key} = ?";
+      $params[] = $value;
     }
 
-    /**
-     * Busca todos os registros
-     */
-    public function all()
-    {
-        $sql = "SELECT * FROM {$this->table}";
-        return $this->db->fetchAll($sql);
+    $whereClause = implode(" {$operator} ", $where);
+    $sql = "SELECT * FROM {$this->table} WHERE {$whereClause}";
+
+    return $this->db->fetchAll($sql, $params);
+  }
+
+  /**
+   * Busca um registro com condições
+   */
+  public function findWhere($conditions = [])
+  {
+    $where = [];
+    $params = [];
+
+    foreach ($conditions as $key => $value) {
+      $where[] = "{$key} = ?";
+      $params[] = $value;
     }
 
-    /**
-     * Busca um registro por ID
-     */
-    public function find($id)
-    {
-        $sql = "SELECT * FROM {$this->table} WHERE {$this->primaryKey} = ? LIMIT 1";
-        return $this->db->fetch($sql, [$id]);
-    }
+    $whereClause = implode(" AND ", $where);
+    $sql = "SELECT * FROM {$this->table} WHERE {$whereClause} LIMIT 1";
 
-    /**
-     * Busca registros com condições
-     */
-    public function where($conditions = [], $operator = 'AND')
-    {
-        $where = [];
-        $params = [];
+    return $this->db->fetch($sql, $params);
+  }
 
-        foreach ($conditions as $key => $value) {
-            $where[] = "{$key} = ?";
-            $params[] = $value;
-        }
+  /**
+   * Cria um novo registro
+   */
+  public function create($data)
+  {
+    $data = $this->filterFillable($data);
 
-        $whereClause = implode(" {$operator} ", $where);
-        $sql = "SELECT * FROM {$this->table} WHERE {$whereClause}";
+    $columns = array_keys($data);
+    $values = array_values($data);
+    $placeholders = array_fill(0, count($values), '?');
 
-        return $this->db->fetchAll($sql, $params);
-    }
-
-    /**
-     * Busca um registro com condições
-     */
-    public function findWhere($conditions = [])
-    {
-        $where = [];
-        $params = [];
-
-        foreach ($conditions as $key => $value) {
-            $where[] = "{$key} = ?";
-            $params[] = $value;
-        }
-
-        $whereClause = implode(" AND ", $where);
-        $sql = "SELECT * FROM {$this->table} WHERE {$whereClause} LIMIT 1";
-
-        return $this->db->fetch($sql, $params);
-    }
-
-    /**
-     * Cria um novo registro
-     */
-    public function create($data)
-    {
-        $data = $this->filterFillable($data);
-
-        $columns = array_keys($data);
-        $values = array_values($data);
-        $placeholders = array_fill(0, count($values), '?');
-
-        $sql = "INSERT INTO {$this->table} (" . implode(', ', $columns) . ") 
+    $sql = "INSERT INTO {$this->table} (" . implode(', ', $columns) . ") 
                 VALUES (" . implode(', ', $placeholders) . ")";
 
-        $this->db->execute($sql, $values);
+    $this->db->execute($sql, $values);
 
-        return $this->find($this->db->lastInsertId());
+    return $this->find($this->db->lastInsertId());
+  }
+
+  /**
+   * Atualiza um registro
+   */
+  public function update($id, $data)
+  {
+    $data = $this->filterFillable($data);
+
+    $set = [];
+    $values = [];
+
+    foreach ($data as $key => $value) {
+      $set[] = "{$key} = ?";
+      $values[] = $value;
     }
 
-    /**
-     * Atualiza um registro
-     */
-    public function update($id, $data)
-    {
-        $data = $this->filterFillable($data);
+    $values[] = $id;
 
-        $set = [];
-        $values = [];
+    $sql = "UPDATE {$this->table} SET " . implode(', ', $set) .
+      " WHERE {$this->primaryKey} = ?";
 
-        foreach ($data as $key => $value) {
-            $set[] = "{$key} = ?";
-            $values[] = $value;
-        }
+    $this->db->execute($sql, $values);
 
-        $values[] = $id;
+    return $this->find($id);
+  }
 
-        $sql = "UPDATE {$this->table} SET " . implode(', ', $set) .
-            " WHERE {$this->primaryKey} = ?";
+  /**
+   * Deleta um registro
+   */
+  public function delete($id)
+  {
+    $sql = "DELETE FROM {$this->table} WHERE {$this->primaryKey} = ?";
+    return $this->db->execute($sql, [$id]) > 0;
+  }
 
-        $this->db->execute($sql, $values);
+  /**
+   * Conta registros
+   */
+  public function count($conditions = [])
+  {
+    if (empty($conditions)) {
+      $sql = "SELECT COUNT(*) as total FROM {$this->table}";
+      $result = $this->db->fetch($sql);
+    } else {
+      $where = [];
+      $params = [];
 
-        return $this->find($id);
+      foreach ($conditions as $key => $value) {
+        $where[] = "{$key} = ?";
+        $params[] = $value;
+      }
+
+      $whereClause = implode(" AND ", $where);
+      $sql = "SELECT COUNT(*) as total FROM {$this->table} WHERE {$whereClause}";
+      $result = $this->db->fetch($sql, $params);
     }
 
-    /**
-     * Deleta um registro
-     */
-    public function delete($id)
-    {
-        $sql = "DELETE FROM {$this->table} WHERE {$this->primaryKey} = ?";
-        return $this->db->execute($sql, [$id]) > 0;
+    return $result->total ?? 0;
+  }
+
+  /**
+   * Paginação
+   */
+  public function paginate($page = 1, $perPage = 15, $conditions = [])
+  {
+    $offset = ($page - 1) * $perPage;
+
+    if (empty($conditions)) {
+      $sql = "SELECT * FROM {$this->table} LIMIT ? OFFSET ?";
+      $params = [$perPage, $offset];
+    } else {
+      $where = [];
+      $params = [];
+
+      foreach ($conditions as $key => $value) {
+        $where[] = "{$key} = ?";
+        $params[] = $value;
+      }
+
+      $whereClause = implode(" AND ", $where);
+      $sql = "SELECT * FROM {$this->table} WHERE {$whereClause} LIMIT ? OFFSET ?";
+      $params[] = $perPage;
+      $params[] = $offset;
     }
 
-    /**
-     * Conta registros
-     */
-    public function count($conditions = [])
-    {
-        if (empty($conditions)) {
-            $sql = "SELECT COUNT(*) as total FROM {$this->table}";
-            $result = $this->db->fetch($sql);
-        } else {
-            $where = [];
-            $params = [];
+    $items = $this->db->fetchAll($sql, $params);
+    $total = $this->count($conditions);
 
-            foreach ($conditions as $key => $value) {
-                $where[] = "{$key} = ?";
-                $params[] = $value;
-            }
+    return [
+      'data' => $items,
+      'total' => $total,
+      'per_page' => $perPage,
+      'current_page' => $page,
+      'last_page' => ceil($total / $perPage)
+    ];
+  }
 
-            $whereClause = implode(" AND ", $where);
-            $sql = "SELECT COUNT(*) as total FROM {$this->table} WHERE {$whereClause}";
-            $result = $this->db->fetch($sql, $params);
-        }
-
-        return $result->total ?? 0;
+  /**
+   * Filtra apenas os campos permitidos (fillable)
+   */
+  protected function filterFillable($data)
+  {
+    if (empty($this->fillable)) {
+      return $data;
     }
 
-    /**
-     * Paginação
-     */
-    public function paginate($page = 1, $perPage = 15, $conditions = [])
-    {
-        $offset = ($page - 1) * $perPage;
+    return array_intersect_key($data, array_flip($this->fillable));
+  }
 
-        if (empty($conditions)) {
-            $sql = "SELECT * FROM {$this->table} LIMIT ? OFFSET ?";
-            $params = [$perPage, $offset];
-        } else {
-            $where = [];
-            $params = [];
-
-            foreach ($conditions as $key => $value) {
-                $where[] = "{$key} = ?";
-                $params[] = $value;
-            }
-
-            $whereClause = implode(" AND ", $where);
-            $sql = "SELECT * FROM {$this->table} WHERE {$whereClause} LIMIT ? OFFSET ?";
-            $params[] = $perPage;
-            $params[] = $offset;
-        }
-
-        $items = $this->db->fetchAll($sql, $params);
-        $total = $this->count($conditions);
-
-        return [
-            'data' => $items,
-            'total' => $total,
-            'per_page' => $perPage,
-            'current_page' => $page,
-            'last_page' => ceil($total / $perPage)
-        ];
+  /**
+   * Remove campos ocultos (hidden)
+   */
+  public function hideAttributes($data)
+  {
+    if (empty($this->hidden)) {
+      return $data;
     }
 
-    /**
-     * Filtra apenas os campos permitidos (fillable)
-     */
-    protected function filterFillable($data)
-    {
-        if (empty($this->fillable)) {
-            return $data;
-        }
-
-        return array_intersect_key($data, array_flip($this->fillable));
+    foreach ($this->hidden as $attribute) {
+      unset($data->$attribute);
     }
 
-    /**
-     * Remove campos ocultos (hidden)
-     */
-    public function hideAttributes($data)
-    {
-        if (empty($this->hidden)) {
-            return $data;
-        }
+    return $data;
+  }
 
-        foreach ($this->hidden as $attribute) {
-            unset($data->$attribute);
-        }
+  /**
+   * Query personalizada
+   */
+  public function query($sql, $params = [])
+  {
+    return $this->db->fetchAll($sql, $params);
+  }
 
-        return $data;
-    }
-
-    /**
-     * Query personalizada
-     */
-    public function query($sql, $params = [])
-    {
-        return $this->db->fetchAll($sql, $params);
-    }
-
-    /**
-     * Executa query personalizada
-     */
-    public function execute($sql, $params = [])
-    {
-        return $this->db->execute($sql, $params);
-    }
+  /**
+   * Executa query personalizada
+   */
+  public function execute($sql, $params = [])
+  {
+    return $this->db->execute($sql, $params);
+  }
 }

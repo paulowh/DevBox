@@ -4,10 +4,10 @@ namespace App\Core;
 
 class App
 {
-    public function run()
-    {
+  public function run()
+  {
 
-        Router::dispatch();
+    Router::dispatch();
 
-    }
+  }
 }

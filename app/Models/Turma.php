@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Turma extends Model
 {
-    protected $table = 'turmas';
+  protected $table = 'turmas';
 
-    protected $fillable = [
-        'nome'
-    ];
+  protected $fillable = [
+    'nome'
+  ];
 
-    public $timestamps = false;
+  public $timestamps = false;
 
-    public function cards()
-    {
-        return $this->hasMany(Card::class, 'turma_id')->orderBy('ordem');
-    }
+  public function cards()
+  {
+    return $this->hasMany(Card::class, 'turma_id')->orderBy('ordem');
+  }
 }

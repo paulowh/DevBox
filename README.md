@@ -1,356 +1,113 @@
-# DevBox - Framework PHP MVC
+# DevBox
 
-Framework PHP MVC simples e poderoso com Twig, jQuery e Fomantic UI.
+O DevBox é uma aplicação web projetada para o gerenciamento de conteúdo educacional. Ele fornece uma interface visual baseada em cards (semelhante a um quadro Kanban) para organizar e gerenciar unidades de aprendizado, incluindo seus conhecimentos, habilidades e atitudes associados.
 
-[devbox](https://devbox.paulowh.com)
+## Funcionalidades
 
-## 🚀 Funcionalidades
+- **Quadro de Cards Visual:** Interface de arrastar e soltar (drag-and-drop) para organizar os cards educacionais.
+- **Estrutura Educacional:** Gerencie Cursos, Unidades Curriculares (UCs) e Turmas.
+- **Conteúdo Detalhado dos Cards:** Os cards podem ser detalhados com indicadores, conhecimentos, habilidades e atitudes específicas.
+- **Arquitetura MVC Personalizada:** Construído sobre um framework PHP MVC leve e personalizado.
+- **Migrações de Banco de Dados:** Facilidade para configurar e gerenciar o esquema do banco de dados.
 
-- ✅ Estrutura MVC organizada
-- ✅ Sistema de rotas nomeadas
-- ✅ Migration de banco de dados
-- ✅ Model base com CRUD
-- ✅ Eloquent ORM integrado
-- ✅ **Inicialização automática do banco de dados**
-- ✅ View engine Twig
-- ✅ jQuery e Fomantic UI
-- ✅ Variáveis de ambiente (.env)
-- ✅ Helper functions úteis
+## Tecnologias Utilizadas
 
-## 📋 Requisitos
+### Backend
 
-- PHP 7.4+
-- PostgreSQL ou MySQL/MariaDB
+- PHP
+- Framework MVC personalizado inspirado no Laravel
+- [Illuminate Database (Eloquent ORM)](https://github.com/illuminate/database)
+- [Twig](https://twig.symfony.com/) como Template Engine
+- [Symfony Routing](https://symfony.com/doc/current/components/routing.html)
+- [PHP dotenv](https://github.com/vlucas/phpdotenv) para gerenciamento de variáveis de ambiente
+
+### Frontend
+
+- JavaScript (ES6+)
+- Twig
+- CSS3
+- HTML5
+
+## Instalação e Configuração
+
+Siga os passos abaixo para configurar o projeto em sua máquina local.
+
+### 1. Pré-requisitos
+
+- PHP (versão compatível com as dependências do projeto, provavelmente 8.0+)
 - Composer
-- Node.js e NPM
-- Apache (com mod_rewrite)
+- Um servidor web (ex: Apache, Nginx)
+- Banco de dados MySQL
 
-## 🔧 Instalação
+### 2. Clonar o Repositório
 
-1. Clone o repositório e instale as dependências:
+```bash
+git clone <url-do-seu-repositorio>
+cd devbox
+```
+
+### 3. Instalar Dependências
+
+Instale os pacotes PHP necessários usando o Composer.
 
 ```bash
 composer install
-npm install
 ```
 
-2. Configure o arquivo `.env`:
+### 4. Configuração do Ambiente
+
+Crie seu arquivo de ambiente local `.env` copiando o arquivo de exemplo.
 
 ```bash
-cp .env.example .env
+copy .env.example .env
 ```
 
-Edite o `.env` com suas configurações de banco de dados.
+Agora, abra o arquivo `.env` e configure os detalhes da sua conexão com o banco de dados (`DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`) e a URL da aplicação (`APP_URL`).
 
-3. Configure o Apache para apontar para a pasta `public/`.
+### 5. Migração do Banco de Dados
 
-4. Crie o banco de dados:
+O projeto utiliza um sistema de migrações para configurar o esquema do banco de dados. Execute as migrações para criar todas as tabelas necessárias.
 
-```sql
-CREATE DATABASE devbox;
-```
+*(Nota: O comando para executar as migrações depende da implementação do framework personalizado. Pode ser necessário inspecionar `app/Database/Migrator.php` ou outros arquivos de inicialização para encontrar o comando ou script exato a ser executado.)*
 
-5. **Acesse o projeto no navegador**
-
-   O sistema irá automaticamente:
-
-   - ✅ Criar todas as tabelas (migrations)
-   - ✅ Inserir dados iniciais (seeders)
-   - ✅ Marcar como instalado
-
-   Isso acontece **apenas na primeira vez** que você acessar o projeto!
-
-## 🎯 Inicialização Automática
-
-### Como Funciona?
-
-Quando você acessa o projeto pela primeira vez:
-
-1. O sistema verifica se existe o arquivo `app/storage/installed.flag`
-2. Se não existir, executa automaticamente:
-   - Todas as migrations (cria as tabelas)
-   - Todos os seeders (insere dados iniciais)
-   - Cria a flag de instalação
-3. Nas próximas vezes, apenas carrega normalmente (não roda migrations novamente)
-
-### Comandos Úteis
+Uma abordagem comum seria ter um script que você possa executar, por exemplo:
 
 ```bash
-# Ver status da instalação
-php install.php status
+php vendor/bin/migrate
+```
+*(Você pode precisar criar ou identificar o script correto para isso)*
 
-# Forçar instalação manual
-php install.php install
+### 6. Configuração do Servidor Web
 
-# Resetar tudo (remove tabelas e flag)
-php install.php reset
+Configure seu servidor web (ex: Apache) para usar o diretório `public/` como a raiz dos documentos (DocumentRoot). O arquivo `.htaccess` incluído no diretório `public` deve cuidar da reescrita de URL para você se estiver usando o Apache.
+
+Exemplo de configuração de Virtual Host no Apache:
+
+```apache
+<VirtualHost *:80>
+    ServerName devbox.local
+    DocumentRoot "c:/xampp/htdocs/devbox_/public"
+    <Directory "c:/xampp/htdocs/devbox_/public">
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
 ```
 
-**Importante**: Após usar `php install.php reset`, acesse o site no navegador para reinicializar automaticamente!
-
-## 🗄️ Banco de Dados (Eloquent ORM)
-
-### Models Disponíveis
-
-O projeto já vem com models prontos:
-
-- `Curso` - Cursos técnicos
-- `Uc` - Unidades Curriculares
-- `Indicador` - Indicadores de competência
-- `Conhecimento` - Conhecimentos técnicos
-- `Habilidade` - Habilidades práticas
-- `Atitude` - Atitudes profissionais
-- `Turma` - Turmas/Quadros
-- `Card` - Cards de atividades
-
-### Exemplo de Uso
-
-```php
-use App\Models\Curso;
-use App\Models\Uc;
-use App\Models\Card;
-
-// Buscar todos os cursos
-$cursos = Curso::all();
-
-// Buscar curso com suas UCs
-$curso = Curso::with('ucs')->find(1);
-
-// Criar novo card
-$card = Card::create([
-    'titulo' => 'Nova atividade',
-    'descricao' => 'Descrição da atividade',
-    'turma_id' => 1,
-    'uc_id' => 2
-]);
-
-// Buscar cards de uma turma com relacionamentos
-$cards = Card::with(['turma', 'uc', 'indicadores', 'conhecimentos'])
-    ->where('turma_id', 1)
-    ->get();
-```
-
-## 🎨 Desenvolvimento
-
-Para desenvolvimento dev
-
-```bash
-npm run dev
-
-# Terminal 2: PHP server
-php -S localhost:8000 -t public
-
-# Navegador: acesse
-http://localhost:8000
-
-```
-
-Para desenvolvimento com hot reload:
-
-```bash
-npm run dev
-```
-
-Para build de produção:
-
-```bash
-npm run build
-```
-
-## 📁 Estrutura de Pastas
-
-```
-devbox_/
-├── app/                 # Toda a lógica da aplicação
-│   ├── config/          # Arquivos de configuração
-│   ├── controllers/     # Controllers
-│   ├── core/            # Classes principais do framework
-│   ├── database/        # Migrations e Migrator
-│   ├── models/          # Models
-│   ├── resources/       # Views, CSS e JS
-│   ├── routes/          # Definição de rotas
-│   ├── services/        # Serviços
-│   └── storage/         # Cache, logs (não público)
-│       ├── cache/       # Cache do Twig e aplicação
-│       └── logs/        # Arquivos de log
-├── public/              # Pasta pública (Document Root)
-│   ├── uploads/         # Uploads públicos
-│   └── index.php        # Entry point
-└── vendor/              # Dependências do Composer
-```
-
-## 🛣️ Rotas
-
-Defina suas rotas em `app/routes/web.php`:
-
-```php
-use App\Core\Router;
-
-Router::get('', 'HomeController@index', 'home');
-Router::get('users/{id}', 'UserController@show', 'users.show');
-Router::post('users', 'UserController@store', 'users.store');
-```
-
-## 🗄️ Migrations
-
-Criar nova migration:
-
-```bash
-# Crie manualmente em app/database/migrations/
-# Formato: YYYY_MM_DD_HHMMSS_nome_da_tabela.php
-```
-
-Executar migrations:
-
-```bash
-php migrate migrate
-```
-
-Reverter última migration:
-
-```bash
-php migrate rollback
-```
-
-Reverter todas:
-
-```bash
-php migrate reset
-```
-
-Resetar e executar novamente:
-
-```bash
-php migrate fresh
-```
-
-### Exemplo de Migration:
-
-```php
-<?php
-
-namespace App\Database\Migrations;
-
-use App\Database\Migration;
-
-class CreateProductsTable extends Migration
-{
-    public function up()
-    {
-        $this->createTable('products', function ($table) {
-            $table->id();
-            $table->string('name')->notNullable();
-            $table->text('description')->nullable();
-            $table->decimal('price', 10, 2)->notNullable();
-            $table->integer('stock')->default(0);
-            $table->timestamps();
-        });
-    }
-
-    public function down()
-    {
-        $this->dropTable('products');
-    }
-}
-```
-
-## 📊 Models
-
-Crie models estendendo a classe base:
-
-```php
-<?php
-
-namespace App\Models;
-
-use App\Core\Model;
-
-class Product extends Model
-{
-    protected $table = 'products';
-    protected $fillable = ['name', 'description', 'price', 'stock'];
-
-    // Seus métodos personalizados
-}
-```
-
-Uso do model:
-
-```php
-$product = new Product();
-
-// Buscar todos
-$products = $product->all();
-
-// Buscar por ID
-$product = $product->find(1);
-
-// Criar
-$product->create([
-    'name' => 'Produto',
-    'price' => 99.90
-]);
-
-// Atualizar
-$product->update(1, ['price' => 89.90]);
-
-// Deletar
-$product->delete(1);
-```
-
-## 🎨 Views (Twig)
-
-Renderizar views:
-
-```php
-use App\Core\View;
-
-View::make('home', [
-    'title' => 'Página Inicial'
-]);
-```
-
-No template Twig:
-
-```twig
-{% extends "layout/main.twig" %}
-
-{% block content %}
-    <h1>{{ title }}</h1>
-    <a href="{{ route('users.show', {id: 1}) }}">Ver Usuário</a>
-{% endblock %}
-```
-
-## 🛠️ Helper Functions
-
-```php
-// URLs
-url('users/1')                    // Gera URL
-route('users.show', ['id' => 1])  // URL de rota nomeada
-
-// Assets
-asset('img/logo.png')             // URL de asset
-
-// Configuração
-config('app.name')                // Lê configuração
-env('DB_HOST', 'localhost')       // Lê variável de ambiente
-
-// Caminhos
-base_path('app/models')           // Caminho base
-public_path('uploads')            // Caminho público
-
-// Redirect
-redirect('/login')                // Redireciona
-```
-
-## 📝 Licença
-
-Este projeto é open-source.
-
-## 👤 Autor
-
-Paulo Santos - [@paulo.wh](https:instagram.com/paulo.wh)
-
-```
-
-```
+### 7. Acessar a Aplicação
+
+Com o servidor configurado, você pode acessar a aplicação em seu navegador na URL que especificou no arquivo `.env` (ex: `http://devbox.local`).
+
+## Estrutura do Projeto
+
+- `app/`: Contém a lógica principal da aplicação (Controllers, Models, Views, etc.).
+- `app/Core/`: Classes do núcleo do framework (Router, Database, etc.).
+- `app/Models/`: Models do Eloquent para interação com o banco de dados.
+- `app/Controllers/`: Lida com as requisições HTTP de entrada.
+- `app/Resources/views/`: Templates Twig para o frontend.
+- `app/Routes/`: Definições de rotas.
+- `app/Database/migrations/`: Arquivos de migração do banco de dados.
+- `public/`: Diretório público e ponto de entrada (`index.php`).
+- `vendor/`: Dependências do Composer.
+- `composer.json`: Dependências do projeto.
+- `.env`: Arquivo de configuração do ambiente.

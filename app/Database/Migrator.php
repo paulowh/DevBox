@@ -3,6 +3,7 @@
 namespace App\Database;
 
 use App\Core\Database;
+use PDO;
 
 class Migrator
 {
@@ -134,26 +135,26 @@ class Migrator
     private function getExecutedMigrations()
     {
         $stmt = $this->db->query("SELECT migration FROM {$this->migrationsTable} ORDER BY id");
-        return $stmt->fetchAll(\PDO::FETCH_COLUMN);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
     private function getExecutedBatches()
     {
         $stmt = $this->db->query("SELECT DISTINCT batch FROM {$this->migrationsTable} ORDER BY batch DESC");
-        return $stmt->fetchAll(\PDO::FETCH_COLUMN);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
     private function getMigrationsByBatch($batch)
     {
         $stmt = $this->db->prepare("SELECT migration FROM {$this->migrationsTable} WHERE batch = ? ORDER BY id");
         $stmt->execute([$batch]);
-        return $stmt->fetchAll(\PDO::FETCH_COLUMN);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
     private function getNextBatchNumber()
     {
         $stmt = $this->db->query("SELECT MAX(batch) as max_batch FROM {$this->migrationsTable}");
-        $result = $stmt->fetch(\PDO::FETCH_OBJ);
+        $result = $stmt->fetch(PDO::FETCH_OBJ);
         return ($result->max_batch ?? 0) + 1;
     }
 

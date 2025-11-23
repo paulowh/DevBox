@@ -227,7 +227,7 @@ class BoardDragDrop {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ cards: cardData }),
+        body: JSON.stringify({cards: cardData}),
       });
 
       if (!response.ok) {
