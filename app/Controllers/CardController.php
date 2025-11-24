@@ -178,4 +178,45 @@ class CardController
       ]);
     }
   }
+
+  public function update($id)
+  {
+    header('Content-Type: application/json');
+    try {
+      $input = json_decode(file_get_contents('php://input'), true);
+
+      $card = Card::find($id);
+
+      if (!$card) {
+        http_response_code(404);
+        echo json_encode(['error' => 'Card não encontrado']);
+        return;
+      }
+
+      $card->titulo = $input['titulo'];
+      $card->descricao = $input['descricao'];
+      $card->turma_id = $input['turma_id'];
+      $card->curso_id = $input['curso_id'];
+      $card->uc_id = $input['uc_id'];
+      $card->aula_inicial = $input['aula_inicial'];
+      $card->aula_final = $input['aula_final'];
+      $card->save();
+
+      $card->indicadores()->sync($input['indicadores']);
+      $card->conhecimentos()->sync($input['conhecimentos']);
+      $card->habilidades()->sync($input['habilidades']);
+      $card->atitudes()->sync($input['atitudes']);
+
+      echo json_encode([
+        'success' => true,
+        'message' => 'Card atualizado com sucesso'
+      ]);
+    } catch (Exception $e) {
+      http_response_code(500);
+      echo json_encode([
+        'error' => 'Erro ao atualizar o card',
+        'message' => $e->getMessage()
+      ]);
+    }
+  }
 }

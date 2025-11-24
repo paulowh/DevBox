@@ -195,3 +195,10 @@
     width: 100%;
   }
 }
+
+[data-theme="dark"] .card-field-select,
+[data-theme="dark"] .ui.dropdown,
+[data-theme="dark"] .card-field-input {
+  background-color: var(--bg-card);
+  color: var(--text-primary) !important;
+}

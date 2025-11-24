@@ -13,6 +13,8 @@ Router::get('/cards/show/{id}', 'CardController@show', 'card.show');
 
 Router::get('/cards/details/{id}', 'CardController@details', 'card.details');
 
+Router::post('/cards/update/{id}', 'CardController@update', 'cards.update');
+
 Router::get('/uc/{id}/related', 'CardController@ucRelated', 'api.uc.related');
 
 // Exemplo com função anônima (closure)

@@ -168,3 +168,46 @@ toggleCardEditing = function (forceEdit = null) {
     }
   }
 };
+
+function handleCardUpdate() {
+  const cardId = boardState.currentCard.id;
+  if (!cardId) {
+    console.error("ID do card não encontrado.");
+    return;
+  }
+
+  const updatedData = {
+    titulo: document.getElementById('card-edit-title').value,
+    descricao: document.getElementById('card-edit-description').value,
+    turma_id: document.getElementById('card-field-turma').value,
+    curso_id: document.getElementById('card-field-curso').value,
+    uc_id: document.getElementById('card-field-uc').value,
+    aula_inicial: document.getElementById('card-field-aula-inicial').value,
+    aula_final: document.getElementById('card-field-aula-final').value,
+    indicadores: $('#card-field-indicadores-container').val(),
+    conhecimentos: $('#card-field-conhecimentos-container').val(),
+    habilidades: $('#card-field-habilidades-container').val(),
+    atitudes: $('#card-field-atitudes-container').val(),
+  };
+
+  fetch(`/cards/update/${cardId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(updatedData),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Erro ao atualizar o card');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Card atualizado com sucesso:', data);
+      toggleCardEditing(false)
+    })
+    .catch(error => {
+      console.error('Erro na requisição:', error);
+    });
+}

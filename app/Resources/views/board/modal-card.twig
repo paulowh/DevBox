@@ -14,11 +14,11 @@
       </div>
 
       <div class="d-flex align-items-center gap-3">
-        <button id="card-edit-toggle-btn" class="ui secundary button" onclick="toggleCardEditing()">
+        <button id="card-edit-toggle-btn" class="ui button" onclick="toggleCardEditing()" style="background-color: var(--bg-card); color: var(--text-primary)">
           Editar
         </button>
-        <button class="btn" onclick="closeCardModal()"
-                style=" background-color: var(--bg-tertiary); color: var(--text-secondary); width: 40px; height: 40px;">
+        <button class="ui button" onclick="closeCardModal()"
+                style=" background-color: var(--bg-tertiary); color: var(--text-secondary);">
           ✕
         </button>
       </div>
@@ -101,7 +101,7 @@
 
           <div class="card-field-group">
             <label class="card-field-label">Aula Inicial</label>
-            <input type="date" value="{{ aula_inicial|date('Y-m-d') }}" id="card-field-aula-inicial "
+            <input type="date" value="{{ aula_inicial|date('Y-m-d') }}" id="card-field-aula-inicial"
                    class="card-field-input mini ui form" disabled/>
           </div>
 
