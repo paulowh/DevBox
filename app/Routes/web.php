@@ -5,7 +5,6 @@ use App\Core\Router;
 // Rota principal
 Router::get('/', 'HomeController@index', 'home');
 
-
 // API para reordenar cards (Drag and Drop)
 Router::post('/cards/reorder', 'CardController@reorder', 'cards.reorder');
 
@@ -18,7 +17,6 @@ Router::post('/cards/update/{id}', 'CardController@update', 'cards.update');
 
 // Rotas para UCs
 Router::get('/uc/{id}/related', 'CardController@ucRelated', 'api.uc.related');
-
 
 // Rotas de Exemplos
 // Router::get('users/{id}', 'UserController@show', 'users.show');
