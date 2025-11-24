@@ -19,20 +19,65 @@ function openCardModal(cardElement = null) {
     .then(function (html) {
       document.getElementById("card-modal").innerHTML = html;
       document.getElementById("card-modal").style.display = "flex";
-      $(".ui.dropdown").dropdown();
+
+      if (isCreating) {
+        toggleCardEditing();
+      }
 
       if (!isCreating) {
         carregarDropdownModal(cardId);
       }
 
-      if (isCreating) {
-        toggleCardEditing()
-      }
+      $(".ui.dropdown").dropdown();
+
+      validateModal();
+
 
     })
     .catch(function (error) {
       console.error('Erro ao carregar detalhes do card:', error);
     });
+}
+
+function validateModal() {
+  $('#form').form({
+    inline: false,
+
+    fields: {
+      'card-edit-title': {
+        rules: [
+          {
+            type: 'empty',
+            prompt: 'O título não pode ficar vazio.'
+          }
+        ]
+      },
+      'card-field-turma': {
+        rules: [
+          {
+            type: 'empty',
+            prompt: 'Selecione uma turma.'
+          }
+        ]
+      },
+      'card-field-curso': {
+        rules: [
+          {
+            type: 'empty',
+            prompt: 'Selecione um curso.'
+          }
+        ]
+      },
+      'card-field-uc': {
+        rules: [
+          {
+            type: 'empty',
+            prompt: 'Selecione uma UC.'
+          }
+        ]
+      }
+    }
+  });
 
 }
 
@@ -119,7 +164,7 @@ function handleUcChange(ucIdOrEvent, cardData) {
     return;
   }
 
-  fetch('/uc/' + encodeURIComponent(ucId) + '/related', {
+  fetch('/uc/related' + encodeURIComponent(ucId), {
     headers: {"Accept": "application/json"}
   })
     .then(function (resp) {
@@ -214,6 +259,10 @@ function handleCardUpdate() {
 }
 
 function handleCardCreate() {
+  if (!$('#form').form('is valid')) {
+    return false;
+  }
+
   const cardData = {
     titulo: document.getElementById('card-edit-title').value,
     descricao: document.getElementById('card-edit-description').value,

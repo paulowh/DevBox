@@ -41,11 +41,10 @@
     </div>
     <!-- Content -->
     <div id="card-modal-body" class="card-modal-body">
-      <div id="form"
-           class="ui grid form">
+      <form id="form" class="ui grid form">
+
         <!-- Coluna Principal (Título e Descrição) -->
-        <div
-            class="ten wide column">
+        <div class="ten wide column">
           <!-- Modo Visualização -->
           <div id="card-view-mode">
             <h1 id="card-view-title" class="card-view-title">
@@ -60,14 +59,19 @@
 
           <!-- Modo Edição -->
           <div id="card-edit-mode" style="display: none">
-            <input type="text" id="card-edit-title" class="card-edit-title-input" placeholder="Título do card..."
-                   value="{{ titulo }}"/>
+            <div class="field">
+              <input type="text" id="card-edit-title" name="card-edit-title" class="card-edit-title-input"
+                     placeholder="Título do card..."
+                     value="{{ titulo }}"/>
+            </div>
             <div class="border-bottom my-3" style="border-color: var(--border-solid) !important"></div>
-            <label class="form-label fw-medium"
-                   style="font-size: 0.875rem; color: var(--text-secondary)">Descrição</label>
-            <textarea id="card-edit-description" rows="30"
-                      class="card-edit-description-textarea">{{ descricao }}</textarea>
-            <div class="d-flex gap-2 mt-3">
+            <div class="field">
+              <label class="form-label fw-medium"
+                     style="font-size: 0.875rem; color: var(--text-secondary)">Descrição</label>
+              <textarea id="card-edit-description" name="card-edit-description" rows="30"
+                        class="card-edit-description-textarea">{{ descricao }}</textarea>
+            </div>
+            <div class="d-flex gap-2 mt-5">
               {% if create %}
                 <button onclick="handleCardCreate()" class="ui primary basic button">
                   Criar
@@ -82,13 +86,17 @@
                 Cancelar
               </button>
             </div>
+
+            <div class="ui error message"></div>
+
           </div>
         </div>
 
         <div class="six wide column">
-          <div class="card-field-group">
+          <div class="card-field-group field">
             <label class="card-field-label">Turma</label>
-            <select id="card-field-turma" class="card-field-select ui dropdown search drop-turmas" disabled>
+            <select id="card-field-turma" name="card-field-turma"
+                    class="card-field-select ui dropdown search drop-turmas" disabled>
               <option value="">Selecione...</option>
               {% for t in turmas %}
                 <option value="{{ t.id }}">{{ t.nome }}</option>
@@ -96,9 +104,10 @@
             </select>
           </div>
 
-          <div class="card-field-group">
+          <div class="card-field-group field">
             <label class="card-field-label">Curso</label>
-            <select id="card-field-curso" class="card-field-select ui dropdown search drop-cursos" disabled>
+            <select id="card-field-curso" name="card-field-curso"
+                    class="card-field-select ui dropdown search drop-cursos" disabled>
               <option value="">Selecione...</option>
               {% for c in cursos %}
                 <option value="{{ c.id }}">{{ c.nome_curso }}</option>
@@ -106,9 +115,10 @@
             </select>
           </div>
 
-          <div class="card-field-group">
+          <div class="card-field-group field">
             <label class="card-field-label">UC</label>
-            <select id="card-field-uc" class="card-field-select search ui dropdown search drop-ucs"
+            <select id="card-field-uc" name="card-field-uc"
+                    class="card-field-select search ui dropdown search drop-ucs"
                     onchange="handleUcChange()" disabled>
               <option value="">Selecione a UC...</option>
               {% for u in ucs %}
@@ -117,19 +127,19 @@
             </select>
           </div>
 
-          <div class="card-field-group">
+          <div class="card-field-group field">
             <label class="card-field-label">Aula Inicial</label>
             <input type="date" value="{{ aula_incial ? aula_inicial|date('Y-m-d') : '' }}" id="card-field-aula-inicial"
                    class="card-field-input mini ui form" disabled/>
           </div>
 
-          <div class="card-field-group">
+          <div class="card-field-group field">
             <label class="card-field-label">Aula Final</label>
             <input type="date" value="{{ aula_final ? aula_final|date('Y-m-d') : '' }}" id="card-field-aula-final"
                    class="card-field-input ui mini form" disabled/>
           </div>
 
-          <div class="card-field-group">
+          <div class="card-field-group field">
             <label class="card-field-label">Indicadores</label>
             <select name="" multiple="" class="ui fluid search dropdown indicadores card-field-select"
                     id="card-field-indicadores-container" disabled>
@@ -137,7 +147,7 @@
             </select>
           </div>
 
-          <div class="card-field-group">
+          <div class="card-field-group field">
             <label class="card-field-label">Conhecimentos</label>
             <select name="skills" multiple="" class="ui fluid search dropdown conhecimentos card-field-select"
                     id="card-field-conhecimentos-container" disabled>
@@ -145,7 +155,7 @@
             </select>
           </div>
 
-          <div class="card-field-group">
+          <div class="card-field-group field">
             <label class="card-field-label">Habilidades</label>
             <select name="skills" multiple="" class="ui fluid search dropdown habilidades card-field-select"
                     id="card-field-habilidades-container" disabled>
@@ -153,7 +163,7 @@
             </select>
           </div>
 
-          <div class="card-field-group">
+          <div class="card-field-group field">
             <label class="card-field-label">Atitudes</label>
 
             <select name="skills" multiple="" class="ui fluid search dropdown atitudes card-field-select"
@@ -162,7 +172,7 @@
             </select>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </div>
