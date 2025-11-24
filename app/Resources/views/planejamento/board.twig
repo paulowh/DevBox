@@ -41,7 +41,7 @@
 
               <div class="board-cards-container" data-list-id="{{ turma.id }}">
                 {% if turma.cards is defined and turma.cards|length > 0 %}
-                  {% include "board/card.twig" %}
+                  {% include "planejamento/card.twig" %}
                 {% else %}
                   <div class="empty-state">
                     <i class="inbox icon"></i>
@@ -68,5 +68,5 @@
     </div>
   </div>
   <div id="card-modal" class="card-modal-overlay" style="display: none"></div>
-  {# {% include "board/modal-card.twig" %} #}
+  {# {% include "planejamento/modal-card.twig" %} #}
 {% endblock %}

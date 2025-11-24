@@ -24,7 +24,7 @@ class CardController
       $ucs = Uc::all();
 
 
-      echo View::make('board/modal-card', [
+      echo View::make('planejamento/modal-card', [
         'titulo' => 'Novo Card',
         'descricao' => '',
         'aula_inicial' => '',
@@ -235,7 +235,7 @@ class CardController
         return;
       }
 
-      echo View::make('board/modal-card', [
+      echo View::make('planejamento/modal-card', [
         'titulo' => $card->titulo,
         'descricao' => $card->descricao,
         'aula_inicial' => $card->aula_inicial,

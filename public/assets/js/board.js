@@ -291,7 +291,6 @@ function handleCardCreate() {
     .then(data => {
       console.log('Card criado com sucesso:', data);
       closeCardModal();
-      // Here you can add code to update the interface, like adding the card to the board
     })
     .catch(error => {
       console.error('Erro na requisição:', error);

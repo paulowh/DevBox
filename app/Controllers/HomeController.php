@@ -29,8 +29,8 @@ class HomeController
       'atitudes'
     ])->get();
 
-    return View::make('board', [
-      'title' => 'Planejamento !',
+    return View::make('planejamento/board', [
+      'title' => 'Planejamento',
       'turmas' => $turmas,
       'cards' => $cards
     ]);
