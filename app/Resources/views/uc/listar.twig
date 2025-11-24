@@ -13,8 +13,6 @@
         Cadastrar UC
       </a>
     </div>
-
-    <!-- UC List Container -->
     <div class="flex-grow-1 p-3" style="overflow-y: auto;">
       {% if ucs is defined and ucs|length > 0 %}
         {% for uc in ucs %}
@@ -23,7 +21,7 @@
             <div class="ui fluid form d-flex justify-content-between">
 
               <div class="field">
-                <h3 class="ui header" style="color: var(--text-primary);">{{ uc.nome }} - {{ uc.dados }}</h3>
+                <h3 class="ui header" style="color: var(--text-primary);">{{ uc.sigla }} - {{ uc.nome_completo }}</h3>
 
               </div>
               <div class="field">
@@ -40,40 +38,43 @@
                 Mais Detalhes...
               </div>
               <div class="content field">
-                <div class="d-flex justify-content-between">
-                  <div>
-                    <h4 class="ui header" style="color: var(--text-primary);">Indicadores</h4>
-                    <div class="ui list">
-                      {% for indicador in uc.indicadores %}
-                        <div class="item" style="color: var(--text-primary);">{{ indicador }}</div>
-                      {% endfor %}
+                <div class="ui internally celled grid">
+                  <div class="row">
+                    <div class="four wide column">
+                      <h4 class="ui header" style="color: var(--text-primary);">Indicadores</h4>
+                      <div class="ui list">
+                        {% for ind in uc.indicadores %}
+                          <div class="item"
+                               style="color: var(--text-primary);">{{ ind.numero_ind }}- {{ ind.descricao }}</div>
+                        {% endfor %}
+                      </div>
                     </div>
-                  </div>
-
-                  <div>
-                    <h4 class="ui header" style="color: var(--text-primary);">Conhecimentos</h4>
-                    <div class="ui list">
-                      {% for conhecimento in uc.conhecimentos %}
-                        <div class="item" style="color: var(--text-primary);">{{ conhecimento }}</div>
-                      {% endfor %}
+                    <div class="four wide column">
+                      <h4 class="ui header" style="color: var(--text-primary);">Conhecimentos</h4>
+                      <div class="ui list">
+                        {% for con in uc.conhecimentos %}
+                          <div class="item" style="color: var(--text-primary);">{{ con.numero_con }}
+                            - {{ con.descricao }}</div>
+                        {% endfor %}
+                      </div>
                     </div>
-                  </div>
-
-                  <div>
-                    <h4 class="ui header" style="color: var(--text-primary);">Habilidades</h4>
-                    <div class="ui list">
-                      {% for habilidade in uc.habilidades %}
-                        <div class="item" style="color: var(--text-primary);">{{ habilidade }}</div>
-                      {% endfor %}
+                    <div class="four wide column">
+                      <h4 class="ui header" style="color: var(--text-primary);">Habilidades</h4>
+                      <div class="ui list">
+                        {% for hab in uc.habilidades %}
+                          <div class="item" style="color: var(--text-primary);">{{ hab.numero_hab }}
+                            - {{ hab.descricao }}</div>
+                        {% endfor %}
+                      </div>
                     </div>
-                  </div>
-
-                  <div>
-                    <h4 class="ui header" style="color: var(--text-primary);">Atitudes</h4>
-                    <div class="ui list">
-                      {% for atitude in uc.atitudes %}
-                        <div class="item" style="color: var(--text-primary);">{{ atitude }}</div>
-                      {% endfor %}
+                    <div class="four wide column">
+                      <h4 class="ui header" style="color: var(--text-primary);">Atitudes</h4>
+                      <div class="ui list">
+                        {% for ati in uc.atitudes %}
+                          <div class="item" style="color: var(--text-primary);">{{ ati.numero_ati }}
+                            - {{ ati.descricao }}</div>
+                        {% endfor %}
+                      </div>
                     </div>
                   </div>
                 </div>
