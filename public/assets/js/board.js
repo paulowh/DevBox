@@ -164,7 +164,7 @@ function handleUcChange(ucIdOrEvent, cardData) {
     return;
   }
 
-  fetch('/uc/related' + encodeURIComponent(ucId), {
+  fetch('/uc/related/' + encodeURIComponent(ucId), {
     headers: {"Accept": "application/json"}
   })
     .then(function (resp) {

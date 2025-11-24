@@ -119,7 +119,7 @@
             <label class="card-field-label">UC</label>
             <select id="card-field-uc" name="card-field-uc"
                     class="card-field-select search ui dropdown search drop-ucs"
-                    onchange="handleUcChange()" disabled>
+                    onchange="handleUcChange(event)" disabled>
               <option value="">Selecione a UC...</option>
               {% for u in ucs %}
                 <option value="{{ u.id }}">{{ u.sigla }} - {{ u.nome_completo }}</option>
