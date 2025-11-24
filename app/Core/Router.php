@@ -155,7 +155,7 @@ class Router
 
     // Rota não encontrada
     http_response_code(404);
-    echo "404 - Página não encontrada";
+    echo View::make('notFolder');
   }
 
   private static function matchRoute($routeUri, $uri)

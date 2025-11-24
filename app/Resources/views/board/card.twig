@@ -1,65 +1,65 @@
 <!-- Container de Cards -->
 
 {% for card in turma.cards %}
-  {# Componente: Card Individual #}
-  <div
-      class="board-card" data-card-id="{{ card.id }}" onclick="openCardModal(this)">
-    <!-- Título do Card -->
-    <h4 class="card-title">{{ card.titulo }}</h4>
+	{# Componente: Card Individual #}
+	<div
+		class="board-card" data-card-id="{{ card.id }}" onclick="openCardModal(this)">
+		<!-- Título do Card -->
+		<h4 class="card-title">{{ card.titulo }}</h4>
 
-    <!-- Descrição (se houver) -->
-    {% if card.descricao %}
-      <p class="card-description">{{ card.descricao|slice(0, 100) }}</p>
-    {% endif %}
+		<!-- Descrição (se houver) -->
+		{% if card.descricao %}
+			<p class="card-description">{{ card.descricao|slice(0, 100) }}</p>
+		{% endif %}
 
-    <!-- Tags/Labels -->
-    <div class="card-tags">
-      {% if card.indicadores is defined and card.indicadores|length > 0 %}
-        <span class="card-tag indicador">
+		<!-- Tags/Labels -->
+		<div class="card-tags">
+			{% if card.indicadores is defined and card.indicadores|length > 0 %}
+				<span class="card-tag indicador">
 					<i class="bullseye icon"></i>
 					{{ card.indicadores|length }}
 					Indicador(es)
 				</span>
-      {% endif %}
+			{% endif %}
 
-      {% if card.conhecimentos is defined and card.conhecimentos|length > 0 %}
-        <span class="card-tag conhecimento">
+			{% if card.conhecimentos is defined and card.conhecimentos|length > 0 %}
+				<span class="card-tag conhecimento">
 					<i class="book icon"></i>
 					{{ card.conhecimentos|length }}
 					Conhecimento(s)
 				</span>
-      {% endif %}
+			{% endif %}
 
-      {% if card.habilidades is defined and card.habilidades|length > 0 %}
-        <span class="card-tag habilidade">
+			{% if card.habilidades is defined and card.habilidades|length > 0 %}
+				<span class="card-tag habilidade">
 					<i class="lightning icon"></i>
 					{{ card.habilidades|length }}
 					Habilidade(s)
 				</span>
-      {% endif %}
+			{% endif %}
 
-      {% if card.atitudes is defined and card.atitudes|length > 0 %}
-        <span class="card-tag atitude">
+			{% if card.atitudes is defined and card.atitudes|length > 0 %}
+				<span class="card-tag atitude">
 					<i class="heart icon"></i>
 					{{ card.atitudes|length }}
 					Atitude(s)
 				</span>
-      {% endif %}
-    </div>
+			{% endif %}
+		</div>
 
-    <!-- Footer com metadados -->
-    <div class="card-footer">
-      {% if card.uc is defined %}
-        <span class="card-uc">{{ card.uc.sigla|default('N/A') }}</span>
-      {% endif %}
-      {% if card.aula_inicial and card.aula_final %}
-        <span class="card-dates">
+		<!-- Footer com metadados -->
+		<div class="card-footer">
+			{% if card.uc is defined %}
+				<span class="card-uc">{{ card.uc.sigla|default('N/A') }}</span>
+			{% endif %}
+			{% if card.aula_inicial and card.aula_final %}
+				<span class="card-dates">
 					<i class="calendar icon"></i>
 					{{ card.aula_inicial|date('d/m') }}
 					-
 					{{ card.aula_final|date('d/m') }}
 				</span>
-      {% endif %}
-    </div>
-  </div>
+			{% endif %}
+		</div>
+	</div>
 {% endfor %}

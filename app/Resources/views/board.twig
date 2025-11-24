@@ -12,8 +12,7 @@
       </h2>
 
       <div class="d-flex align-items-center gap-3">
-        <button class="ui button small"
-                style="background-color: var(--bg-tertiary); color: var(--text-secondary);">
+        <button class="ui button small" style="background-color: var(--bg-tertiary); color: var(--text-secondary);">
           <i class="user plus icon"></i>
           Compartilhar
         </button>
@@ -76,7 +75,9 @@
 
     <!-- Descrição (se houver) -->
     {% if card.descricao %}
-      <p class="card-description">{{ card.descricao|length > 100 ? card.descricao|slice(0, 100) ~ '...' : card.descricao }}</p>
+      <p class="card-description">
+        {{ card.descricao|length > 100 ? card.descricao|slice(0, 100) ~ '...' : card.descricao }}
+      </p>
     {% endif %}
 
     <!-- Tags/Labels -->
@@ -122,16 +123,17 @@
       {% endif %}
       {% if card.aula_inicial and card.aula_final %}
         <span class="card-dates">
-          <i class="calendar icon"></i>
-          {{ card.aula_inicial|date('d/m') }}
-          -
-          {{ card.aula_final|date('d/m') }}
+					<i class="calendar icon"></i>
+					{{ card.aula_inicial|date('d/m') }}
+					-
+					{{ card.aula_final|date('d/m') }}
 				</span>
       {% endif %}
     </div>
   </div>
+  <div class="teste">
+    alo galera de pião
+  </div>
   <div id="card-modal" class="card-modal-overlay" style="display: none"></div>
-  {#    {% include "board/modal-card.twig" %} #}
-
+  {# {% include "board/modal-card.twig" %} #}
 {% endblock %}
-

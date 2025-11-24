@@ -1,7 +1,9 @@
 # DevBox
+
 O DevBox é uma aplicação web projetada para o gerenciamento de conteúdo educacional. Ele fornece uma interface visual baseada em cards (semelhante a um quadro Kanban) para organizar e gerenciar unidades de aprendizado, incluindo seus conhecimentos, habilidades e atitudes associados.
 
 ## Funcionalidades
+
 - **Quadro de Cards Visual:** Interface de arrastar e soltar (drag-and-drop) para organizar os cards educacionais.
 - **Estrutura Educacional:** Gerencie Cursos, Unidades Curriculares (UCs) e Turmas.
 - **Conteúdo Detalhado dos Cards:** Os cards podem ser detalhados com indicadores, conhecimentos, habilidades e atitudes específicas.
@@ -53,11 +55,16 @@ composer install
 ```
 
 ### 4. Migração do Banco de Dados
-Crie um banco mysql, e configure no `.env` ao exceutar a primeira vez o projeto vai fazer o migrate e a incensão de dados basicos de exemplos
+
+Crie um banco MySQL e configure suas credenciais no arquivo .env.
+Ao executar o projeto pela primeira vez, o sistema fará automaticamente:
+
+- As migrações do banco
+- A inserção de dados básicos de exemplo
 
 ### 5. Configuração do Ambiente
 
-Crie seu arquivo de ambiente local `.env` copiando o arquivo de exemplo.
+Crie o arquivo de ambiente local `.env` copiando o arquivo de exemplo:
 
 ```bash
 copy .env.example .env
@@ -65,6 +72,13 @@ copy .env.example .env
 
 Agora, abra o arquivo `.env` e configure os detalhes da sua conexão com o banco de dados (`DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`) e a URL da aplicação (`APP_URL`).
 
+### 6. Rodando projeto localmente
+
+Crie um servidor php apontando para a psta public
+
+```bash
+php -S localhost:8000 -t public
+```
 
 ## Estrutura do Projeto
 

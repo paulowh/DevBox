@@ -58,8 +58,8 @@
 
           <!-- Modo Edição -->
           <div id="card-edit-mode" style="display: none">
-            <input type="text" id="card-edit-title" class="card-edit-title-input"
-                   placeholder="Título do card..." value="{{ titulo }}"/>
+            <input type="text" id="card-edit-title" class="card-edit-title-input" placeholder="Título do card..."
+                   value="{{ titulo }}"/>
             <div class="border-bottom my-3" style="border-color: var(--border-solid) !important"></div>
             <label class="form-label fw-medium"
                    style="font-size: 0.875rem; color: var(--text-secondary)">Descrição</label>
@@ -107,8 +107,8 @@
 
           <div class="card-field-group">
             <label class="card-field-label">Aula Final</label>
-            <input type="date" value="{{ aula_final|date('Y-m-d') }}" id="card-field-aula-final" class="card-field-input ui mini form"
-                   disabled/>
+            <input type="date" value="{{ aula_final|date('Y-m-d') }}" id="card-field-aula-final"
+                   class="card-field-input ui mini form" disabled/>
           </div>
 
           <div class="card-field-group">
@@ -121,8 +121,7 @@
 
           <div class="card-field-group">
             <label class="card-field-label">Conhecimentos</label>
-            <select name="skills" multiple=""
-                    class="ui fluid search dropdown conhecimentos card-field-select"
+            <select name="skills" multiple="" class="ui fluid search dropdown conhecimentos card-field-select"
                     id="card-field-conhecimentos-container" disabled>
               <option value="">Selecione UC..</option>
             </select>

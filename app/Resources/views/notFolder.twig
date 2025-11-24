@@ -1,49 +1,39 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 - Página não encontrada</title>
-
+{% extends "main.twig" %}
+{% block content %}
   <style>
-      body {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: var(--bg-primary);
-          transition: background-color 0.3s ease;
-      }
+    div.container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--bg-primary);
+      transition: background-color 0.3s ease;
+    }
   </style>
-</head>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
+        <h1 style="font-size: 9rem; font-weight: bold; color: var(--text-primary); margin-bottom: 1rem;">404</h1>
+        <p style="font-size: 1.5rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">
+          Página não encontrada
+        </p>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+          A página que você está procurando não existe ou foi movida.
+        </p>
 
-<body>
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6 text-center">
-      <h1 style="font-size: 9rem; font-weight: bold; color: var(--text-primary); margin-bottom: 1rem;">404</h1>
-      <p style="font-size: 1.5rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">
-        Página não encontrada
-      </p>
-      <p style="color: var(--text-secondary); margin-bottom: 2rem;">
-        A página que você está procurando não existe ou foi movida.
-      </p>
-
-      <div class="d-flex gap-3 justify-content-center">
-        <a href="{{ url('/') }}" class="ui button primary large">
-          <i class="home icon"></i>
-          Voltar para Home
-        </a>
-        <button onclick="window.history.back()" class="ui button large"
-                style="background-color: var(--bg-tertiary); color: var(--text-primary);">
-          <i class="arrow left icon"></i>
-          Voltar
-        </button>
+        <div class="d-flex gap-3 justify-content-center">
+          <a href="{{ url('/') }}" class="ui button primary large">
+            <i class="home icon"></i>
+            Voltar para Home
+          </a>
+          <button onclick="window.history.back()" class="ui button large"
+                  style="background-color: var(--bg-tertiary); color: var(--text-primary);">
+            <i class="arrow left icon"></i>
+            Voltar
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-</body>
-
-</html>
+  </body>
+{% endblock %}
