@@ -14,9 +14,11 @@
       </div>
 
       <div class="d-flex align-items-center gap-3">
-        <button id="card-edit-toggle-btn" class="ui button" onclick="toggleCardEditing()" style="background-color: var(--bg-card); color: var(--text-primary)">
+        <button id="card-edit-toggle-btn" class="ui button" onclick="toggleCardEditing()"
+                style="background-color: var(--bg-card); color: var(--text-primary)">
           Editar
         </button>
+
         <button class="ui button" onclick="closeCardModal()"
                 style=" background-color: var(--bg-tertiary); color: var(--text-secondary);">
           ✕
@@ -39,8 +41,8 @@
     </div>
     <!-- Content -->
     <div id="card-modal-body" class="card-modal-body">
-      <div
-          class="ui grid">
+      <div id="form"
+           class="ui grid form">
         <!-- Coluna Principal (Título e Descrição) -->
         <div
             class="ten wide column">
@@ -66,9 +68,16 @@
             <textarea id="card-edit-description" rows="30"
                       class="card-edit-description-textarea">{{ descricao }}</textarea>
             <div class="d-flex gap-2 mt-3">
-              <button onclick="handleCardUpdate()" class="ui primary basic button">
-                Atualizar
-              </button>
+              {% if create %}
+                <button onclick="handleCardCreate()" class="ui primary basic button">
+                  Criar
+                </button>
+              {% else %}
+                <button onclick="handleCardUpdate()" class="ui primary basic button">
+                  Atualizar
+                </button>
+
+              {% endif %}
               <button onclick="toggleCardEditing()" class="ui secondary basic button">
                 Cancelar
               </button>
@@ -81,6 +90,9 @@
             <label class="card-field-label">Turma</label>
             <select id="card-field-turma" class="card-field-select ui dropdown search drop-turmas" disabled>
               <option value="">Selecione...</option>
+              {% for t in turmas %}
+                <option value="{{ t.id }}">{{ t.nome }}</option>
+              {% endfor %}
             </select>
           </div>
 
@@ -88,6 +100,9 @@
             <label class="card-field-label">Curso</label>
             <select id="card-field-curso" class="card-field-select ui dropdown search drop-cursos" disabled>
               <option value="">Selecione...</option>
+              {% for c in cursos %}
+                <option value="{{ c.id }}">{{ c.nome_curso }}</option>
+              {% endfor %}
             </select>
           </div>
 
@@ -96,18 +111,21 @@
             <select id="card-field-uc" class="card-field-select search ui dropdown search drop-ucs"
                     onchange="handleUcChange()" disabled>
               <option value="">Selecione a UC...</option>
+              {% for u in ucs %}
+                <option value="{{ u.id }}">{{ u.sigla }} - {{ u.nome_completo }}</option>
+              {% endfor %}
             </select>
           </div>
 
           <div class="card-field-group">
             <label class="card-field-label">Aula Inicial</label>
-            <input type="date" value="{{ aula_inicial|date('Y-m-d') }}" id="card-field-aula-inicial"
+            <input type="date" value="{{ aula_incial ? aula_inicial|date('Y-m-d') : '' }}" id="card-field-aula-inicial"
                    class="card-field-input mini ui form" disabled/>
           </div>
 
           <div class="card-field-group">
             <label class="card-field-label">Aula Final</label>
-            <input type="date" value="{{ aula_final|date('Y-m-d') }}" id="card-field-aula-final"
+            <input type="date" value="{{ aula_final ? aula_final|date('Y-m-d') : '' }}" id="card-field-aula-final"
                    class="card-field-input ui mini form" disabled/>
           </div>
 

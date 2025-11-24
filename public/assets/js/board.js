@@ -5,35 +5,39 @@ let boardState = {
 
 function openCardModal(cardElement = null) {
   const cardId = cardElement ? cardElement.getAttribute("data-card-id") : null;
+  const isCreating = !cardId;
+  const url = isCreating ? '/cards/create' : `/cards/details/${cardId}`;
+  console.log(isCreating)
 
-  if (cardId && Number.isInteger(Number(cardId))) {
-    fetch(`/cards/details/${cardId}`)
-      .then(function (response) {
-        if (!response.ok) {
-          throw new Error("Erro na requisição: " + response.status);
-        }
-        return response.text();
-      })
-      .then(function (html) {
-        document.getElementById("card-modal").innerHTML = html;
-        document.getElementById("card-modal").style.display = "flex";
-        $(".ui.dropdown").dropdown();
+  fetch(url)
+    .then(function (response) {
+      if (!response.ok) {
+        throw new Error("Erro na requisição: " + response.status);
+      }
+      return response.text();
+    })
+    .then(function (html) {
+      document.getElementById("card-modal").innerHTML = html;
+      document.getElementById("card-modal").style.display = "flex";
+      $(".ui.dropdown").dropdown();
+
+      if (!isCreating) {
         carregarDropdownModal(cardId);
+      }
 
-        $('#card-modal').on('change', '#card-field-uc', handleUcChange);
-      })
-      .catch(function (error) {
-        console.error('Erro ao carregar detalhes do card:', error);
-      });
-  } else {
-    console.log("Abrindo modal para criar um novo card (ID não fornecido).");
-  }
+      if (isCreating) {
+        toggleCardEditing()
+      }
+
+    })
+    .catch(function (error) {
+      console.error('Erro ao carregar detalhes do card:', error);
+    });
+
 }
 
 function carregarDropdownModal(id_valor) {
-  const fetchUrl = id_valor ? `/cards/show/${id_valor}` : '/cards/show/';
-
-  fetch(fetchUrl)
+  fetch(`/cards/show/${id_valor}`)
     .then(function (response) {
       if (!response.ok) {
         throw new Error("Erro na requisição: " + response.status);
@@ -105,13 +109,13 @@ function handleUcChange(ucIdOrEvent, cardData) {
 
   if (isChangeEvent) {
     ucId = ucIdOrEvent.target.value;
-    cardData = null; // Limpa cardData em uma mudança manual para não selecionar itens antigos
+    cardData = null;
   } else {
     ucId = ucIdOrEvent;
   }
 
   if (!ucId) {
-    populateMultiSelect({}, null); // Limpa todos os campos
+    populateMultiSelect({}, null);
     return;
   }
 
@@ -119,8 +123,8 @@ function handleUcChange(ucIdOrEvent, cardData) {
     headers: {"Accept": "application/json"}
   })
     .then(function (resp) {
-      if (resp.status === 404) { // Se a UC não tiver itens relacionados
-        return {}; // Retorna um objeto vazio para limpar os campos
+      if (resp.status === 404) {
+        return {};
       }
       if (!resp.ok) {
         throw new Error('Erro na requisição: ' + resp.status);
@@ -132,11 +136,11 @@ function handleUcChange(ucIdOrEvent, cardData) {
     })
     .catch(function (err) {
       console.error('Falha ao buscar ou processar dados da UC:', err);
-      populateMultiSelect({}, null); // Limpa os campos em caso de erro
+      populateMultiSelect({}, null);
     });
 }
 
-toggleCardEditing = function (forceEdit = null) {
+function toggleCardEditing(forceEdit = null) {
   boardState.isEditing = forceEdit !== null ? forceEdit : !boardState.isEditing;
 
   const viewMode = document.getElementById('card-view-mode');
@@ -146,7 +150,6 @@ toggleCardEditing = function (forceEdit = null) {
   const dropdowns = $('#card-modal .ui.dropdown');
 
   if (boardState.isEditing) {
-    // Modo edição
     if (viewMode) viewMode.style.display = 'none';
     if (editMode) editMode.style.display = 'block';
     if (toggleBtn) toggleBtn.textContent = 'Cancelar';
@@ -154,7 +157,6 @@ toggleCardEditing = function (forceEdit = null) {
     fieldSelects.forEach(field => field.disabled = false);
     dropdowns.removeClass('disabled');
   } else {
-    // Modo visualização
     if (viewMode) viewMode.style.display = 'block';
     if (editMode) editMode.style.display = 'none';
     if (toggleBtn) toggleBtn.textContent = 'Editar';
@@ -162,7 +164,6 @@ toggleCardEditing = function (forceEdit = null) {
     fieldSelects.forEach(field => field.disabled = true);
     dropdowns.addClass('disabled');
 
-    // Se estava criando novo card e cancelou, fechar modal
     if (!boardState.currentCard?.id) {
       closeCardModal();
     }
@@ -206,6 +207,42 @@ function handleCardUpdate() {
     .then(data => {
       console.log('Card atualizado com sucesso:', data);
       toggleCardEditing(false)
+    })
+    .catch(error => {
+      console.error('Erro na requisição:', error);
+    });
+}
+
+function handleCardCreate() {
+  const cardData = {
+    titulo: document.getElementById('card-edit-title').value,
+    descricao: document.getElementById('card-edit-description').value,
+    turma_id: document.getElementById('card-field-turma').value,
+    curso_id: document.getElementById('card-field-curso').value,
+    uc_id: document.getElementById('card-field-uc').value,
+    aula_inicial: document.getElementById('card-field-aula-inicial').value,
+    aula_final: document.getElementById('card-field-aula-final').value,
+    indicadores: $('#card-field-indicadores-container').val(),
+    conhecimentos: $('#card-field-conhecimentos-container').val(),
+    habilidades: $('#card-field-habilidades-container').val(),
+    atitudes: $('#card-field-atitudes-container').val(),
+  };
+
+  fetch('/cards/store', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(cardData),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Erro ao criar o card');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Card criado com sucesso:', data);
+      closeCardModal();
+      // Here you can add code to update the interface, like adding the card to the board
     })
     .catch(error => {
       console.error('Erro na requisição:', error);

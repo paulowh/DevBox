@@ -15,6 +15,80 @@ use Exception;
 
 class CardController
 {
+  public function create()
+  {
+    header('Content-Type: application/json');
+    try {
+      $cursos = Curso::all();
+      $turmas = Turma::all();
+      $ucs = Uc::all();
+
+
+      echo View::make('board/modal-card', [
+        'titulo' => 'Novo Card',
+        'descricao' => '',
+        'aula_inicial' => '',
+        'aula_final' => '',
+        'cursos' => $cursos,
+        'turmas' => $turmas,
+        'ucs' => $ucs,
+        'create' => true,
+      ]);
+    } catch (Exception $e) {
+      http_response_code(500);
+      echo json_encode([
+        'error' => 'Erro ao carregar o modal de criação',
+        'message' => $e->getMessage()
+      ]);
+    }
+  }
+
+  public function store()
+  {
+    header('Content-Type: application/json');
+    try {
+      $input = json_decode(file_get_contents('php://input'), true);
+
+      $card = new Card();
+      $card->titulo = $input['titulo'] ?? 'Novo Card';
+      $card->descricao = $input['descricao'] ?? '';
+      $card->turma_id = $input['turma_id'];
+      $card->curso_id = $input['curso_id'];
+      $card->uc_id = $input['uc_id'];
+      $card->aula_inicial = $input['aula_inicial'] ?? '';
+      $card->aula_final = $input['aula_final'] ?? '';
+      // Defina uma ordem padrão, se aplicável
+      $card->ordem = Card::where('turma_id', $input['turma_id'])->max('ordem') + 1;
+      $card->save();
+
+      if (isset($input['indicadores'])) {
+        $card->indicadores()->sync($input['indicadores']);
+      }
+      if (isset($input['conhecimentos'])) {
+        $card->conhecimentos()->sync($input['conhecimentos']);
+      }
+      if (isset($input['habilidades'])) {
+        $card->habilidades()->sync($input['habilidades']);
+      }
+      if (isset($input['atitudes'])) {
+        $card->atitudes()->sync($input['atitudes']);
+      }
+
+      // Retorna o card recém-criado para o front-end
+      echo json_encode([
+        'success' => true,
+        'message' => 'Card criado com sucesso',
+        'card' => $card
+      ]);
+    } catch (Exception $e) {
+      http_response_code(500);
+      echo json_encode([
+        'error' => 'Erro ao criar o card',
+        'message' => $e->getMessage()
+      ]);
+    }
+  }
+
   public function show($id)
   {
     header('Content-Type: application/json');

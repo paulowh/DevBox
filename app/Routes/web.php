@@ -9,10 +9,11 @@ Router::get('/', 'HomeController@index', 'home');
 // API para reordenar cards (Drag and Drop)
 Router::post('/cards/reorder', 'CardController@reorder', 'cards.reorder');
 
+// Rotas para Cards
+Router::get('/cards/create', 'CardController@create', 'cards.create');
+Router::post('/cards/store', 'CardController@store', 'cards.store');
 Router::get('/cards/show/{id}', 'CardController@show', 'card.show');
-
 Router::get('/cards/details/{id}', 'CardController@details', 'card.details');
-
 Router::post('/cards/update/{id}', 'CardController@update', 'cards.update');
 
 Router::get('/uc/{id}/related', 'CardController@ucRelated', 'api.uc.related');
@@ -73,7 +74,7 @@ Router::get('/uc/{id}/related', 'CardController@ucRelated', 'api.uc.related');
 //     }, 'store');
 
 //     // GET /cards/{id}/edit
-//     Router::get('{id}/edit', function ($id) {
+//     Router.get('{id}/edit', function ($id) {
 //         echo "<h1>Editar Card #{$id}</h1>";
 //     }, 'edit');
 // });
