@@ -77,7 +77,7 @@ Agora, abra o arquivo `.env` e configure os detalhes da sua conexão com o banco
 Crie um servidor php apontando para a psta public
 
 ```bash
-php -S localhost:8000 -t public
+php -S localhost:80 -t public
 ```
 
 ## Estrutura do Projeto

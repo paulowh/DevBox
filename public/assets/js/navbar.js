@@ -25,11 +25,13 @@ function colorLink() {
 
 linkColor.forEach((l) => l.addEventListener("click", colorLink));
 
-/*==================== DROPDOWN CLICK ====================*/
+/*==================== DROPDOWN & SIDEBAR ====================*/
 document.addEventListener("DOMContentLoaded", function () {
-  const dropdowns = document.querySelectorAll(".nav-dropdown");
   const navbar = document.getElementById("navbar");
+  if (!navbar) return;
 
+  // Dropdown logic
+  const dropdowns = document.querySelectorAll(".nav-dropdown");
   dropdowns.forEach((dropdown) => {
     const dropdownLink = dropdown.querySelector(".nav-link");
     if (dropdownLink) {
@@ -37,36 +39,66 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         e.stopPropagation();
 
-        // Abrir sidebar se não estiver expandido
         if (!navbar.classList.contains("nav-expanded")) {
           navbar.classList.add("nav-expanded");
         }
 
-        // Toggle dropdown
         dropdown.classList.toggle("show-dropdown");
-        console.log("Dropdown clicked!");
       });
     }
   });
 
-  // Fechar dropdown quando sidebar fechar
-  const navLogo = navbar?.querySelector(".nav-logo");
-  if (navLogo && navbar) {
+  // Sidebar toggle logic
+  const navLogo = navbar.querySelector(".nav-logo");
+  const navLogoIcon = navLogo?.querySelector(".nav-icon");
+
+  const setToggleIcon = () => {
+    if (navLogoIcon) {
+      if (navbar.classList.contains("nav-expanded")) {
+        navLogoIcon.classList.remove("bx-right-arrow-alt");
+        navLogoIcon.classList.add("bx-left-arrow-alt");
+      } else {
+        navLogoIcon.classList.remove("bx-left-arrow-alt");
+        navLogoIcon.classList.add("bx-right-arrow-alt");
+      }
+    }
+  };
+
+  // Set initial icon
+  setToggleIcon();
+
+  if (navLogo) {
     navLogo.addEventListener("click", function (e) {
       e.preventDefault();
-      const isExpanded = navbar.classList.contains("nav-expanded");
-
-      // Se estiver fechando o sidebar, fechar todos os dropdowns
-      if (isExpanded) {
+      
+      // Close dropdowns when collapsing sidebar
+      if (navbar.classList.contains("nav-expanded")) {
         dropdowns.forEach((dropdown) => {
           dropdown.classList.remove("show-dropdown");
         });
       }
 
       navbar.classList.toggle("nav-expanded");
+      setToggleIcon();
     });
   }
+
+  // Theme initialization
+  const savedTheme = localStorage.getItem("theme");
+  const themeIconNav = document.getElementById("theme-icon-nav");
+  const themeTextNav = document.getElementById("theme-text-nav");
+
+  if (savedTheme === "dark") {
+    document.documentElement.setAttribute("data-theme", "dark");
+    if (themeIconNav) {
+      themeIconNav.className = "bx bx-moon nav-icon";
+    }
+    if (themeTextNav) {
+      themeTextNav.textContent = "Modo Escuro";
+    }
+  }
 });
+
 
 /*==================== TOGGLE DARK MODE ====================*/
 window.toggleDarkMode = function () {
@@ -97,20 +129,3 @@ window.toggleDarkMode = function () {
     }
   }
 };
-
-// Inicializar tema ao carregar
-document.addEventListener("DOMContentLoaded", function () {
-  const savedTheme = localStorage.getItem("theme");
-  const themeIconNav = document.getElementById("theme-icon-nav");
-  const themeTextNav = document.getElementById("theme-text-nav");
-
-  if (savedTheme === "dark") {
-    document.documentElement.setAttribute("data-theme", "dark");
-    if (themeIconNav) {
-      themeIconNav.className = "bx bx-moon nav-icon";
-    }
-    if (themeTextNav) {
-      themeTextNav.textContent = "Modo Escuro";
-    }
-  }
-});

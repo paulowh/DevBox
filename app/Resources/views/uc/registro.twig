@@ -1,0 +1,126 @@
+{% extends "main.twig" %}
+
+{% block content %}
+  <div class="d-flex flex-column w-100 h-100" style="background-color: var(--bg-primary);">
+    <div class="p-3 d-flex justify-content-between align-items-center border-bottom"
+         style="background-color: var(--bg-secondary);">
+      <h2 class="mb-0" style="color: var(--text-primary); font-size: 1.125rem;">
+        Cadastrar Unidade Curricular (UC)
+      </h2>
+    </div>
+
+    <div class="flex-grow-1 p-3" style="overflow-y: auto;">
+      <form class="ui form">
+
+        <div class="field">
+          <label style="color: var(--text-primary);">Curso</label>
+          <select name="curso_id" class="ui dropdown">
+            <option value="">Selecione um Curso</option>
+            {% for curso in cursos %}
+              <option value="{{ curso.id }}">{{ curso.nome_curso }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="ui grid mb-2">
+          <div class="two wide column">
+            <div class="field">
+              <label>Número da UC</label>
+              <input type="number" name="numero_uc" placeholder="Ex: 1">
+            </div>
+          </div>
+
+          <div class="two wide column">
+            <div class="field">
+              <label>Sigla da UC</label>
+              <input type="text" name="sigla" placeholder="Ex: PWBE">
+            </div>
+          </div>
+
+          <div class="twelve wide column">
+            <div class="field">
+              <label>Nome Completo da UC</label>
+              <input type="text" name="nome_completo" placeholder="Ex: Programação Web Back-End">
+            </div>
+          </div>
+        </div>
+
+        <div class="p-3 mt-2" style="background-color: var(--bg-secondary); border-radius: 5px;">
+          <h3 style="color: var(--text-primary);">Indicadores</h3>
+          <div id="indicadores-container">
+
+          </div>
+          <button class="ui button small mt-2" type="button" onclick="addIndicador()">
+            <i class="plus icon"></i>
+            Adicionar Indicador
+          </button>
+        </div>
+
+        <div class="p-3 mt-4" style="background-color: var(--bg-secondary); border-radius: 5px;">
+          <h3 style="color: var(--text-primary);">Conhecimentos</h3>
+          <div id="conhecimentos-container">
+          </div>
+          <button class="ui button small mt-2" type="button" onclick="addConhecimento()">
+            <i class="plus icon"></i>
+            Adicionar Conhecimento
+          </button>
+        </div>
+
+        <div class="p-3 mt-4" style="background-color: var(--bg-secondary); border-radius: 5px;">
+          <h3 style="color: var(--text-primary);">Habilidades</h3>
+          <div id="habilidades-container">
+          </div>
+          <button class="ui button small mt-2" type="button" onclick="addHabilidade()">
+            <i class="plus icon"></i>
+            Adicionar Habilidade
+          </button>
+        </div>
+
+        <div class="p-3 mt-4" style="background-color: var(--bg-secondary); border-radius: 5px;">
+          <h3 style="color: var(--text-primary);">Atitudes</h3>
+          <div id="atitudes-container">
+          </div>
+          <button class="ui button small mt-2" type="button" onclick="addAtitude()">
+            <i class="plus icon"></i>
+            Adicionar Atitude
+          </button>
+        </div>
+
+        <div class="mt-2">
+          <button class="ui button primary" type="submit">Salvar UC</button>
+          <a href="/uc" class="ui button" type="button">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function createItemInput(name, placeholder) {
+      const div = document.createElement('div');
+      div.className = 'field d-flex align-items-center gap-2 mb-2';
+      div.innerHTML = `
+            <input type="text" name='${name}' placeholder='${placeholder}'>
+            <button class="ui button icon small negative" type="button" onclick="this.parentElement.remove()">
+                <i class="trash icon"></i>
+            </button>
+        `;
+      return div;
+    }
+
+    function addIndicador() {
+      document.getElementById('indicadores-container').appendChild(createItemInput('indicadores[][descricao]', 'Descrição do Indicador'));
+    }
+
+    function addConhecimento() {
+      document.getElementById('conhecimentos-container').appendChild(createItemInput('conhecimentos[][descricao]', 'Descrição do Conhecimento'));
+    }
+
+    function addHabilidade() {
+      document.getElementById('habilidades-container').appendChild(createItemInput('habilidades[][descricao]', 'Descrição da Habilidade'));
+    }
+
+    function addAtitude() {
+      document.getElementById('atitudes-container').appendChild(createItemInput('atitudes[][descricao]', 'Descrição da Atitude'));
+    }
+  </script>
+{% endblock %}

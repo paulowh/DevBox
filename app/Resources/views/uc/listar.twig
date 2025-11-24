@@ -1,0 +1,94 @@
+{% extends "main.twig" %}
+
+{% block content %}
+  <div class="d-flex flex-column w-100 h-100" style="background-color: var(--bg-primary);">
+    <!-- Header -->
+    <div class="p-3 d-flex justify-content-between align-items-center border-bottom"
+         style="background-color: var(--bg-secondary);">
+      <h2 class="mb-0" style="color: var(--text-primary); font-size: 1.125rem;">
+        Unidades Curriculares
+      </h2>
+      <a href="/uc/cadastro" class="ui button small primary">
+        <i class="plus icon"></i>
+        Cadastrar UC
+      </a>
+    </div>
+
+    <!-- UC List Container -->
+    <div class="flex-grow-1 p-3" style="overflow-y: auto;">
+      {% if ucs is defined and ucs|length > 0 %}
+        {% for uc in ucs %}
+          <div class="ui segment mb-3" style="background-color: var(--bg-secondary); color: var(--text-primary);">
+
+            <div class="ui fluid form d-flex justify-content-between">
+
+              <div class="field">
+                <h3 class="ui header" style="color: var(--text-primary);">{{ uc.nome }} - {{ uc.dados }}</h3>
+
+              </div>
+              <div class="field">
+                <a href="/uc/editar/{{ uc.id }}" class="ui button primary">Editar</a>
+              </div>
+
+            </div>
+
+
+            <div class="ui divider"></div>
+            <div class="ui accordion field">
+              <div class="title" style="color: var(--text-primary);">
+                <i class="icon dropdown"></i>
+                Mais Detalhes...
+              </div>
+              <div class="content field">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <h4 class="ui header" style="color: var(--text-primary);">Indicadores</h4>
+                    <div class="ui list">
+                      {% for indicador in uc.indicadores %}
+                        <div class="item" style="color: var(--text-primary);">{{ indicador }}</div>
+                      {% endfor %}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 class="ui header" style="color: var(--text-primary);">Conhecimentos</h4>
+                    <div class="ui list">
+                      {% for conhecimento in uc.conhecimentos %}
+                        <div class="item" style="color: var(--text-primary);">{{ conhecimento }}</div>
+                      {% endfor %}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 class="ui header" style="color: var(--text-primary);">Habilidades</h4>
+                    <div class="ui list">
+                      {% for habilidade in uc.habilidades %}
+                        <div class="item" style="color: var(--text-primary);">{{ habilidade }}</div>
+                      {% endfor %}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 class="ui header" style="color: var(--text-primary);">Atitudes</h4>
+                    <div class="ui list">
+                      {% for atitude in uc.atitudes %}
+                        <div class="item" style="color: var(--text-primary);">{{ atitude }}</div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="d-flex justify-content-center align-items-center h-100">
+          <div class="text-center" style="color: var(--text-secondary);">
+            <i class="inbox huge icon"></i>
+            <p class="mt-3">Nenhuma Unidade Curricular cadastrada</p>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

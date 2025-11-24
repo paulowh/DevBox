@@ -17,6 +17,10 @@ Router::post('/cards/update/{id}', 'CardController@update', 'cards.update');
 
 // Rotas para UCs
 Router::get('/uc/related/{id}', 'CardController@ucRelated', 'api.uc.related');
+Router::get('/uc', 'UcController@index', 'uc.index');
+Router::get('/uc/cadastro', 'UcController@create', 'uc.criar');
+Router::get('/uc/editar/{id}', 'UcController@create', 'uc.editar'); // mudar controller para editar
+
 
 // Rotas de Exemplos
 // Router::get('users/{id}', 'UserController@show', 'users.show');
